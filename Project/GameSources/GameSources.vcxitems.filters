@@ -1,0 +1,210 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project ToolsVersion="4.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <ItemGroup>
+    <Filter Include="Objects">
+      <UniqueIdentifier>{f2676ad0-4919-46f7-abdb-bef655fb61ea}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Objects\Player">
+      <UniqueIdentifier>{fb150ea0-a3b9-494a-bdc0-23ee0a589c09}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Stages">
+      <UniqueIdentifier>{22d6920b-829c-40f1-98e9-6f268f1dc604}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Stages\GameStage">
+      <UniqueIdentifier>{3de3c6b4-ffa7-4d43-b1da-bda7d6a5f4f8}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Project">
+      <UniqueIdentifier>{cb1261eb-a62e-46e7-8776-772952322044}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Scene">
+      <UniqueIdentifier>{2d8a2df2-c7d5-4db0-a0f0-c4476169d65f}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Input">
+      <UniqueIdentifier>{cd311ea1-6d1f-466d-8d9a-27408490436d}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Objects\DefaultObject">
+      <UniqueIdentifier>{33ec5873-98a7-4f00-a694-47669a722f73}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Objects\Camera">
+      <UniqueIdentifier>{cf4726c5-d121-4cd6-a8cc-ceb892440a6c}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Objects\Camera\MainCamera">
+      <UniqueIdentifier>{e48bde9a-3a3f-4de6-8910-6248aefd8216}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Editors">
+      <UniqueIdentifier>{98f586fd-ba92-4d71-93bb-d502c9c0d73d}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Editors\Editor">
+      <UniqueIdentifier>{6b9682a7-171a-4804-9ac4-b34d0a785f1e}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Editors\Arrow">
+      <UniqueIdentifier>{6d53745f-5abb-4cbd-b826-f9fd0ca4ad2e}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Objects\Camera\EditorCamera">
+      <UniqueIdentifier>{18ad6a9e-8265-4c8d-9d4c-0988a6c37915}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Editors\GameObjectForEdit">
+      <UniqueIdentifier>{af97eb3d-b662-414c-be1e-a79c5d219cbd}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Editors\RayHitCheck">
+      <UniqueIdentifier>{50301cab-181a-4aa2-a7f2-72b7da8e72b2}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Objects\Ground">
+      <UniqueIdentifier>{4fe4a955-73e9-4ca7-8378-de27edc7d78c}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="StateMachines">
+      <UniqueIdentifier>{b8dd5e8d-1b30-4307-87f0-3978468504fd}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="StateMachines\CameraState">
+      <UniqueIdentifier>{d9a8677f-1b17-4d86-8f6f-8bf540efb49c}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Editors\StageLoder">
+      <UniqueIdentifier>{faaa5261-8599-4faa-a32e-1e96080a46b0}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="BaseCrossComponent">
+      <UniqueIdentifier>{6629c315-72ea-4966-b88b-e35c3973a6bf}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="BaseCrossComponent\DXModel">
+      <UniqueIdentifier>{f99ea933-3d18-461c-be32-b3f9d65da825}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="BaseCrossComponent\JoltPhysics">
+      <UniqueIdentifier>{4583c1e7-c3d0-4b6c-903e-52bd8456bd30}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="BaseCrossComponent\WinMain">
+      <UniqueIdentifier>{ec0a8381-877f-4058-a446-a12ed8102243}</UniqueIdentifier>
+    </Filter>
+  </ItemGroup>
+  <ItemGroup>
+    <ClInclude Include="$(MSBuildThisFileDirectory)PNTDXModelDraw.h">
+      <Filter>BaseCrossComponent\DXModel</Filter>
+    </ClInclude>
+    <ClInclude Include="$(MSBuildThisFileDirectory)DXModel.h">
+      <Filter>BaseCrossComponent\DXModel</Filter>
+    </ClInclude>
+    <ClInclude Include="$(MSBuildThisFileDirectory)DXModelResource.h">
+      <Filter>BaseCrossComponent\DXModel</Filter>
+    </ClInclude>
+    <ClInclude Include="$(MSBuildThisFileDirectory)JoltLayers.h">
+      <Filter>BaseCrossComponent\JoltPhysics</Filter>
+    </ClInclude>
+    <ClInclude Include="$(MSBuildThisFileDirectory)JoltManager.h">
+      <Filter>BaseCrossComponent\JoltPhysics</Filter>
+    </ClInclude>
+    <ClInclude Include="$(MSBuildThisFileDirectory)JoltRigidBody.h">
+      <Filter>BaseCrossComponent\JoltPhysics</Filter>
+    </ClInclude>
+    <ClInclude Include="$(MSBuildThisFileDirectory)CharacterController.h">
+      <Filter>BaseCrossComponent\JoltPhysics</Filter>
+    </ClInclude>
+    <ClInclude Include="$(MSBuildThisFileDirectory)Player.h">
+      <Filter>Objects\Player</Filter>
+    </ClInclude>
+    <ClInclude Include="$(MSBuildThisFileDirectory)GameStage.h">
+      <Filter>Stages\GameStage</Filter>
+    </ClInclude>
+    <ClInclude Include="$(MSBuildThisFileDirectory)Project.h">
+      <Filter>Project</Filter>
+    </ClInclude>
+    <ClInclude Include="$(MSBuildThisFileDirectory)Scene.h">
+      <Filter>Scene</Filter>
+    </ClInclude>
+    <ClInclude Include="$(MSBuildThisFileDirectory)ProjectBehavior.h">
+      <Filter>Input</Filter>
+    </ClInclude>
+    <ClInclude Include="$(MSBuildThisFileDirectory)Character.h">
+      <Filter>Objects\DefaultObject</Filter>
+    </ClInclude>
+    <ClInclude Include="$(MSBuildThisFileDirectory)EditorCamera.h">
+      <Filter>Objects\Camera\EditorCamera</Filter>
+    </ClInclude>
+    <ClInclude Include="$(MSBuildThisFileDirectory)Arrow.h">
+      <Filter>Editors\Arrow</Filter>
+    </ClInclude>
+    <ClInclude Include="$(MSBuildThisFileDirectory)Editor.h">
+      <Filter>Editors\Editor</Filter>
+    </ClInclude>
+    <ClInclude Include="$(MSBuildThisFileDirectory)RayHitCheck.h">
+      <Filter>Editors\RayHitCheck</Filter>
+    </ClInclude>
+    <ClInclude Include="$(MSBuildThisFileDirectory)MainCamera.h">
+      <Filter>Objects\Camera\MainCamera</Filter>
+    </ClInclude>
+    <ClInclude Include="$(MSBuildThisFileDirectory)Ground.h">
+      <Filter>Objects\Ground</Filter>
+    </ClInclude>
+    <ClInclude Include="$(MSBuildThisFileDirectory)CameraState.h">
+      <Filter>StateMachines\CameraState</Filter>
+    </ClInclude>
+    <ClInclude Include="$(MSBuildThisFileDirectory)GameObjectForEdit.h">
+      <Filter>Editors\GameObjectForEdit</Filter>
+    </ClInclude>
+    <ClInclude Include="$(MSBuildThisFileDirectory)StageLoader.h">
+      <Filter>Editors\StageLoder</Filter>
+    </ClInclude>
+  </ItemGroup>
+  <ItemGroup>
+    <ClCompile Include="$(MSBuildThisFileDirectory)PNTDXModelDraw.cpp">
+      <Filter>BaseCrossComponent\DXModel</Filter>
+    </ClCompile>
+    <ClCompile Include="$(MSBuildThisFileDirectory)DXModel.cpp">
+      <Filter>BaseCrossComponent\DXModel</Filter>
+    </ClCompile>
+    <ClCompile Include="$(MSBuildThisFileDirectory)DXModelResource.cpp">
+      <Filter>BaseCrossComponent\DXModel</Filter>
+    </ClCompile>
+    <ClCompile Include="$(MSBuildThisFileDirectory)JoltManager.cpp">
+      <Filter>BaseCrossComponent\JoltPhysics</Filter>
+    </ClCompile>
+    <ClCompile Include="$(MSBuildThisFileDirectory)JoltRigidBody.cpp">
+      <Filter>BaseCrossComponent\JoltPhysics</Filter>
+    </ClCompile>
+    <ClCompile Include="$(MSBuildThisFileDirectory)CharacterController.cpp">
+      <Filter>BaseCrossComponent\JoltPhysics</Filter>
+    </ClCompile>
+    <ClCompile Include="$(MSBuildThisFileDirectory)Player.cpp">
+      <Filter>Objects\Player</Filter>
+    </ClCompile>
+    <ClCompile Include="$(MSBuildThisFileDirectory)GameStage.cpp">
+      <Filter>Stages\GameStage</Filter>
+    </ClCompile>
+    <ClCompile Include="$(MSBuildThisFileDirectory)Scene.cpp">
+      <Filter>Scene</Filter>
+    </ClCompile>
+    <ClCompile Include="$(MSBuildThisFileDirectory)ProjectBehavior.cpp">
+      <Filter>Input</Filter>
+    </ClCompile>
+    <ClCompile Include="$(MSBuildThisFileDirectory)WinMain.cpp">
+      <Filter>BaseCrossComponent\WinMain</Filter>
+    </ClCompile>
+    <ClCompile Include="$(MSBuildThisFileDirectory)Character.cpp">
+      <Filter>Objects\DefaultObject</Filter>
+    </ClCompile>
+    <ClCompile Include="$(MSBuildThisFileDirectory)EditorCamera.cpp">
+      <Filter>Objects\Camera\EditorCamera</Filter>
+    </ClCompile>
+    <ClCompile Include="$(MSBuildThisFileDirectory)Arrow.cpp">
+      <Filter>Editors\Arrow</Filter>
+    </ClCompile>
+    <ClCompile Include="$(MSBuildThisFileDirectory)Editor.cpp">
+      <Filter>Editors\Editor</Filter>
+    </ClCompile>
+    <ClCompile Include="$(MSBuildThisFileDirectory)RayHitCheck.cpp">
+      <Filter>Editors\RayHitCheck</Filter>
+    </ClCompile>
+    <ClCompile Include="$(MSBuildThisFileDirectory)MainCamera.cpp">
+      <Filter>Objects\Camera\MainCamera</Filter>
+    </ClCompile>
+    <ClCompile Include="$(MSBuildThisFileDirectory)Ground.cpp">
+      <Filter>Objects\Ground</Filter>
+    </ClCompile>
+    <ClCompile Include="$(MSBuildThisFileDirectory)CameraState.cpp">
+      <Filter>StateMachines\CameraState</Filter>
+    </ClCompile>
+    <ClCompile Include="$(MSBuildThisFileDirectory)GameObjectForEdit.cpp">
+      <Filter>Editors\GameObjectForEdit</Filter>
+    </ClCompile>
+    <ClCompile Include="$(MSBuildThisFileDirectory)StageLoader.cpp">
+      <Filter>Editors\StageLoder</Filter>
+    </ClCompile>
+  </ItemGroup>
+</Project>
