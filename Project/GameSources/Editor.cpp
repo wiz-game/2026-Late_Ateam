@@ -199,14 +199,16 @@ namespace basecross {
 			{
 				m_addObjNum++;
 			}
-			//移動、スケールのスナップサイズを変更
+			//移動、スケールのスナップサイズを変更(シフト入力があると1.0f)
+			float s_size = (keyState.m_bPushKeyTbl[VK_LSHIFT]) ? 1.0f : 0.1f;
+
 			if (keyState.m_bPressedKeyTbl[VK_UP])
 			{
-				m_snapSize += 0.1f;
+				m_snapSize += s_size;
 			}
 			if (keyState.m_bPressedKeyTbl[VK_DOWN])
 			{
-				m_snapSize -= 0.1f;
+				m_snapSize -= s_size;
 			}
 
 			// 編集するステージ番号を変更
