@@ -1,5 +1,5 @@
-/*!
-@file Foo.cpp
+﻿/*!
+@file Ground.cpp
 @brief キャラクターなど実体
 */
 

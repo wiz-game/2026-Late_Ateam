@@ -1,4 +1,4 @@
-/*!
+﻿/*!
 @file MainCamera.cpp
 @brief カメラなど実体
 */

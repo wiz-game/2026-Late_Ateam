@@ -1,4 +1,4 @@
-/*!
+﻿/*!
 @file StageLoader.h
 @brief ステージのエディター
 */

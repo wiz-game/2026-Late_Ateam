@@ -1,4 +1,4 @@
-/*!
+﻿/*!
 @file RayHitCheck.cpp
 @brief レイのあたり判定の実体
 */
