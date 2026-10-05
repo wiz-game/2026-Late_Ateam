@@ -281,7 +281,7 @@ namespace basecross {
 		// オブジェクトの数を書き込む
 		uint32_t num = objs.size();
 		ofs.write((char*)&num, sizeof(num)); // はじめの4バイトとして、オブジェクト数を書き込む
-		for (int i = 0; i < num; i++)
+		for (uint32_t i = 0; i < num; i++)
 		{
 			uint16_t id = CheckObjectID(objs[i]);
 			if (id == 0) continue;

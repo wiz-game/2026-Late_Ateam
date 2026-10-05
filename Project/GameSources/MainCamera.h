@@ -1,4 +1,4 @@
-/*!
+﻿/*!
 @file MainCamera.h
 @brief カメラなど
 */

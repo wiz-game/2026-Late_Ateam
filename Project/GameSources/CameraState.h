@@ -1,4 +1,4 @@
-/*!
+﻿/*!
 @file CameraState.h
 @brief カメラのステートなど
 */
