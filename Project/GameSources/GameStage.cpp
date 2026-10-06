@@ -53,7 +53,7 @@ namespace basecross {
 		int loadNum = App::GetApp()->GetScene<Scene>()->GetLoadStageNumber();
 		
 		// ステージのロード
-		loader->LoadStageFile(path + L"Stages\\stage_0.stg");// + to_wstring(loadNum) + L".stg");
+		loader->LoadStageFile(path + L"Stages\\stage_" + to_wstring(loadNum) + L".stg");
 	}
 
 	void GameStage::OnCreate() {

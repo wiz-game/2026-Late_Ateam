@@ -99,7 +99,7 @@ namespace basecross {
 
 			if (keyState.m_bPressedKeyTbl['O'] && keyState.m_bPushKeyTbl[VK_CONTROL])
 			{
-				return;
+				// return;
 				ChangeStage();
 			}
 
@@ -769,20 +769,14 @@ namespace basecross {
 		}
 	}
 
-	// ステージのロードの切り替えをやれええええええ
+	// ステージの切り替え
 	void Editor::ChangeStage()
 	{
-		// バイナリファイルの取得
-		auto path = App::GetApp()->GetDataDirWString();
+		auto& app = App::GetApp();
+		auto scene = app->GetScene<Scene>();
+		auto stage = GetStage();
 
-		// ステージの番号を取得
-		int loadNum = App::GetApp()->GetScene<Scene>()->GetLoadStageNumber();
-
-		
-		auto loader = GetStage()->AddGameObject<StageLoader>();
-
-		// ステージのロード
-		loader->LoadStageFile(path + L"Stages\\stage_" + to_wstring(loadNum) + L".stg");
+		stage->PostEvent(0.0f, GetThis<Editor>(), scene, L"ToSelectStage");
 
 	}
 
