@@ -1,5 +1,5 @@
-﻿/*!
-@file Ground.cpp
+/*!
+@file Wall.cpp
 @brief キャラクターなど実体
 */
 
@@ -9,7 +9,7 @@
 namespace basecross {
 
 	//初期化
-	void Ground::OnCreate()
+	void Wall::OnCreate()
 	{
 		auto ptrTransform = GetComponent<Transform>();
 		ptrTransform->SetScale(m_Scale);
@@ -18,8 +18,7 @@ namespace basecross {
 
 		auto ptrDraw = AddComponent<PNTStaticDraw>();
 		ptrDraw->SetMeshResource(L"DEFAULT_CUBE");
-		ptrDraw->SetEmissive(Col4(0.0f));
-		//ptrDraw->SetBlendState(BlendState::Additive);
+		ptrDraw->SetBlendState(BlendState::Additive);
 	}
 
 }

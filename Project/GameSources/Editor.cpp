@@ -240,6 +240,9 @@ namespace basecross {
 			case 1:
 				stl = L"Ground";
 				break;
+			case 2:
+				stl = L"Wall";
+				break;
 
 			default:
 				stl = L"None";
@@ -283,7 +286,7 @@ namespace basecross {
 		// オブジェクトの数を書き込む
 		uint32_t num = objs.size();
 		ofs.write((char*)&num, sizeof(num)); // はじめの4バイトとして、オブジェクト数を書き込む
-		for (uint32_t i = 0; i < num; i++)
+		for (int i = 0; i < num; i++)
 		{
 			uint16_t id = CheckObjectID(objs[i]);
 			if (id == 0) continue;
@@ -534,6 +537,9 @@ namespace basecross {
 		case 1:
 			obj = GetStage()->AddGameObject<Ground>(Vec3(1.0f), Vec3(0.0f), at);
 			break;
+		case 2:
+			obj = GetStage()->AddGameObject<Wall>(Vec3(1.0f), Vec3(0.0f), at);
+			break;
 
 		default:
 			break;
@@ -737,6 +743,9 @@ namespace basecross {
 				case 1:
 					copy = GetStage()->AddGameObject<Ground>(scale, rot, pos);
 					break;
+				case 2:
+					copy = GetStage()->AddGameObject<Ground>(scale, rot, pos);
+					break;
 
 				default:
 					break;
@@ -784,8 +793,10 @@ namespace basecross {
 	{
 		int id = 0;
 		auto ground = dynamic_pointer_cast<Ground>(obj);
+		auto wall = dynamic_pointer_cast<Wall>(obj);
 
 		if (ground) id = 1;
+		if (wall) id = 2;
 
 		return id;
 	}

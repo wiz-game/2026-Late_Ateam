@@ -37,6 +37,7 @@
     <ClInclude Include="$(MSBuildThisFileDirectory)Scene.h" />
     <ClInclude Include="$(MSBuildThisFileDirectory)SelectStage.h" />
     <ClInclude Include="$(MSBuildThisFileDirectory)StageLoader.h" />
+    <ClInclude Include="$(MSBuildThisFileDirectory)Wall.h" />
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="$(MSBuildThisFileDirectory)Arrow.cpp" />
@@ -63,6 +64,7 @@
     <ClCompile Include="$(MSBuildThisFileDirectory)Scene.cpp" />
     <ClCompile Include="$(MSBuildThisFileDirectory)SelectStage.cpp" />
     <ClCompile Include="$(MSBuildThisFileDirectory)StageLoader.cpp" />
+    <ClCompile Include="$(MSBuildThisFileDirectory)Wall.cpp" />
     <ClCompile Include="$(MSBuildThisFileDirectory)WinMain.cpp" />
   </ItemGroup>
 </Project>

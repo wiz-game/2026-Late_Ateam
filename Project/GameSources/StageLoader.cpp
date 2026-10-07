@@ -49,6 +49,11 @@ namespace basecross {
 				object->SetMemberRotation(objRot);
 				stageObj->IntoGroup(object);
 				break;
+			case 2:
+				object = GetStage()->AddGameObject<Wall>(objScale, objRot, objPos);
+				object->SetMemberRotation(objRot);
+				stageObj->IntoGroup(object);
+				break;
 			default:
 				break;
 			}

@@ -18,6 +18,7 @@
 #include "Player.h"
 #include "MainCamera.h"
 #include "Ground.h"
+#include "Wall.h"
 
 // ステージ関係
 #include "GameStage.h"
