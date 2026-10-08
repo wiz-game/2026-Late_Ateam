@@ -18,9 +18,11 @@
 #include "Player.h"
 #include "MainCamera.h"
 #include "Ground.h"
+#include "Wall.h"
 
 // ステージ関係
 #include "GameStage.h"
+#include "SelectStage.h"
 
 // エディター関係
 #include "Editor.h"

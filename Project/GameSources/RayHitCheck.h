@@ -1,4 +1,4 @@
-/*!
+﻿/*!
 @file RayHitCheck.h
 @brief レイの当たり判定を確認
 */

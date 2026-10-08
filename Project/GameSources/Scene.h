@@ -57,7 +57,7 @@ namespace basecross{
 		int GetLoadStageNumber() { return m_loadStageNumber; }
 
 		// ロードするステージのナンバーを設定
-		int SetLoadStageNumber(int stagenumber) { m_loadStageNumber = stagenumber; }
+		void SetLoadStageNumber(int stagenumber) { m_loadStageNumber = stagenumber; }
 
 
 	};

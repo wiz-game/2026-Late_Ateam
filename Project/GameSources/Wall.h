@@ -1,5 +1,5 @@
-﻿/*!
-@file Foo.h
+/*!
+@file Wall.h
 @brief キャラクターなど
 */
 
@@ -12,7 +12,7 @@ namespace basecross {
 	//--------------------------------------------------------------------------------------
 	//	class GenericSprite : public GameObject;
 	//--------------------------------------------------------------------------------------
-	class Ground : public GameObjectForEdit
+	class Wall : public GameObjectForEdit
 	{
 	private:
 		Vec3 m_Scale;
@@ -21,7 +21,7 @@ namespace basecross {
 
 	public:
 		// 構築と破棄
-		Ground(const shared_ptr<Stage>& stage,
+		Wall(const shared_ptr<Stage>& stage,
 			const Vec3& Scale,
 			const Vec3& Rotation,
 			const Vec3& Position
@@ -30,9 +30,8 @@ namespace basecross {
 			m_Scale(Scale),
 			m_Rotation(Rotation),
 			m_Position(Position)
-		{
-		}
-		virtual ~Ground()
+		{}
+		virtual ~Wall()
 		{}
 
 

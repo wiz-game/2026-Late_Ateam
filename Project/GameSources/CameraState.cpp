@@ -1,4 +1,4 @@
-/*!
+﻿/*!
 @file Cable.cpp
 @brief キャラクターなど実体
 */

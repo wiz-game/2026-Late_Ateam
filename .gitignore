@@ -366,3 +366,6 @@ FodyWeavers.xsd
 
 # Compiled Shader Object
 *.cso
+
+# User custom ignores
+DirectXTex.lib

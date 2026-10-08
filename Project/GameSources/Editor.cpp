@@ -99,7 +99,7 @@ namespace basecross {
 
 			if (keyState.m_bPressedKeyTbl['O'] && keyState.m_bPushKeyTbl[VK_CONTROL])
 			{
-				return;
+				// return;
 				ChangeStage();
 			}
 
@@ -199,14 +199,16 @@ namespace basecross {
 			{
 				m_addObjNum++;
 			}
-			//移動、スケールのスナップサイズを変更
+			//移動、スケールのスナップサイズを変更(シフト入力があると1.0f)
+			float s_size = (keyState.m_bPushKeyTbl[VK_LSHIFT]) ? 1.0f : 0.1f;
+
 			if (keyState.m_bPressedKeyTbl[VK_UP])
 			{
-				m_snapSize += 0.1f;
+				m_snapSize += s_size;
 			}
 			if (keyState.m_bPressedKeyTbl[VK_DOWN])
 			{
-				m_snapSize -= 0.1f;
+				m_snapSize -= s_size;
 			}
 
 			// 編集するステージ番号を変更
@@ -237,6 +239,9 @@ namespace basecross {
 			{
 			case 1:
 				stl = L"Ground";
+				break;
+			case 2:
+				stl = L"Wall";
 				break;
 
 			default:
@@ -532,6 +537,9 @@ namespace basecross {
 		case 1:
 			obj = GetStage()->AddGameObject<Ground>(Vec3(1.0f), Vec3(0.0f), at);
 			break;
+		case 2:
+			obj = GetStage()->AddGameObject<Wall>(Vec3(1.0f), Vec3(0.0f), at);
+			break;
 
 		default:
 			break;
@@ -735,6 +743,9 @@ namespace basecross {
 				case 1:
 					copy = GetStage()->AddGameObject<Ground>(scale, rot, pos);
 					break;
+				case 2:
+					copy = GetStage()->AddGameObject<Ground>(scale, rot, pos);
+					break;
 
 				default:
 					break;
@@ -767,20 +778,14 @@ namespace basecross {
 		}
 	}
 
-	// ステージのロードの切り替えをやれええええええ
+	// ステージの切り替え
 	void Editor::ChangeStage()
 	{
-		// バイナリファイルの取得
-		auto path = App::GetApp()->GetDataDirWString();
+		auto& app = App::GetApp();
+		auto scene = app->GetScene<Scene>();
+		auto stage = GetStage();
 
-		// ステージの番号を取得
-		int loadNum = App::GetApp()->GetScene<Scene>()->GetLoadStageNumber();
-
-		
-		auto loader = GetStage()->AddGameObject<StageLoader>();
-
-		// ステージのロード
-		loader->LoadStageFile(path + L"Stages\\stage_" + to_wstring(loadNum) + L".stg");
+		stage->PostEvent(0.0f, GetThis<Editor>(), scene, L"ToSelectStage");
 
 	}
 
@@ -788,8 +793,10 @@ namespace basecross {
 	{
 		int id = 0;
 		auto ground = dynamic_pointer_cast<Ground>(obj);
+		auto wall = dynamic_pointer_cast<Wall>(obj);
 
 		if (ground) id = 1;
+		if (wall) id = 2;
 
 		return id;
 	}

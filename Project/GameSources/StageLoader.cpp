@@ -1,4 +1,4 @@
-/*!
+﻿/*!
 @file StageLoader.cpp
 @brief キャラクターなど実体
 */
@@ -24,7 +24,7 @@ namespace basecross {
 		// 処理のためのオブジェクトグループの作成
 		auto stageObj = GetStage()->CreateSharedObjectGroup(L"StageObjects");
 
-		for (int i = 0; i < num; i++)
+		for (uint32_t i = 0; i < num; i++)
 		{
 			// 必要になる変数の初期化（switvh文内で宣言できなかったので）
 			uint16_t id = 0;
@@ -46,6 +46,11 @@ namespace basecross {
 			{
 			case 1:
 				object = GetStage()->AddGameObject<Ground>(objScale, objRot, objPos);
+				object->SetMemberRotation(objRot);
+				stageObj->IntoGroup(object);
+				break;
+			case 2:
+				object = GetStage()->AddGameObject<Wall>(objScale, objRot, objPos);
 				object->SetMemberRotation(objRot);
 				stageObj->IntoGroup(object);
 				break;
