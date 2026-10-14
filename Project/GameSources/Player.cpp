@@ -13,6 +13,11 @@ namespace basecross {
 		//各コンポーネントの初期化
 		InitDrawComp();
 		InitTransComp();
+
+		auto ptrColl = AddComponent<CollisionCapsule>();
+		//ptrColl->SetFixed(true);
+		//ptrColl->SetDrawActive(true);
+
 	}
 
 	void Player::OnUpdate()
@@ -22,6 +27,15 @@ namespace basecross {
 		auto pad = app->GetInputDevice().GetControlerVec()[0];
 		//プレイヤーの動き
 		NormalMove();
+	}
+
+	bool Player::IsJampPressed()
+	{
+		auto& app = App::GetApp();
+		auto pad = app->GetInputDevice().GetControlerVec()[0];
+
+		return (pad.wPressedButtons & XINPUT_GAMEPAD_A);
+
 	}
 
 	// Drawコンポーネントの初期化
@@ -40,8 +54,10 @@ namespace basecross {
 	// Transformコンポーネントの初期化
 	void Player::InitTransComp()
 	{
-		Vec3 pos = Vec3(0.0f, 0.0f, 0.0f);
+		Vec3 pos = Vec3(0.0f, 5.0f, 0.0f);
 		Vec3 rot;
+
+		m_prevY = pos.y;
 
 		m_transComp = GetComponent<Transform>();
 		m_transComp->SetPosition(pos);
@@ -86,8 +102,6 @@ namespace basecross {
 			v = v.normalize();
 		}
 
-		//ジャンプの確認
-
 		return v;
 	}
 
@@ -119,25 +133,53 @@ namespace basecross {
 	void Player::VelocityYUpdate(bool isJump)
 	{
 		auto delta = App::GetApp()->GetElapsedTime();
+
+		//接地中は落下速度を溜めない
+		if (m_isGround)
+		{
+			m_velocityY = 0.0f;
+		}
 		//常に重力加速度がかかっている
 		m_velocityY += -9.8f * delta;
-		//ジャンプの処理
-		if (isJump)
+
+		//ジャンプは接地中だけ
+		if (isJump && m_isGround)
 		{
 			m_velocityY = 5.0f;
 		}
 	}
+	
 
 	bool Player::NormalMove()
 	{
 		float delta = App::GetApp()->GetElapsedTime();
 
+		auto camera = GetStage()->GetView()->GetTargetCamera();
+		Vec3 camForward = camera->GetAt() - camera->GetEye();
+		camForward.y = 0.0f;   // 水平方向だけ見る
+		if (camForward.length() > 0.001f)
+		{
+			m_cameraAngleY = atan2f(-camForward.x, camForward.z);
+		}
+
 		//移動の処理
 		auto inputVec = InputVec();
 		VelocityXZUpdate(inputVec);
 
-		VelocityYUpdate(false);
+
 		Vec3 pos = m_transComp->GetPosition();
+
+		m_isGround = (m_velocityY <= 0.0f) && (pos.y - m_prevY > 0.00001f);
+
+		VelocityYUpdate(IsJampPressed());
+
+		pos.x += m_velocityXZ.x * delta;
+		pos.z += m_velocityXZ.z * delta;
+
+		pos.y += m_velocityY * delta;
+
+		m_transComp->SetPosition(pos);
+		m_prevY = pos.y;
 
 		// プレイヤーの方向
 		float playerAngle = m_transComp->GetQuaternion().toRotVec().y;
