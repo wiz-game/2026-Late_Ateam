@@ -744,7 +744,7 @@ namespace basecross {
 					copy = GetStage()->AddGameObject<Ground>(scale, rot, pos);
 					break;
 				case 2:
-					copy = GetStage()->AddGameObject<Ground>(scale, rot, pos);
+					copy = GetStage()->AddGameObject<Wall>(scale, rot, pos);
 					break;
 
 				default:
