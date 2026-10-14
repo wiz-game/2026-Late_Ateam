@@ -17,6 +17,10 @@ namespace basecross {
 		float m_speed; // 移動の速さ
 		float m_scale = 1.0f; // プレイヤーのスケール
 
+		bool m_isGround = false;
+		float m_prevY = 0.0f;
+		bool IsJampPressed();
+
 		void InitDrawComp(); // Drawコンポーネントの初期化
 		void InitTransComp(); // Transformコンポーネントの初期化
 
@@ -35,7 +39,7 @@ namespace basecross {
 		// ステージを引数にしたコンストラクタ【必須】
 		Player(const std::shared_ptr<Stage>& stage) :
 			GameObjectForEdit(stage),
-			m_speed(1.0f),
+			m_speed(10.0f),
 			m_velocityXZ(Vec3(0.0f)),
 			m_velocityY(0.0f),
 			m_cameraAngleY(0.0f)

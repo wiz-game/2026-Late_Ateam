@@ -20,6 +20,11 @@ namespace basecross {
 		ptrDraw->SetMeshResource(L"DEFAULT_CUBE");
 		ptrDraw->SetEmissive(Col4(0.0f));
 		//ptrDraw->SetBlendState(BlendState::Additive);
+
+		auto ptrColl = AddComponent<CollisionObb>();
+		ptrColl->SetFixed(true);
+		//ptrColl->SetDrawActive(true);
+
 	}
 
 }
