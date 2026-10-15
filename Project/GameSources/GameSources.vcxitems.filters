@@ -13,6 +13,9 @@
     <Filter Include="Stages\GameStage">
       <UniqueIdentifier>{3de3c6b4-ffa7-4d43-b1da-bda7d6a5f4f8}</UniqueIdentifier>
     </Filter>
+    <Filter Include="Stages\TitleStage">
+      <UniqueIdentifier>{f0e20aec-58bc-44be-8055-404f17c149dd}</UniqueIdentifier>
+    </Filter>
     <Filter Include="Project">
       <UniqueIdentifier>{cb1261eb-a62e-46e7-8776-772952322044}</UniqueIdentifier>
     </Filter>
@@ -31,6 +34,9 @@
     <Filter Include="Objects\Camera\MainCamera">
       <UniqueIdentifier>{e48bde9a-3a3f-4de6-8910-6248aefd8216}</UniqueIdentifier>
     </Filter>
+    <Filter Include="Objects\Camera\EditorCamera">
+      <UniqueIdentifier>{18ad6a9e-8265-4c8d-9d4c-0988a6c37915}</UniqueIdentifier>
+    </Filter>
     <Filter Include="Editors">
       <UniqueIdentifier>{98f586fd-ba92-4d71-93bb-d502c9c0d73d}</UniqueIdentifier>
     </Filter>
@@ -40,26 +46,32 @@
     <Filter Include="Editors\Arrow">
       <UniqueIdentifier>{6d53745f-5abb-4cbd-b826-f9fd0ca4ad2e}</UniqueIdentifier>
     </Filter>
-    <Filter Include="Objects\Camera\EditorCamera">
-      <UniqueIdentifier>{18ad6a9e-8265-4c8d-9d4c-0988a6c37915}</UniqueIdentifier>
-    </Filter>
     <Filter Include="Editors\GameObjectForEdit">
       <UniqueIdentifier>{af97eb3d-b662-414c-be1e-a79c5d219cbd}</UniqueIdentifier>
     </Filter>
     <Filter Include="Editors\RayHitCheck">
       <UniqueIdentifier>{50301cab-181a-4aa2-a7f2-72b7da8e72b2}</UniqueIdentifier>
     </Filter>
+    <Filter Include="Editors\StageLoder">
+      <UniqueIdentifier>{faaa5261-8599-4faa-a32e-1e96080a46b0}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Editors\SelectStage">
+      <UniqueIdentifier>{16dbf81a-46b7-4bc2-96a4-6c4f47e42dbd}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Editors\EditObjectRegistry">
+      <UniqueIdentifier>{5e1d6ca1-f95b-4b46-8ff8-23f5aa40abe5}</UniqueIdentifier>
+    </Filter>
     <Filter Include="Objects\Ground">
       <UniqueIdentifier>{4fe4a955-73e9-4ca7-8378-de27edc7d78c}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Objects\Wall">
+      <UniqueIdentifier>{85be36e8-4476-4173-bf8b-cba4ea1760ba}</UniqueIdentifier>
     </Filter>
     <Filter Include="StateMachines">
       <UniqueIdentifier>{b8dd5e8d-1b30-4307-87f0-3978468504fd}</UniqueIdentifier>
     </Filter>
     <Filter Include="StateMachines\CameraState">
       <UniqueIdentifier>{d9a8677f-1b17-4d86-8f6f-8bf540efb49c}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="Editors\StageLoder">
-      <UniqueIdentifier>{faaa5261-8599-4faa-a32e-1e96080a46b0}</UniqueIdentifier>
     </Filter>
     <Filter Include="BaseCrossComponent">
       <UniqueIdentifier>{6629c315-72ea-4966-b88b-e35c3973a6bf}</UniqueIdentifier>
@@ -73,8 +85,8 @@
     <Filter Include="BaseCrossComponent\WinMain">
       <UniqueIdentifier>{ec0a8381-877f-4058-a446-a12ed8102243}</UniqueIdentifier>
     </Filter>
-    <Filter Include="Editors\SelectStage">
-      <UniqueIdentifier>{16dbf81a-46b7-4bc2-96a4-6c4f47e42dbd}</UniqueIdentifier>
+    <Filter Include="Action">
+      <UniqueIdentifier>{a93857b0-d69b-4ed5-b476-079adeaa1ca2}</UniqueIdentifier>
     </Filter>
     <Filter Include="Editors\EditObjectRegistry">
       <UniqueIdentifier>{7c5f277d-fa68-4630-a584-95b070313e75}</UniqueIdentifier>
@@ -84,6 +96,9 @@
     </Filter>
     <Filter Include="Objects\Koban">
       <UniqueIdentifier>{2b36fe82-1c45-42ca-b6c9-1ac6e83d6cee}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="UI">
+      <UniqueIdentifier>{07596568-89b0-4a62-ab78-f222b12b82f7}</UniqueIdentifier>
     </Filter>
   </ItemGroup>
   <ItemGroup>
@@ -113,6 +128,9 @@
     </ClInclude>
     <ClInclude Include="$(MSBuildThisFileDirectory)GameStage.h">
       <Filter>Stages\GameStage</Filter>
+    </ClInclude>
+    <ClInclude Include="$(MSBuildThisFileDirectory)TitleStage.h">
+      <Filter>Stages\TitleStage</Filter>
     </ClInclude>
     <ClInclude Include="$(MSBuildThisFileDirectory)Project.h">
       <Filter>Project</Filter>
@@ -165,6 +183,12 @@
     <ClInclude Include="$(MSBuildThisFileDirectory)Koban.h">
       <Filter>Objects\Koban</Filter>
     </ClInclude>
+    <ClInclude Include="$(MSBuildThisFileDirectory)ActionCamera.h">
+      <Filter>Action</Filter>
+    </ClInclude>
+    <ClInclude Include="$(MSBuildThisFileDirectory)Sprite.h">
+      <Filter>UI</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="$(MSBuildThisFileDirectory)PNTDXModelDraw.cpp">
@@ -190,6 +214,9 @@
     </ClCompile>
     <ClCompile Include="$(MSBuildThisFileDirectory)GameStage.cpp">
       <Filter>Stages\GameStage</Filter>
+    </ClCompile>
+    <ClCompile Include="$(MSBuildThisFileDirectory)TitleStage.cpp">
+      <Filter>Stages\TitleStage</Filter>
     </ClCompile>
     <ClCompile Include="$(MSBuildThisFileDirectory)Scene.cpp">
       <Filter>Scene</Filter>
@@ -241,6 +268,12 @@
     </ClCompile>
     <ClCompile Include="$(MSBuildThisFileDirectory)Koban.cpp">
       <Filter>Objects\Koban</Filter>
+    </ClCompile>
+    <ClCompile Include="$(MSBuildThisFileDirectory)ActionCamera.cpp">
+      <Filter>Action</Filter>
+    </ClCompile>
+    <ClCompile Include="$(MSBuildThisFileDirectory)Sprite.cpp">
+      <Filter>UI</Filter>
     </ClCompile>
   </ItemGroup>
 </Project>

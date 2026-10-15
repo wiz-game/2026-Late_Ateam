@@ -25,6 +25,8 @@
 // ステージ関係
 #include "GameStage.h"
 #include "SelectStage.h"
+#include "TitleStage.h"
+
 
 // エディター関係
 #include "Editor.h"
@@ -36,3 +38,7 @@
 
 // ステートマシン関係
 #include "CameraState.h"
+
+//演出関係
+#include "ActionCamera.h"
+#include "Sprite.h"

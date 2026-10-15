@@ -14,6 +14,7 @@
     <ProjectCapability Include="SourceItemsFromImports" />
   </ItemGroup>
   <ItemGroup>
+    <ClInclude Include="$(MSBuildThisFileDirectory)ActionCamera.h" />
     <ClInclude Include="$(MSBuildThisFileDirectory)Arrow.h" />
     <ClInclude Include="$(MSBuildThisFileDirectory)CameraState.h" />
     <ClInclude Include="$(MSBuildThisFileDirectory)Character.h" />
@@ -38,10 +39,13 @@
     <ClInclude Include="$(MSBuildThisFileDirectory)RayHitCheck.h" />
     <ClInclude Include="$(MSBuildThisFileDirectory)Scene.h" />
     <ClInclude Include="$(MSBuildThisFileDirectory)SelectStage.h" />
+    <ClInclude Include="$(MSBuildThisFileDirectory)Sprite.h" />
     <ClInclude Include="$(MSBuildThisFileDirectory)StageLoader.h" />
+    <ClInclude Include="$(MSBuildThisFileDirectory)TitleStage.h" />
     <ClInclude Include="$(MSBuildThisFileDirectory)Wall.h" />
   </ItemGroup>
   <ItemGroup>
+    <ClCompile Include="$(MSBuildThisFileDirectory)ActionCamera.cpp" />
     <ClCompile Include="$(MSBuildThisFileDirectory)Arrow.cpp" />
     <ClCompile Include="$(MSBuildThisFileDirectory)CameraState.cpp" />
     <ClCompile Include="$(MSBuildThisFileDirectory)Character.cpp" />
@@ -67,7 +71,9 @@
     <ClCompile Include="$(MSBuildThisFileDirectory)RayHitCheck.cpp" />
     <ClCompile Include="$(MSBuildThisFileDirectory)Scene.cpp" />
     <ClCompile Include="$(MSBuildThisFileDirectory)SelectStage.cpp" />
+    <ClCompile Include="$(MSBuildThisFileDirectory)Sprite.cpp" />
     <ClCompile Include="$(MSBuildThisFileDirectory)StageLoader.cpp" />
+    <ClCompile Include="$(MSBuildThisFileDirectory)TitleStage.cpp" />
     <ClCompile Include="$(MSBuildThisFileDirectory)Wall.cpp" />
     <ClCompile Include="$(MSBuildThisFileDirectory)WinMain.cpp" />
   </ItemGroup>
