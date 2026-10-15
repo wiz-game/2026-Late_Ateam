@@ -32,6 +32,11 @@
 #include "EditorCamera.h"
 #include "RayHitCheck.h"
 #include "StageLoader.h"
+#include "EditObjectRegistry.h"
 
 // ステートマシン関係
 #include "CameraState.h"
+
+//演出関係
+#include "ActionCamera.h"
+#include "Sprite.h"

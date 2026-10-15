@@ -13,6 +13,11 @@ namespace basecross {
 		//各コンポーネントの初期化
 		InitDrawComp();
 		InitTransComp();
+
+		auto ptrColl = AddComponent<CollisionCapsule>();
+		//ptrColl->SetFixed(true);
+		//ptrColl->SetDrawActive(true);
+
 	}
 
 	void Player::OnUpdate()
@@ -22,6 +27,15 @@ namespace basecross {
 		auto pad = app->GetInputDevice().GetControlerVec()[0];
 		//プレイヤーの動き
 		NormalMove();
+	}
+
+	bool Player::IsJampPressed()
+	{
+		auto& app = App::GetApp();
+		auto pad = app->GetInputDevice().GetControlerVec()[0];
+
+		return (pad.wPressedButtons & XINPUT_GAMEPAD_A);
+
 	}
 
 	// Drawコンポーネントの初期化
@@ -40,8 +54,10 @@ namespace basecross {
 	// Transformコンポーネントの初期化
 	void Player::InitTransComp()
 	{
-		Vec3 pos = Vec3(0.0f, 0.0f, 0.0f);
+		Vec3 pos = Vec3(0.0f, 5.0f, 0.0f);
 		Vec3 rot;
+
+		m_prevY = pos.y;
 
 		m_transComp = GetComponent<Transform>();
 		m_transComp->SetPosition(pos);
@@ -86,8 +102,6 @@ namespace basecross {
 			v = v.normalize();
 		}
 
-		//ジャンプの確認
-
 		return v;
 	}
 
@@ -98,46 +112,78 @@ namespace basecross {
 		//入力がないときにVelocityを減少させる
 		if (input.length() < 0.1f)
 		{
-			m_velocityXZ.x *= 0.9f;
-			m_velocityXZ.z *= 0.9f;
+			//空中では慣性を残す(地上は今まで通り)
+			float drag = m_isGround ? 0.9f : 0.99f;
+			m_velocityXZ.x *= drag;
+			m_velocityXZ.z *= drag;
 		}
 		else
 		{
 			float Acceleration = 10.0f;//加速度(最高速に達するまでの時間(秒)の逆数)
+			//空中では加速度を下げる
+			if (!m_isGround)
+			{
+				Acceleration *= m_airControl;
+			}
 			//入力をもとに速度を加算
 			m_velocityXZ.x += (input.x * cosf(m_cameraAngleY) - input.z * sinf(m_cameraAngleY)) * delta * Acceleration * m_speed;
 			m_velocityXZ.z += (input.x * sinf(m_cameraAngleY) + input.z * cosf(m_cameraAngleY)) * delta * Acceleration * m_speed;
-			//指定の速度と入力をもとに最大速度を設定
-			if (m_velocityXZ.length() > m_speed * input.length())
+			//最大速度の設定(地上は入力の大きさに合わせる。空中は入力が弱くても急に減速させない)
+			float maxSpeed = m_isGround ? m_speed * input.length() : m_speed;
+			if (m_velocityXZ.length() > maxSpeed)
 			{
-				m_velocityXZ = m_velocityXZ.normalize() * m_speed * input.length();
+				m_velocityXZ = m_velocityXZ.normalize() * maxSpeed;
 			}
 		}
 	}
-
 	// m_velocityYの更新
 	void Player::VelocityYUpdate(bool isJump)
 	{
 		auto delta = App::GetApp()->GetElapsedTime();
+
+		//接地中は落下速度を溜めない
+		if (m_isGround)
+		{
+			m_velocityY = 0.0f;
+		}
 		//常に重力加速度がかかっている
 		m_velocityY += -9.8f * delta;
-		//ジャンプの処理
-		if (isJump)
+
+		//ジャンプは接地中だけ
+		if (isJump && m_isGround)
 		{
-			m_velocityY = 5.0f;
+			m_velocityY = 7.5f;
 		}
 	}
+	
 
 	bool Player::NormalMove()
 	{
 		float delta = App::GetApp()->GetElapsedTime();
 
+		auto camera = GetStage()->GetView()->GetTargetCamera();
+		Vec3 camForward = camera->GetAt() - camera->GetEye();
+		camForward.y = 0.0f;   // 水平方向だけ見る
+		if (camForward.length() > 0.001f)
+		{
+			m_cameraAngleY = atan2f(-camForward.x, camForward.z);
+		}
+
+		Vec3 pos = m_transComp->GetPosition();
+
+		m_isGround = (m_velocityY <= 0.0f) && (pos.y - m_prevY > 0.00001f);
+
 		//移動の処理
 		auto inputVec = InputVec();
 		VelocityXZUpdate(inputVec);
+		VelocityYUpdate(IsJampPressed());
 
-		VelocityYUpdate(false);
-		Vec3 pos = m_transComp->GetPosition();
+		pos.x += m_velocityXZ.x * delta;
+		pos.z += m_velocityXZ.z * delta;
+		pos.y += m_velocityY * delta;
+
+		m_transComp->SetPosition(pos);
+		m_prevY = pos.y;
 
 		// プレイヤーの方向
 		float playerAngle = m_transComp->GetQuaternion().toRotVec().y;
