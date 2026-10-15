@@ -1,6 +1,6 @@
 ﻿/*!
 @file Editor.h
-@brief 汎用ステージエディター（Wall / Floor のみ対応）
+@brief 汎用ステージエディター
 */
 
 #pragma once
@@ -35,7 +35,7 @@ namespace basecross {
         Vec3 m_objRot;
         Vec3 m_objRotBase;
 
-        // 追加オブジェクト番号（1=Wall, 2=Floor）
+        // 追加オブジェクト番号
         int m_addObjNum;
 
         // スナップサイズ
@@ -77,8 +77,9 @@ namespace basecross {
             : GameObject(stage),
             m_isEditorMode(false),
             m_changeTransform(0),
-            m_addObjNum(1),      // 初期は Wall
-            m_snapSize(1.0f)
+            m_addObjNum(0),
+            m_snapSize(1.0f),
+            m_stageNum(0)
         {}
 
         virtual ~Editor() {}

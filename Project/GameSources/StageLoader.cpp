@@ -18,7 +18,7 @@ namespace basecross {
 		}
 
 		// オブジェクトの数を書き込む
-		uint32_t num;
+		uint32_t num = 0;
 		ifs.read((char*)&num, sizeof(num)); // はじめの4バイトとして、オブジェクト数を書き込む
 
 		// 処理のためのオブジェクトグループの作成
@@ -31,9 +31,6 @@ namespace basecross {
 			Vec3 objScale;
 			Vec3 objRot;
 			Vec3 objPos;
-			Vec3 switchScale;
-			Vec3 switchRot;
-			Vec3 switchPos;
 			shared_ptr<GameObjectForEdit> object;
 
 
@@ -42,21 +39,26 @@ namespace basecross {
 			ifs.read((char*)&objScale, sizeof(objScale)); // スケール
 			ifs.read((char*)&objRot, sizeof(objRot)); // 回転
 			ifs.read((char*)&objPos, sizeof(objPos)); // 座標
-			switch (id)
+			auto info = EditObjectRegistry::Get().FindByID(id);
+			if (info)
 			{
-			case 1:
-				object = GetStage()->AddGameObject<Ground>(objScale, objRot, objPos);
-				object->SetMemberRotation(objRot);
-				stageObj->IntoGroup(object);
-				break;
-			case 2:
-				object = GetStage()->AddGameObject<Wall>(objScale, objRot, objPos);
-				object->SetMemberRotation(objRot);
-				stageObj->IntoGroup(object);
-				break;
-			default:
-				break;
+				object = info->create(GetStage(), objScale, objRot, objPos);
+				if (object)
+				{
+					object->SetMemberRotation(objRot);
+					stageObj->IntoGroup(object);
+				}
 			}
+			//switch (id)
+			//{
+			//case 1:
+			//	object = GetStage()->AddGameObject<Ground>(objScale, objRot, objPos);
+			//	object->SetMemberRotation(objRot);
+			//	stageObj->IntoGroup(object);
+			//	break;
+			//default:
+			//	break;
+			//}
 		}
 
 		// ファイルを閉じる
