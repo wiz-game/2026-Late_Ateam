@@ -76,11 +76,14 @@
     <Filter Include="Editors\SelectStage">
       <UniqueIdentifier>{16dbf81a-46b7-4bc2-96a4-6c4f47e42dbd}</UniqueIdentifier>
     </Filter>
-    <Filter Include="Objects\Wall">
-      <UniqueIdentifier>{85be36e8-4476-4173-bf8b-cba4ea1760ba}</UniqueIdentifier>
-    </Filter>
     <Filter Include="Editors\EditObjectRegistry">
-      <UniqueIdentifier>{5e1d6ca1-f95b-4b46-8ff8-23f5aa40abe5}</UniqueIdentifier>
+      <UniqueIdentifier>{7c5f277d-fa68-4630-a584-95b070313e75}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Objects\Wall">
+      <UniqueIdentifier>{1b2db5e7-c881-4670-a9f9-d5c85a02fd58}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Objects\Koban">
+      <UniqueIdentifier>{2b36fe82-1c45-42ca-b6c9-1ac6e83d6cee}</UniqueIdentifier>
     </Filter>
   </ItemGroup>
   <ItemGroup>
@@ -153,11 +156,14 @@
     <ClInclude Include="$(MSBuildThisFileDirectory)SelectStage.h">
       <Filter>Editors\SelectStage</Filter>
     </ClInclude>
+    <ClInclude Include="$(MSBuildThisFileDirectory)EditObjectRegistry.h">
+      <Filter>Editors\EditObjectRegistry</Filter>
+    </ClInclude>
     <ClInclude Include="$(MSBuildThisFileDirectory)Wall.h">
       <Filter>Objects\Wall</Filter>
     </ClInclude>
-    <ClInclude Include="$(MSBuildThisFileDirectory)EditObjectRegistry.h">
-      <Filter>Editors\EditObjectRegistry</Filter>
+    <ClInclude Include="$(MSBuildThisFileDirectory)Koban.h">
+      <Filter>Objects\Koban</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
@@ -227,11 +233,14 @@
     <ClCompile Include="$(MSBuildThisFileDirectory)SelectStage.cpp">
       <Filter>Editors\SelectStage</Filter>
     </ClCompile>
+    <ClCompile Include="$(MSBuildThisFileDirectory)EditObjectRegistry.cpp">
+      <Filter>Editors\EditObjectRegistry</Filter>
+    </ClCompile>
     <ClCompile Include="$(MSBuildThisFileDirectory)Wall.cpp">
       <Filter>Objects\Wall</Filter>
     </ClCompile>
-    <ClCompile Include="$(MSBuildThisFileDirectory)EditObjectRegistry.cpp">
-      <Filter>Editors\EditObjectRegistry</Filter>
+    <ClCompile Include="$(MSBuildThisFileDirectory)Koban.cpp">
+      <Filter>Objects\Koban</Filter>
     </ClCompile>
   </ItemGroup>
 </Project>
