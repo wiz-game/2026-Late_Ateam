@@ -20,6 +20,14 @@ namespace basecross {
 		auto ptrDraw = AddComponent<PNTStaticDraw>();
 		ptrDraw->SetMeshResource(L"DEFAULT_SPHERE");
 
+		auto ptrColl = AddComponent<CollisionObb>();
+		ptrColl->SetFixed(true);
+
+	}
+
+	void Koban::OnUpdate()
+	{
+
 	}
 
 	REGISTER(Koban, 3, L"Koban");
