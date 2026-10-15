@@ -1,4 +1,4 @@
-﻿<?xml version="1.0" encoding="utf-8"?>
+<?xml version="1.0" encoding="utf-8"?>
 <Project ToolsVersion="4.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
   <ItemGroup>
     <Filter Include="Objects">
@@ -82,6 +82,12 @@
     <Filter Include="Editors\EditObjectRegistry">
       <UniqueIdentifier>{5e1d6ca1-f95b-4b46-8ff8-23f5aa40abe5}</UniqueIdentifier>
     </Filter>
+    <Filter Include="Action">
+      <UniqueIdentifier>{a93857b0-d69b-4ed5-b476-079adeaa1ca2}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="UI">
+      <UniqueIdentifier>{07596568-89b0-4a62-ab78-f222b12b82f7}</UniqueIdentifier>
+    </Filter>    
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="$(MSBuildThisFileDirectory)PNTDXModelDraw.h">
@@ -159,6 +165,12 @@
     <ClInclude Include="$(MSBuildThisFileDirectory)EditObjectRegistry.h">
       <Filter>Editors\EditObjectRegistry</Filter>
     </ClInclude>
+    <ClInclude Include="$(MSBuildThisFileDirectory)ActionCamera.h">
+      <Filter>Action</Filter>
+    </ClInclude>
+    <ClInclude Include="$(MSBuildThisFileDirectory)Sprite.h">
+      <Filter>UI</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="$(MSBuildThisFileDirectory)PNTDXModelDraw.cpp">
@@ -232,6 +244,12 @@
     </ClCompile>
     <ClCompile Include="$(MSBuildThisFileDirectory)EditObjectRegistry.cpp">
       <Filter>Editors\EditObjectRegistry</Filter>
+    </ClCompile>
+        <ClCompile Include="$(MSBuildThisFileDirectory)ActionCamera.cpp">
+      <Filter>Action</Filter>
+    </ClCompile>
+    <ClCompile Include="$(MSBuildThisFileDirectory)Sprite.cpp">
+      <Filter>UI</Filter>
     </ClCompile>
   </ItemGroup>
 </Project>

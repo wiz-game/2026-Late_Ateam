@@ -1,4 +1,4 @@
-/*!
+﻿/*!
 @file Wall.cpp
 @brief キャラクターなど実体
 */

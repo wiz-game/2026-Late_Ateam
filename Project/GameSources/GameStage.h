@@ -6,6 +6,7 @@
 #pragma once
 #include "stdafx.h"
 #include "JoltManager.h"
+#include "ActionCamera.h"
 
 namespace basecross {
 
@@ -17,6 +18,7 @@ namespace basecross {
 		JoltManager m_jphManger; // Jolt Physics マネージャー
 
 		std::shared_ptr<MainCamera> m_camera; // カメラの取得
+		std::shared_ptr<ActionCamera> m_actionCamera; // アクションカメラの取得
 
 		void CreateViewLight(); //ビューの作成
 		void CreatePlayer(); //プレイヤーの作成
