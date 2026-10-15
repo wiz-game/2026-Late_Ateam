@@ -67,6 +67,9 @@
     <Filter Include="Objects\Wall">
       <UniqueIdentifier>{85be36e8-4476-4173-bf8b-cba4ea1760ba}</UniqueIdentifier>
     </Filter>
+    <Filter Include="Objects\Koban">
+      <UniqueIdentifier>{2b36fe82-1c45-42ca-b6c9-1ac6e83d6cee}</UniqueIdentifier>
+    </Filter>
     <Filter Include="StateMachines">
       <UniqueIdentifier>{b8dd5e8d-1b30-4307-87f0-3978468504fd}</UniqueIdentifier>
     </Filter>
@@ -87,15 +90,6 @@
     </Filter>
     <Filter Include="Action">
       <UniqueIdentifier>{a93857b0-d69b-4ed5-b476-079adeaa1ca2}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="Editors\EditObjectRegistry">
-      <UniqueIdentifier>{7c5f277d-fa68-4630-a584-95b070313e75}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="Objects\Wall">
-      <UniqueIdentifier>{1b2db5e7-c881-4670-a9f9-d5c85a02fd58}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="Objects\Koban">
-      <UniqueIdentifier>{2b36fe82-1c45-42ca-b6c9-1ac6e83d6cee}</UniqueIdentifier>
     </Filter>
     <Filter Include="UI">
       <UniqueIdentifier>{07596568-89b0-4a62-ab78-f222b12b82f7}</UniqueIdentifier>
