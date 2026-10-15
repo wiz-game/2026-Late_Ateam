@@ -1,4 +1,4 @@
-/*!
+﻿/*!
 @file Sprite.cpp
 @brief スプライト実体
 */

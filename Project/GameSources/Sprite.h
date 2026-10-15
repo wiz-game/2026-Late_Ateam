@@ -1,4 +1,4 @@
-/*!
+﻿/*!
 @file Sprite.h
 @brief スプライト
 */
