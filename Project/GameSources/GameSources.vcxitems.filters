@@ -79,6 +79,12 @@
     <Filter Include="Objects\Wall">
       <UniqueIdentifier>{85be36e8-4476-4173-bf8b-cba4ea1760ba}</UniqueIdentifier>
     </Filter>
+    <Filter Include="Action">
+      <UniqueIdentifier>{a93857b0-d69b-4ed5-b476-079adeaa1ca2}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="UI">
+      <UniqueIdentifier>{07596568-89b0-4a62-ab78-f222b12b82f7}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="$(MSBuildThisFileDirectory)PNTDXModelDraw.h">
@@ -153,6 +159,12 @@
     <ClInclude Include="$(MSBuildThisFileDirectory)Wall.h">
       <Filter>Objects\Wall</Filter>
     </ClInclude>
+    <ClInclude Include="$(MSBuildThisFileDirectory)ActionCamera.h">
+      <Filter>Action</Filter>
+    </ClInclude>
+    <ClInclude Include="$(MSBuildThisFileDirectory)Sprite.h">
+      <Filter>UI</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="$(MSBuildThisFileDirectory)PNTDXModelDraw.cpp">
@@ -223,6 +235,12 @@
     </ClCompile>
     <ClCompile Include="$(MSBuildThisFileDirectory)Wall.cpp">
       <Filter>Objects\Wall</Filter>
+    </ClCompile>
+    <ClCompile Include="$(MSBuildThisFileDirectory)ActionCamera.cpp">
+      <Filter>Action</Filter>
+    </ClCompile>
+    <ClCompile Include="$(MSBuildThisFileDirectory)Sprite.cpp">
+      <Filter>UI</Filter>
     </ClCompile>
   </ItemGroup>
 </Project>
