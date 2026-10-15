@@ -79,6 +79,9 @@
     <Filter Include="Objects\Wall">
       <UniqueIdentifier>{85be36e8-4476-4173-bf8b-cba4ea1760ba}</UniqueIdentifier>
     </Filter>
+    <Filter Include="Stages\TitleStage">
+      <UniqueIdentifier>{f0e20aec-58bc-44be-8055-404f17c149dd}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="$(MSBuildThisFileDirectory)PNTDXModelDraw.h">
@@ -153,6 +156,9 @@
     <ClInclude Include="$(MSBuildThisFileDirectory)Wall.h">
       <Filter>Objects\Wall</Filter>
     </ClInclude>
+    <ClInclude Include="$(MSBuildThisFileDirectory)TitleStage.h">
+      <Filter>Stages\TitleStage</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="$(MSBuildThisFileDirectory)PNTDXModelDraw.cpp">
@@ -223,6 +229,9 @@
     </ClCompile>
     <ClCompile Include="$(MSBuildThisFileDirectory)Wall.cpp">
       <Filter>Objects\Wall</Filter>
+    </ClCompile>
+    <ClCompile Include="$(MSBuildThisFileDirectory)TitleStage.cpp">
+      <Filter>Stages\TitleStage</Filter>
     </ClCompile>
   </ItemGroup>
 </Project>

@@ -23,6 +23,8 @@
 // ステージ関係
 #include "GameStage.h"
 #include "SelectStage.h"
+#include "TitleStage.h"
+
 
 // エディター関係
 #include "Editor.h"
