@@ -1,4 +1,4 @@
-﻿<?xml version="1.0" encoding="utf-8"?>
+<?xml version="1.0" encoding="utf-8"?>
 <Project xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
   <PropertyGroup Label="Globals">
     <MSBuildAllProjects>$(MSBuildAllProjects);$(MSBuildThisFileFullPath)</MSBuildAllProjects>
@@ -21,6 +21,7 @@
     <ClInclude Include="$(MSBuildThisFileDirectory)CharacterController.h" />
     <ClInclude Include="$(MSBuildThisFileDirectory)DXModel.h" />
     <ClInclude Include="$(MSBuildThisFileDirectory)DXModelResource.h" />
+    <ClInclude Include="$(MSBuildThisFileDirectory)EditObjectRegistry.h" />
     <ClInclude Include="$(MSBuildThisFileDirectory)Editor.h" />
     <ClInclude Include="$(MSBuildThisFileDirectory)EditorCamera.h" />
     <ClInclude Include="$(MSBuildThisFileDirectory)GameObjectForEdit.h" />
@@ -52,6 +53,7 @@
       <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Release|x64'">NotUsing</PrecompiledHeader>
     </ClCompile>
     <ClCompile Include="$(MSBuildThisFileDirectory)DXModelResource.cpp" />
+    <ClCompile Include="$(MSBuildThisFileDirectory)EditObjectRegistry.cpp" />
     <ClCompile Include="$(MSBuildThisFileDirectory)Editor.cpp" />
     <ClCompile Include="$(MSBuildThisFileDirectory)EditorCamera.cpp" />
     <ClCompile Include="$(MSBuildThisFileDirectory)GameObjectForEdit.cpp" />

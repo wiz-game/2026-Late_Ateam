@@ -99,7 +99,6 @@ namespace basecross {
 
 			if (keyState.m_bPressedKeyTbl['O'] && keyState.m_bPushKeyTbl[VK_CONTROL])
 			{
-				// return;
 				ChangeStage();
 			}
 
@@ -191,13 +190,17 @@ namespace basecross {
 				if (keyState.m_bPressedKeyTbl['R'])m_changeTransform = 2;
 			}
 			//生成するオブジェクトを変更
-			if (keyState.m_bPressedKeyTbl[VK_LEFT])
+			const int kindNum = (int)EditObjectRegistry::Get().GetAll().size();
+			if (kindNum > 0)
 			{
-				m_addObjNum--;
-			}
-			if (keyState.m_bPressedKeyTbl[VK_RIGHT])
-			{
-				m_addObjNum++;
+				if (keyState.m_bPressedKeyTbl[VK_LEFT])
+				{
+					m_addObjNum = (m_addObjNum + kindNum - 1) % kindNum;
+				}
+				if (keyState.m_bPressedKeyTbl[VK_RIGHT])
+				{
+					m_addObjNum = (m_addObjNum + 1) % kindNum;
+				}
 			}
 			//移動、スケールのスナップサイズを変更(シフト入力があると1.0f)
 			float s_size = (keyState.m_bPushKeyTbl[VK_LSHIFT]) ? 1.0f : 0.1f;
@@ -230,25 +233,16 @@ namespace basecross {
 
 			// Xでオブジェクトの追加
 			if (keyState.m_bPressedKeyTbl['X'])
-			{
+			{ 
 				AddNewObject();
 			}
-			ss << L"NUM:" << stage->GetGameObjectVec().size() << endl;
-			auto stl = L"";
-			switch (m_addObjNum)
+			const auto& kinds = EditObjectRegistry::Get().GetAll();
+			wstring kindName = L"None";
+			if (m_addObjNum >= 0 && m_addObjNum < (int)kinds.size())
 			{
-			case 1:
-				stl = L"Ground";
-				break;
-			case 2:
-				stl = L"Wall";
-				break;
-
-			default:
-				stl = L"None";
-				break;
+				kindName = kinds[m_addObjNum].name;
 			}
-			ss << L"ObjectName:" << m_addObjNum << L" " << stl << endl;
+			ss << L"ObjectName:" << (m_addObjNum + 1) << L" " << kindName << endl;
 			ss << L"SnapSize: " << m_snapSize << endl;
 
 			scene->SetDebugString(ss.str());
@@ -273,35 +267,37 @@ namespace basecross {
 			MessageBox(0, L"保存用ファイルを開けませんでした", L"failed", 0);
 			return;
 		}
-		vector<shared_ptr<GameObjectForEdit>> objs;
-		for (auto obj : GetStage()->GetGameObjectVec())
+
+		vector<pair<shared_ptr<GameObjectForEdit>, uint16_t>> saveObjs;
+		for (auto& obj : GetStage()->GetGameObjectVec())
 		{
 			auto object = dynamic_pointer_cast<GameObjectForEdit>(obj);
+			if (!object) continue;
 
-			if (object)
-			{
-				objs.push_back(object);
-			}
+			uint16_t id = CheckObjectID(object);
+			if (id == 0) continue;   // Player など、保存しないもの
+
+			saveObjs.push_back(make_pair(object, id));
 		}
-		// オブジェクトの数を書き込む
-		uint32_t num = objs.size();
-		ofs.write((char*)&num, sizeof(num)); // はじめの4バイトとして、オブジェクト数を書き込む
-		for (int i = 0; i < num; i++)
-		{
-			uint16_t id = CheckObjectID(objs[i]);
-			if (id == 0) continue;
 
-			auto objTrans = objs[i]->GetComponent<Transform>();
+		// 保存する数を書き込む
+		uint32_t num = (uint32_t)saveObjs.size();
+		ofs.write((char*)&num, sizeof(num));
+
+		for (auto& item : saveObjs)
+		{
+			auto& object = item.first;
+			uint16_t id = item.second;
+
+			auto objTrans = object->GetComponent<Transform>();
 			auto objScale = objTrans->GetScale();
-			auto objRot = objs[i]->GetMemberRotation();
+			auto objRot = object->GetMemberRotation();
 			auto objPos = objTrans->GetPosition();
 
-			// データを書き込む
-			ofs.write((char*)&id, sizeof(id)); // オブジェクトID
-			ofs.write((char*)&objScale, sizeof(objScale)); // スケール
-			ofs.write((char*)&objRot, sizeof(objRot)); // 回転
-			ofs.write((char*)&objPos, sizeof(objPos)); // 座標
-
+			ofs.write((char*)&id, sizeof(id));
+			ofs.write((char*)&objScale, sizeof(objScale));
+			ofs.write((char*)&objRot, sizeof(objRot));
+			ofs.write((char*)&objPos, sizeof(objPos));
 		}
 		// 成功のメッセージを表示してファイルを閉じる
 		MessageBox(0, L"ステージ配置を保存しました", L"Binary file save succeeded", 0);
@@ -525,25 +521,16 @@ namespace basecross {
 
 	void Editor::AddNewObject()
 	{
-		shared_ptr<GameObject> obj;
+		const auto& kinds = EditObjectRegistry::Get().GetAll();
+		if (m_addObjNum < 0 || m_addObjNum >= (int)kinds.size()) return;
+
 		auto camera = GetStage()->GetView()->GetTargetCamera();
 		auto at = camera->GetAt();
 		at.x = (float)((int)at.x);
 		at.y = (float)((int)at.y);
 		at.z = (float)((int)at.z);
 
-		switch (m_addObjNum)
-		{
-		case 1:
-			obj = GetStage()->AddGameObject<Ground>(Vec3(1.0f), Vec3(0.0f), at);
-			break;
-		case 2:
-			obj = GetStage()->AddGameObject<Wall>(Vec3(1.0f), Vec3(0.0f), at);
-			break;
-
-		default:
-			break;
-		}
+		auto obj = kinds[m_addObjNum].create(GetStage(), Vec3(1.0f), Vec3(0.0f), at);
 		if (obj)
 		{
 			obj->SetUpdateActive(false);
@@ -591,9 +578,12 @@ namespace basecross {
 			// 選択状態のオブジェクトの削除
 			if (keyState.m_bPressedKeyTbl[VK_DELETE])
 			{
-				GetStage()->RemoveGameObject<GameObject>(obj);
-				arrow->SetDrawActive(false);
-				mark->SetDrawActive(false);
+				if (!dynamic_pointer_cast<Player>(obj))
+				{
+					GetStage()->RemoveGameObject<GameObject>(obj);
+					arrow->SetDrawActive(false);
+					mark->SetDrawActive(false);
+				}
 			}
 
 			// オブジェクトの情報を保存
@@ -729,26 +719,14 @@ namespace basecross {
 			auto rot = m_objRotBase;
 			auto scale = objTrans->GetScale();
 			Vec3 velocity = Vec3(0);
-			float luncherFire = 0;
-			float luncherFade = 0;
-			float luncherDelay = 0;
 
 			if (keyState.m_bPressedKeyTbl[VK_LBUTTON] && keyState.m_bPushKeyTbl[VK_MENU])
 			{
-				int ID = CheckObjectID(obj);
 				shared_ptr<GameObject> copy;
-
-				switch (ID)
+				auto info = EditObjectRegistry::Get().FindByObject(obj);
+				if (info)
 				{
-				case 1:
-					copy = GetStage()->AddGameObject<Ground>(scale, rot, pos);
-					break;
-				case 2:
-					copy = GetStage()->AddGameObject<Wall>(scale, rot, pos);
-					break;
-
-				default:
-					break;
+					copy = info->create(GetStage(), scale, rot, pos);
 				}
 
 				if (copy)
@@ -791,14 +769,8 @@ namespace basecross {
 
 	int Editor::CheckObjectID(const shared_ptr<GameObject> obj)
 	{
-		int id = 0;
-		auto ground = dynamic_pointer_cast<Ground>(obj);
-		auto wall = dynamic_pointer_cast<Wall>(obj);
-
-		if (ground) id = 1;
-		if (wall) id = 2;
-
-		return id;
+		auto info = EditObjectRegistry::Get().FindByObject(obj);
+		return info ? info->id : 0;
 	}
 }
 //end basecross
