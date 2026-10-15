@@ -20,6 +20,7 @@
     <ClInclude Include="$(MSBuildThisFileDirectory)CharacterController.h" />
     <ClInclude Include="$(MSBuildThisFileDirectory)DXModel.h" />
     <ClInclude Include="$(MSBuildThisFileDirectory)DXModelResource.h" />
+    <ClInclude Include="$(MSBuildThisFileDirectory)EditObjectRegistry.h" />
     <ClInclude Include="$(MSBuildThisFileDirectory)Editor.h" />
     <ClInclude Include="$(MSBuildThisFileDirectory)EditorCamera.h" />
     <ClInclude Include="$(MSBuildThisFileDirectory)GameObjectForEdit.h" />
@@ -49,6 +50,7 @@
       <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Release|x64'">NotUsing</PrecompiledHeader>
     </ClCompile>
     <ClCompile Include="$(MSBuildThisFileDirectory)DXModelResource.cpp" />
+    <ClCompile Include="$(MSBuildThisFileDirectory)EditObjectRegistry.cpp" />
     <ClCompile Include="$(MSBuildThisFileDirectory)Editor.cpp" />
     <ClCompile Include="$(MSBuildThisFileDirectory)EditorCamera.cpp" />
     <ClCompile Include="$(MSBuildThisFileDirectory)GameObjectForEdit.cpp" />

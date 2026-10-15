@@ -35,3 +35,17 @@
 ・ステージを保存する		→	Ctrl＋S
 
 ・ステージを切り替える		→	Ctrl＋O(左上に数字が出るのでキーボード入力後Enterで切り替え)
+
+
+
+※生成できるオブジェクトの追加方法
+
+1.オブジェクトを作成するときに「GameObjectForEdit」を継承する(既存のGameObjectではダメ)
+
+2.REGISTERというマクロをnamespaceの中に書く。(OnCreateやOnUpdateの中ではダメ)
+
+3.REGISTERに3種類の情報を入力。左から、REGISTER(クラス名,登録したい番号,登録したい名前)
+
+例：REGISTER(Ground,1,L"Ground");
+
+これだけでOK！気を付けることは番号が他のクラスと重ならないように気を付けておくことくらい
