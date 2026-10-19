@@ -51,6 +51,11 @@ namespace basecross {
 			PostEvent(0.0f, GetThis<TitleStage>(), scene, L"ToGameStage");
 		}
 
+		if ((App::GetApp()->GetInputDevice().GetKeyState().m_bPressedKeyTbl[VK_SPACE]))
+		{
+			PostEvent(0.0f, GetThis<TitleStage>(), scene, L"ToGameStage");
+		}
+
 	}
 }
 
