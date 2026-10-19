@@ -17,12 +17,14 @@ namespace basecross {
 	private:
 		weak_ptr<Player> m_Player;
 
-		Vec3 m_TopOffset = Vec3(0.0f, 50.0f, -5.0f);
+		Vec3 m_TopOffset = Vec3(0.0f, 30.0f, -20.0f);
 
 	public:
 
 		virtual void OnCreate() override; // 初期化
 		virtual void OnUpdate() override; // 更新
+
+		void SetPleyer(const weak_ptr<Player>& player) { m_Player = player; }
 
 	};
 
