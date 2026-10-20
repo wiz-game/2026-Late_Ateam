@@ -64,6 +64,13 @@ namespace basecross{
 		if (event->m_MsgStr == L"ToTitleStage") {
 			ResetActiveStage<TitleStage>();
 		}
+		if (event->m_MsgStr == L"ToClearStage") {
+			ResetActiveStage<ClearStage>();
+		}
+		if (event->m_MsgStr == L"ToGameOverStage") {
+			ResetActiveStage<GameOverStage>();
+		}
+
 	}
 }
 //end basecross
