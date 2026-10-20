@@ -88,7 +88,7 @@ namespace basecross {
 		// アプリケーションオブジェクトを取得
 		auto& app = App::GetApp();
 
-		DebugActionCameraTest();
+		TopActionCamera();
 	}
 
 	void GameStage::OnUpdate2()
@@ -101,7 +101,7 @@ namespace basecross {
 	{
 	}
 
-	void GameStage::DebugActionCameraTest()
+	void GameStage::TopActionCamera()
 	{
 		static bool isActionCamera = false;
 		static bool oldXState = false;

@@ -17,7 +17,7 @@ namespace basecross {
 	private:
 		weak_ptr<Player> m_Player;
 
-		Vec3 m_TopOffset = Vec3(0.0f, 30.0f, -20.0f);
+		Vec3 m_TopOffset = Vec3(10.0f, 10.0f, -15.0f);
 
 	public:
 
