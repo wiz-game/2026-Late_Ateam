@@ -17,7 +17,6 @@ namespace basecross {
 		auto ptrColl = AddComponent<CollisionCapsule>();
 		//ptrColl->SetFixed(true);
 		//ptrColl->SetDrawActive(true);
-
 	}
 
 	void Player::OnUpdate()

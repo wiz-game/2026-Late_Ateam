@@ -79,6 +79,9 @@
     <Filter Include="Objects\Wall">
       <UniqueIdentifier>{85be36e8-4476-4173-bf8b-cba4ea1760ba}</UniqueIdentifier>
     </Filter>
+    <Filter Include="Objects\Enemy">
+      <UniqueIdentifier>{5d29f1ef-7775-4c65-b683-7e2f2596fc4d}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="$(MSBuildThisFileDirectory)PNTDXModelDraw.h">
@@ -153,6 +156,9 @@
     <ClInclude Include="$(MSBuildThisFileDirectory)Wall.h">
       <Filter>Objects\Wall</Filter>
     </ClInclude>
+    <ClInclude Include="$(MSBuildThisFileDirectory)Enemy.h">
+      <Filter>Objects\Enemy</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="$(MSBuildThisFileDirectory)PNTDXModelDraw.cpp">
@@ -223,6 +229,9 @@
     </ClCompile>
     <ClCompile Include="$(MSBuildThisFileDirectory)Wall.cpp">
       <Filter>Objects\Wall</Filter>
+    </ClCompile>
+    <ClCompile Include="$(MSBuildThisFileDirectory)Enemy.cpp">
+      <Filter>Objects\Enemy</Filter>
     </ClCompile>
   </ItemGroup>
 </Project>

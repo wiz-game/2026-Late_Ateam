@@ -20,6 +20,8 @@
 #include "Ground.h"
 #include "Wall.h"
 
+#include "Enemy.h"
+
 // ステージ関係
 #include "GameStage.h"
 #include "SelectStage.h"
