@@ -26,6 +26,8 @@
 #include "GameStage.h"
 #include "SelectStage.h"
 #include "TitleStage.h"
+#include "GameOverStage.h"
+#include "ClearStage.h"
 
 
 // エディター関係

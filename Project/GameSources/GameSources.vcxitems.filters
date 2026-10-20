@@ -94,6 +94,12 @@
     <Filter Include="UI">
       <UniqueIdentifier>{07596568-89b0-4a62-ab78-f222b12b82f7}</UniqueIdentifier>
     </Filter>
+    <Filter Include="Stages\GameOverStage">
+      <UniqueIdentifier>{fc90efbe-2348-4b86-b963-18f0df29a83c}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Stages\ClearStage">
+      <UniqueIdentifier>{c95b4f54-284c-4018-b6ec-5c3995c6267e}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="$(MSBuildThisFileDirectory)PNTDXModelDraw.h">
@@ -183,6 +189,12 @@
     <ClInclude Include="$(MSBuildThisFileDirectory)Sprite.h">
       <Filter>UI</Filter>
     </ClInclude>
+    <ClInclude Include="$(MSBuildThisFileDirectory)GameOverStage.h">
+      <Filter>Stages\GameOverStage</Filter>
+    </ClInclude>
+    <ClInclude Include="$(MSBuildThisFileDirectory)ClearStage.h">
+      <Filter>Stages\ClearStage</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="$(MSBuildThisFileDirectory)PNTDXModelDraw.cpp">
@@ -268,6 +280,12 @@
     </ClCompile>
     <ClCompile Include="$(MSBuildThisFileDirectory)Sprite.cpp">
       <Filter>UI</Filter>
+    </ClCompile>
+    <ClCompile Include="$(MSBuildThisFileDirectory)GameOverStage.cpp">
+      <Filter>Stages\GameOverStage</Filter>
+    </ClCompile>
+    <ClCompile Include="$(MSBuildThisFileDirectory)ClearStage.cpp">
+      <Filter>Stages\ClearStage</Filter>
     </ClCompile>
   </ItemGroup>
 </Project>
