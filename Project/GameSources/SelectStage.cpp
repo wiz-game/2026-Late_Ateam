@@ -1,4 +1,4 @@
-/*!
+﻿/*!
 @file SelectStage.cpp
 @brief セレクトステージ実体
 */

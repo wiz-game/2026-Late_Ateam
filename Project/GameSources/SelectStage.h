@@ -1,4 +1,4 @@
-/*!
+﻿/*!
 @file SelectStage.h
 @brief セレクトステージ
 */

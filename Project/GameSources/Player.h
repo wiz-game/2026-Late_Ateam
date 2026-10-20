@@ -21,6 +21,8 @@ namespace basecross {
 		float m_prevY = 0.0f;
 		bool IsJampPressed();
 
+		float m_airControl = 0.1f;
+
 		void InitDrawComp(); // Drawコンポーネントの初期化
 		void InitTransComp(); // Transformコンポーネントの初期化
 

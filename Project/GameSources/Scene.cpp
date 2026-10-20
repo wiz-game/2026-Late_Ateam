@@ -23,6 +23,10 @@ namespace basecross{
 
 		// テクスチャパス取得
 		auto texPath = mediaPath + L"Textures\\";
+		//ゲームタイトル文画像の登録
+		app->RegisterTexture(L"TEX_TITLE", texPath + L"Title.png");
+		//スタートボタン画像の登録
+		app->RegisterTexture(L"TEX_START", texPath + L"StartButton.png");
 
 	}
 
@@ -38,7 +42,7 @@ namespace basecross{
 
 			//自分自身にイベントを送る
 			//これによりゲームステージのオブジェクトがCreate時にシーンにアクセスできる
-			PostEvent(0.0f, GetThis<ObjectInterface>(), GetThis<Scene>(), L"ToGameStage");
+			PostEvent(0.0f, GetThis<ObjectInterface>(), GetThis<Scene>(), L"ToTitleStage");
 		}
 		catch (...) {
 			throw;
@@ -57,6 +61,16 @@ namespace basecross{
 		if (event->m_MsgStr == L"ToSelectStage") {
 			ResetActiveStage<SelectStage>();
 		}
+		if (event->m_MsgStr == L"ToTitleStage") {
+			ResetActiveStage<TitleStage>();
+		}
+		if (event->m_MsgStr == L"ToClearStage") {
+			ResetActiveStage<ClearStage>();
+		}
+		if (event->m_MsgStr == L"ToGameOverStage") {
+			ResetActiveStage<GameOverStage>();
+		}
+
 	}
 }
 //end basecross

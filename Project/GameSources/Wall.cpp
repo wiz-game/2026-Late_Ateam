@@ -1,4 +1,4 @@
-/*!
+﻿/*!
 @file Wall.cpp
 @brief キャラクターなど実体
 */
@@ -20,6 +20,8 @@ namespace basecross {
 		ptrDraw->SetMeshResource(L"DEFAULT_CUBE");
 		ptrDraw->SetBlendState(BlendState::Additive);
 	}
+
+	REGISTER(Wall, 2, L"Wall");
 
 }
 //end basecross

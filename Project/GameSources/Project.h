@@ -5,6 +5,7 @@
 
 #pragma once
 
+// 特別上に無いといけないもの
 #include "GameObjectForEdit.h"
 
 // インプット関係
@@ -19,12 +20,17 @@
 #include "MainCamera.h"
 #include "Ground.h"
 #include "Wall.h"
+#include "Koban.h"
 
 #include "Enemy.h"
 
 // ステージ関係
 #include "GameStage.h"
 #include "SelectStage.h"
+#include "TitleStage.h"
+#include "GameOverStage.h"
+#include "ClearStage.h"
+
 
 // エディター関係
 #include "Editor.h"
@@ -32,6 +38,11 @@
 #include "EditorCamera.h"
 #include "RayHitCheck.h"
 #include "StageLoader.h"
+#include "EditObjectRegistry.h"
 
 // ステートマシン関係
 #include "CameraState.h"
+
+//演出関係
+#include "ActionCamera.h"
+#include "Sprite.h"
