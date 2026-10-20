@@ -100,6 +100,9 @@
     <Filter Include="Stages\ClearStage">
       <UniqueIdentifier>{c95b4f54-284c-4018-b6ec-5c3995c6267e}</UniqueIdentifier>
     </Filter>
+    <Filter Include="Objects\Enemy">
+      <UniqueIdentifier>{5d29f1ef-7775-4c65-b683-7e2f2596fc4d}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="$(MSBuildThisFileDirectory)PNTDXModelDraw.h">
@@ -194,6 +197,8 @@
     </ClInclude>
     <ClInclude Include="$(MSBuildThisFileDirectory)ClearStage.h">
       <Filter>Stages\ClearStage</Filter>
+    <ClInclude Include="$(MSBuildThisFileDirectory)Enemy.h">
+      <Filter>Objects\Enemy</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
@@ -286,6 +291,8 @@
     </ClCompile>
     <ClCompile Include="$(MSBuildThisFileDirectory)ClearStage.cpp">
       <Filter>Stages\ClearStage</Filter>
+    <ClCompile Include="$(MSBuildThisFileDirectory)Enemy.cpp">
+      <Filter>Objects\Enemy</Filter>
     </ClCompile>
   </ItemGroup>
 </Project>

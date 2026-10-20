@@ -22,6 +22,8 @@
 #include "Wall.h"
 #include "Koban.h"
 
+#include "Enemy.h"
+
 // ステージ関係
 #include "GameStage.h"
 #include "SelectStage.h"
