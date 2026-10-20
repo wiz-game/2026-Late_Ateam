@@ -67,6 +67,9 @@
     <Filter Include="Objects\Wall">
       <UniqueIdentifier>{85be36e8-4476-4173-bf8b-cba4ea1760ba}</UniqueIdentifier>
     </Filter>
+    <Filter Include="Objects\Koban">
+      <UniqueIdentifier>{2b36fe82-1c45-42ca-b6c9-1ac6e83d6cee}</UniqueIdentifier>
+    </Filter>
     <Filter Include="StateMachines">
       <UniqueIdentifier>{b8dd5e8d-1b30-4307-87f0-3978468504fd}</UniqueIdentifier>
     </Filter>
@@ -165,11 +168,14 @@
     <ClInclude Include="$(MSBuildThisFileDirectory)SelectStage.h">
       <Filter>Editors\SelectStage</Filter>
     </ClInclude>
+    <ClInclude Include="$(MSBuildThisFileDirectory)EditObjectRegistry.h">
+      <Filter>Editors\EditObjectRegistry</Filter>
+    </ClInclude>
     <ClInclude Include="$(MSBuildThisFileDirectory)Wall.h">
       <Filter>Objects\Wall</Filter>
     </ClInclude>
-    <ClInclude Include="$(MSBuildThisFileDirectory)EditObjectRegistry.h">
-      <Filter>Editors\EditObjectRegistry</Filter>
+    <ClInclude Include="$(MSBuildThisFileDirectory)Koban.h">
+      <Filter>Objects\Koban</Filter>
     </ClInclude>
     <ClInclude Include="$(MSBuildThisFileDirectory)ActionCamera.h">
       <Filter>Action</Filter>
@@ -248,11 +254,14 @@
     <ClCompile Include="$(MSBuildThisFileDirectory)SelectStage.cpp">
       <Filter>Editors\SelectStage</Filter>
     </ClCompile>
+    <ClCompile Include="$(MSBuildThisFileDirectory)EditObjectRegistry.cpp">
+      <Filter>Editors\EditObjectRegistry</Filter>
+    </ClCompile>
     <ClCompile Include="$(MSBuildThisFileDirectory)Wall.cpp">
       <Filter>Objects\Wall</Filter>
     </ClCompile>
-    <ClCompile Include="$(MSBuildThisFileDirectory)EditObjectRegistry.cpp">
-      <Filter>Editors\EditObjectRegistry</Filter>
+    <ClCompile Include="$(MSBuildThisFileDirectory)Koban.cpp">
+      <Filter>Objects\Koban</Filter>
     </ClCompile>
     <ClCompile Include="$(MSBuildThisFileDirectory)ActionCamera.cpp">
       <Filter>Action</Filter>

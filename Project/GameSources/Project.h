@@ -5,6 +5,7 @@
 
 #pragma once
 
+// 特別上に無いといけないもの
 #include "GameObjectForEdit.h"
 
 // インプット関係
@@ -19,6 +20,7 @@
 #include "MainCamera.h"
 #include "Ground.h"
 #include "Wall.h"
+#include "Koban.h"
 
 // ステージ関係
 #include "GameStage.h"
