@@ -19,12 +19,14 @@
     <ClInclude Include="$(MSBuildThisFileDirectory)CameraState.h" />
     <ClInclude Include="$(MSBuildThisFileDirectory)Character.h" />
     <ClInclude Include="$(MSBuildThisFileDirectory)CharacterController.h" />
+    <ClInclude Include="$(MSBuildThisFileDirectory)ClearStage.h" />
     <ClInclude Include="$(MSBuildThisFileDirectory)DXModel.h" />
     <ClInclude Include="$(MSBuildThisFileDirectory)DXModelResource.h" />
     <ClInclude Include="$(MSBuildThisFileDirectory)EditObjectRegistry.h" />
     <ClInclude Include="$(MSBuildThisFileDirectory)Editor.h" />
     <ClInclude Include="$(MSBuildThisFileDirectory)EditorCamera.h" />
     <ClInclude Include="$(MSBuildThisFileDirectory)GameObjectForEdit.h" />
+    <ClInclude Include="$(MSBuildThisFileDirectory)GameOverStage.h" />
     <ClInclude Include="$(MSBuildThisFileDirectory)GameStage.h" />
     <ClInclude Include="$(MSBuildThisFileDirectory)Ground.h" />
     <ClInclude Include="$(MSBuildThisFileDirectory)JoltLayers.h" />
@@ -50,6 +52,7 @@
     <ClCompile Include="$(MSBuildThisFileDirectory)CameraState.cpp" />
     <ClCompile Include="$(MSBuildThisFileDirectory)Character.cpp" />
     <ClCompile Include="$(MSBuildThisFileDirectory)CharacterController.cpp" />
+    <ClCompile Include="$(MSBuildThisFileDirectory)ClearStage.cpp" />
     <ClCompile Include="$(MSBuildThisFileDirectory)DXModel.cpp">
       <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">NotUsing</PrecompiledHeader>
       <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Release|x64'">NotUsing</PrecompiledHeader>
@@ -59,6 +62,7 @@
     <ClCompile Include="$(MSBuildThisFileDirectory)Editor.cpp" />
     <ClCompile Include="$(MSBuildThisFileDirectory)EditorCamera.cpp" />
     <ClCompile Include="$(MSBuildThisFileDirectory)GameObjectForEdit.cpp" />
+    <ClCompile Include="$(MSBuildThisFileDirectory)GameOverStage.cpp" />
     <ClCompile Include="$(MSBuildThisFileDirectory)GameStage.cpp" />
     <ClCompile Include="$(MSBuildThisFileDirectory)Ground.cpp" />
     <ClCompile Include="$(MSBuildThisFileDirectory)JoltManager.cpp" />
