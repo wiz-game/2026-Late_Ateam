@@ -13,7 +13,16 @@ namespace basecross {
 	//--------------------------------------------------------------------------------------
 	class ActionCamPos
 	{
+		Vec3 m_pos;
+		float m_radius;
 
+	public :
+		ActionCamPos(
+			const Vec3 postion,
+			float radius
+		);
+
+		bool IsInRange(const Vec3& playerPos);
 	};
 
 }
