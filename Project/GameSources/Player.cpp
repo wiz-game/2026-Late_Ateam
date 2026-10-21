@@ -28,12 +28,42 @@ namespace basecross {
 		NormalMove();
 	}
 
+	void Player::OnCollisionEnter(shared_ptr<GameObject>& Other)
+	{
+		auto& app = App::GetApp();
+		auto scene = app->GetScene<Scene>();
+
+		if (Other->FindTag(L"Koban"))
+		{
+			m_canClear = true;
+		}
+
+		if (Other->FindTag(L"ClearObject"))
+		{
+			if (m_canClear == true)
+			{
+				PostEvent(0.0f, GetThis<Player>(), scene, L"ToClearStage");
+			}
+		}
+	}
+
+	void Player::OnCollisionExecute(shared_ptr<GameObject>&Other)
+	{
+	
+	}
+
+	void Player::OnCollisionExit(shared_ptr<GameObject>&Other)
+	{
+	
+	}
+
 	bool Player::IsJampPressed()
 	{
 		auto& app = App::GetApp();
 		auto pad = app->GetInputDevice().GetControlerVec()[0];
+		auto key = app->GetInputDevice().GetKeyState();
 
-		return (pad.wPressedButtons & XINPUT_GAMEPAD_A);
+		return (pad.wPressedButtons & XINPUT_GAMEPAD_A || key.m_bPressedKeyTbl[VK_SPACE]);
 
 	}
 

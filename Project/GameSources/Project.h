@@ -23,6 +23,7 @@
 #include "Koban.h"
 
 #include "Enemy.h"
+#include "ClearObject.h"
 
 // ステージ関係
 #include "GameStage.h"

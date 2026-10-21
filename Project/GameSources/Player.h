@@ -18,6 +18,7 @@ namespace basecross {
 		float m_scale = 1.0f; // プレイヤーのスケール
 
 		bool m_isGround = false;
+		bool m_canClear = false;
 		float m_prevY = 0.0f;
 		bool IsJampPressed();
 
@@ -38,7 +39,7 @@ namespace basecross {
 	//-------------------------------------------------------------------------
 
 	public :
-		// ステージを引数にしたコンストラクタ【必須】
+		// ステージを引数にしたコンストラクタ
 		Player(const std::shared_ptr<Stage>& stage) :
 			GameObjectForEdit(stage),
 			m_speed(10.0f),
@@ -53,6 +54,13 @@ namespace basecross {
 
 		virtual void OnCreate() override;
 		virtual void OnUpdate() override;
+
+		// 当たり判定
+		void OnCollisionEnter(shared_ptr<GameObject>& Other);	//	当たり判定
+		void OnCollisionExecute(shared_ptr<GameObject>& Other);
+		void OnCollisionExit(shared_ptr<GameObject>& Other);
+
+		bool GetCanClear() const { return m_canClear; }
 
 		void SetPlayerUpdateActive(bool isActive);
 
