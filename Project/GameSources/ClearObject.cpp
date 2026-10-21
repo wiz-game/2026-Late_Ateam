@@ -20,6 +20,10 @@ namespace basecross {
 
 		auto ptrDraw = AddComponent<PNTStaticDraw>();
 		ptrDraw->SetMeshResource(L"DEFAULT_CUBE");
+
+		auto ptrColl = AddComponent<CollisionObb>();
+		ptrColl->SetFixed(true);
+
 		ptrDraw->SetEmissive(Col4(1.0f, 0.0f, 1.0f, 1.0f));
 		ptrDraw->SetBlendState(BlendState::Additive);
 	}

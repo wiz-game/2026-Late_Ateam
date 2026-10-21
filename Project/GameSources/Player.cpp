@@ -24,6 +24,7 @@ namespace basecross {
 		//Appとゲームパッドの取得
 		auto& app = App::GetApp();
 		auto pad = app->GetInputDevice().GetControlerVec()[0];
+
 		//プレイヤーの動き
 		NormalMove();
 	}
@@ -43,18 +44,19 @@ namespace basecross {
 			if (m_canClear == true)
 			{
 				PostEvent(0.0f, GetThis<Player>(), scene, L"ToClearStage");
+				m_canClear = false;
 			}
 		}
 	}
 
 	void Player::OnCollisionExecute(shared_ptr<GameObject>&Other)
 	{
-	
+		
 	}
 
 	void Player::OnCollisionExit(shared_ptr<GameObject>&Other)
 	{
-	
+		
 	}
 
 	bool Player::IsJampPressed()

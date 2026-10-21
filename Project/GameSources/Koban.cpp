@@ -25,6 +25,9 @@ namespace basecross {
 		auto ptrColl = AddComponent<CollisionObb>();
 		ptrColl->SetFixed(true);
 
+		ptrDraw->SetEmissive(Col4(1.0f, 1.0f, 0.0f, 1.0f));
+
+
 		m_player = GetStage()->GetSharedGameObject<Player>(L"Player");
 	}
 
