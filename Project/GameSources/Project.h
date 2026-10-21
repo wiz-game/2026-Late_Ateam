@@ -46,4 +46,5 @@
 
 //‰‰oŠÖŒW
 #include "ActionCamera.h"
+#include "ActionCamPos.h"
 #include "Sprite.h"
