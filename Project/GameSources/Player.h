@@ -54,6 +54,8 @@ namespace basecross {
 		virtual void OnCreate() override;
 		virtual void OnUpdate() override;
 
+		void SetPlayerUpdateActive(bool isActive);
+
 		// ƒvƒŒƒCƒ„[‚Ì“®‚«
 		bool NormalMove();
 	};
