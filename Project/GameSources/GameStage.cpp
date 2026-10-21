@@ -100,6 +100,13 @@ namespace basecross {
 	{
 	}
 
+//----------------------------<アクションカメラ関係>----------------------------------------------
+
+	void GameStage::SettingCamPos()
+	{
+
+	}
+
 	void GameStage::TopActionCamera()
 	{
 		static bool isActionCamera = false;

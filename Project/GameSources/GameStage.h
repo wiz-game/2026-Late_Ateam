@@ -20,6 +20,7 @@ namespace basecross {
 		std::shared_ptr<SingleView> m_view;
 		std::shared_ptr<MainCamera> m_camera; // カメラの取得
 		std::shared_ptr<ActionCamera> m_actionCamera; // アクションカメラの取得
+		std::shared_ptr<ActionCamPos> m_acPostion;
 
 		void CreateViewLight(); //ビューの作成
 		void CreatePlayer(); //プレイヤーの作成
@@ -35,6 +36,7 @@ namespace basecross {
 		virtual void OnUpdate2() override;
 		virtual void OnDraw()override; //描画
 
+		void SettingCamPos();
 		void TopActionCamera();
 	};
 }
