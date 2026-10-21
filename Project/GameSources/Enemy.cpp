@@ -41,6 +41,7 @@ namespace basecross {
 	{
 		auto& app = App::GetApp();
 		auto delta = app->GetElapsedTime();
+		auto scene = app->GetScene<Scene>();
 		std::wstringstream wss(L"");
 
 		//Playerの位置を取得
@@ -66,7 +67,7 @@ namespace basecross {
 			break;
 
 		case EnemyState::Catch:
-
+			PostEvent(0.0f, GetThis<Enemy>(), scene, L"ToGameOverStage");
 			break;
 		}
 		app->GetScene<Scene>()->SetDebugString(wss.str());
@@ -156,7 +157,7 @@ namespace basecross {
 
 		if (dist < m_CatchRenge)
 		{
-			m_state = EnemyState::Patol;
+			m_state = EnemyState::Catch;
 			return;
 		}
 
