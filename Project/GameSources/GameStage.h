@@ -7,6 +7,7 @@
 #include "stdafx.h"
 #include "JoltManager.h"
 #include "ActionCamera.h"
+#include "ActionCamPos.h"
 
 namespace basecross {
 
@@ -20,7 +21,7 @@ namespace basecross {
 		std::shared_ptr<SingleView> m_view;
 		std::shared_ptr<MainCamera> m_camera; // カメラの取得
 		std::shared_ptr<ActionCamera> m_actionCamera; // アクションカメラの取得
-		std::shared_ptr<ActionCamPos> m_acPostion;
+		std::vector<ActionCamPos> m_acPostionList;
 
 		void CreateViewLight(); //ビューの作成
 		void CreatePlayer(); //プレイヤーの作成
