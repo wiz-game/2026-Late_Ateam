@@ -1,4 +1,4 @@
-/*!
+﻿/*!
 @file GameOverStage.cpp
 @brief ゲームオーバーステージ実体
 */

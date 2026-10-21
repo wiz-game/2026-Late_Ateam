@@ -1,4 +1,4 @@
-/*!
+﻿/*!
 @file ClearStage.h
 @brief クリアステージ
 */

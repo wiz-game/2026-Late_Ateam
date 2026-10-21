@@ -1,4 +1,4 @@
-/*!
+﻿/*!
 @file Enemy.cpp
 @brief 敵キャラクターの実体
 */

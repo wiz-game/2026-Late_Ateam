@@ -1,4 +1,4 @@
-/*!
+﻿/*!
 @file ClearStage.cpp
 @brief クリアステージ実体
 */

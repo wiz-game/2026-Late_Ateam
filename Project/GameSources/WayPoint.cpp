@@ -1,4 +1,4 @@
-/*!
+﻿/*!
 @file WayPoint.cpp
 @brief WayPointなど実体
 */
