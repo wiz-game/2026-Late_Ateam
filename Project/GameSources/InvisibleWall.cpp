@@ -19,11 +19,12 @@ namespace basecross {
 
 		auto ptrDraw = AddComponent<PNTStaticDraw>();
 		ptrDraw->SetMeshResource(L"DEFAULT_CUBE");
-		ptrDraw->SetEmissive(Col4(1.0f,1.0f,1.0f,0.1f));
+		ptrDraw->SetDiffuse(Col4(1.0f,1.0f,1.0f,0.0f));
+		ptrDraw->SetBlendState(BlendState::AlphaBlend);
 
 		auto ptrColl = AddComponent<CollisionObb>();
 		ptrColl->SetDrawActive(true);
-		// ptrColl->SetFixed(true);
+		ptrColl->SetFixed(true);
 
 	}
 
@@ -32,7 +33,7 @@ namespace basecross {
 		
 	}
 
-	REGISTER(InvisibleWall, 6, L"InvisibleWall");
+	//REGISTER(InvisibleWall, 6, L"InvisibleWall");
 
 }
 //end basecross

@@ -36,5 +36,6 @@ namespace basecross {
 		}
 		return nullptr;
 	}
+
 }
 //end basecross

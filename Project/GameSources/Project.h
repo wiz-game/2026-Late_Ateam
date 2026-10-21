@@ -20,6 +20,7 @@
 #include "MainCamera.h"
 #include "Ground.h"
 #include "Wall.h"
+#include "Floor.h"
 #include "Koban.h"
 #include "Enemy.h"
 #include "WayPoint.h"
@@ -49,6 +50,7 @@
 // ââèoä÷åW
 #include "ActionCamera.h"
 #include "ActionCamPos.h"
+#include "ActionCamPosData.h"
 #include "Sprite.h"
 
 // ÇªÇÃëº

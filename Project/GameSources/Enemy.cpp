@@ -167,5 +167,5 @@ namespace basecross {
 		m_transComp->SetPosition(m_pos);
 	}
 
-	REGISTER(Enemy, 4, L"Enemy");
+	//REGISTER(Enemy, 4, L"Enemy");
 }
