@@ -46,10 +46,10 @@ namespace basecross {
 	}
 
 	void ClearStage::CreateClearSprite() {
-		AddGameObject<Sprite>(L"TEX_CLEAR", false,
+		AddGameObject<Sprite>(L"Clear", false,
 			Vec2(900, 350), Vec2(0.0f, 150.0f));
 
-		AddGameObject<Sprite>(L"TEX_TITLEBACK", false,
+		AddGameObject<Sprite>(L"TitleBack", false,
 			Vec2(500, 150), Vec2(0.0f, -200.0f));
 
 		//auto Score = Player::DrawStrings();
