@@ -85,7 +85,7 @@ namespace basecross {
 	// Transformコンポーネントの初期化
 	void Player::InitTransComp()
 	{
-		Vec3 pos = Vec3(0.0f, 5.0f, 0.0f);
+		Vec3 pos = Vec3(0.0f, 0.0f, 0.0f);
 		Vec3 rot;
 
 		m_prevY = pos.y;
