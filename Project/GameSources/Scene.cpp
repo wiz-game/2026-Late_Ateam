@@ -20,6 +20,14 @@ namespace basecross{
 		LoadMedia loadMedia;
 		loadMedia.RegisterMediaFiles(App::GetApp()->GetDataDirWString());
 
+		// エディターにオブジェクトを登録
+		REGISTER(Ground, 1, L"Ground");
+		REGISTER(Wall, 2, L"Wall");
+		REGISTER(Floor, 3, L"Floor");
+		REGISTER(InvisibleWall, 4, L"InvisibleWall");
+		REGISTER(Koban, 10, L"Koban");
+		REGISTER(Enemy, 11, L"Enemy");
+		REGISTER(ClearObject, 12, L"ClearObject");
 	}
 
 	void Scene::OnCreate(){

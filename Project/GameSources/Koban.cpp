@@ -44,7 +44,7 @@ namespace basecross {
 	}
 
 
-	REGISTER(Koban, 3, L"Koban");
+	//REGISTER(Koban, 3, L"Koban");
 
 }
 //end basecross

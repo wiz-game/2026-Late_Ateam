@@ -28,7 +28,7 @@ namespace basecross {
 		ptrDraw->SetBlendState(BlendState::Additive);
 	}
 
-	REGISTER(ClearObject, 5, L"ClearObject");
+	//REGISTER(ClearObject, 5, L"ClearObject");
 
 }
 //end basecross

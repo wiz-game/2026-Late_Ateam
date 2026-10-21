@@ -21,7 +21,5 @@ namespace basecross {
 		ptrDraw->SetBlendState(BlendState::Additive);
 	}
 
-	REGISTER(Wall, 2, L"Wall");
-
 }
 //end basecross
