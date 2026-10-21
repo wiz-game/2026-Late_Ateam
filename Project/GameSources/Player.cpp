@@ -193,6 +193,12 @@ namespace basecross {
 
 		return false;
 	}
+
+	// プレイヤーのアップデートを一時的に止める処理
+	void Player::SetPlayerUpdateActive(bool isActive)
+	{
+		SetUpdateActive(isActive); // GameObject標準の関数を呼び出す
+	}
 }
 //end basecross
 
