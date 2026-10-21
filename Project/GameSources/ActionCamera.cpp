@@ -16,12 +16,12 @@ namespace basecross {
 
 	void ActionCamera::OnUpdate()
 	{
-		auto player = m_Player.lock();
+		auto& player = m_Player.lock();
 		if (!player) {
 			return;
 		}
 
-		auto playerPos = player->GetComponent<Transform>()->GetWorldPosition();
+		auto& playerPos = player->GetComponent<Transform>()->GetWorldPosition();
 
 		SetEye(playerPos + m_TopOffset);
 		SetAt(playerPos);

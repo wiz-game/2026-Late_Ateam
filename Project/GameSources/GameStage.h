@@ -17,6 +17,7 @@ namespace basecross {
 	{
 		JoltManager m_jphManger; // Jolt Physics マネージャー
 
+		std::shared_ptr<SingleView> m_view;
 		std::shared_ptr<MainCamera> m_camera; // カメラの取得
 		std::shared_ptr<ActionCamera> m_actionCamera; // アクションカメラの取得
 
@@ -34,6 +35,7 @@ namespace basecross {
 		virtual void OnUpdate2() override;
 		virtual void OnDraw()override; //描画
 
+		void TopActionCamera();
 	};
 }
 //end basecross
