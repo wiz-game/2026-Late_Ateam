@@ -48,6 +48,7 @@
     <ClInclude Include="$(MSBuildThisFileDirectory)StageLoader.h" />
     <ClInclude Include="$(MSBuildThisFileDirectory)TitleStage.h" />
     <ClInclude Include="$(MSBuildThisFileDirectory)Wall.h" />
+    <ClInclude Include="$(MSBuildThisFileDirectory)WayPoint.h" />
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="$(MSBuildThisFileDirectory)ActionCamera.cpp" />
@@ -85,6 +86,7 @@
     <ClCompile Include="$(MSBuildThisFileDirectory)StageLoader.cpp" />
     <ClCompile Include="$(MSBuildThisFileDirectory)TitleStage.cpp" />
     <ClCompile Include="$(MSBuildThisFileDirectory)Wall.cpp" />
+    <ClCompile Include="$(MSBuildThisFileDirectory)WayPoint.cpp" />
     <ClCompile Include="$(MSBuildThisFileDirectory)WinMain.cpp" />
   </ItemGroup>
 </Project>

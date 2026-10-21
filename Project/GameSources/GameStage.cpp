@@ -105,6 +105,8 @@ namespace basecross {
 		static bool isActionCamera = false;
 		static bool oldXState = false;
 
+		auto playMove = std::dynamic_pointer_cast<Player>(GetSharedObject(L"Player", false));
+
 		XINPUT_STATE state{};
 
 		if (XInputGetState(0, &state) != ERROR_SUCCESS)
@@ -121,11 +123,13 @@ namespace basecross {
 
 			if (isActionCamera)
 			{
+				playMove->SetPlayerUpdateActive(false);
 				OutputDebugString(L"Action Camera\n");
 				m_view->SetCamera(m_actionCamera);
 			}
 			else
 			{
+				playMove->SetPlayerUpdateActive(true);
 				OutputDebugString(L"Normal Camera\n");
 				m_view->SetCamera(m_camera);
 			}

@@ -1,4 +1,4 @@
-/*!
+﻿/*!
 @file ClearStage.h
 @brief クリアステージ
 */
@@ -14,6 +14,9 @@ namespace basecross {
 	class ClearStage : public Stage
 	{
 		void CreateViewLight(); //ビューの作成
+
+		void CreateClearSprite();
+
 
 	public:
 		//構築と破棄

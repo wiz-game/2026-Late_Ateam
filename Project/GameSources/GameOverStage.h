@@ -1,4 +1,4 @@
-/*!
+﻿/*!
 @file GameOverStage.h
 @brief ゲームオーバーステージ
 */
@@ -14,6 +14,8 @@ namespace basecross {
 	class GameOverStage : public Stage
 	{
 		void CreateViewLight(); //ビューの作成
+
+		void CreateGameOverSprite();
 
 	public:
 		//構築と破棄

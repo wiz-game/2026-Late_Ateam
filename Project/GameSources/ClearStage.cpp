@@ -1,4 +1,4 @@
-/*!
+﻿/*!
 @file ClearStage.cpp
 @brief クリアステージ実体
 */
@@ -32,6 +32,7 @@ namespace basecross {
 		try {
 			//ビューとライトの作成
 			CreateViewLight();
+			CreateClearSprite();
 
 		}
 		catch (...) {
@@ -43,5 +44,16 @@ namespace basecross {
 	{
 
 	}
+
+	void ClearStage::CreateClearSprite() {
+		AddGameObject<Sprite>(L"TEX_CLEAR", false,
+			Vec2(900, 350), Vec2(0.0f, 150.0f));
+
+		AddGameObject<Sprite>(L"TEX_TITLEBACK", false,
+			Vec2(500, 150), Vec2(0.0f, -200.0f));
+
+		//auto Score = Player::DrawStrings();
+	}
+
 }
 //end basecross
