@@ -42,6 +42,16 @@ namespace basecross {
 
 	void GameOverStage::OnUpdate()
 	{
+		auto& app = App::GetApp();
+		auto scene = app->GetScene<Scene>();
+
+		auto pad = app->GetInputDevice().GetControlerVec()[0];
+
+
+		if (pad.wPressedButtons & XINPUT_GAMEPAD_A || App::GetApp()->GetInputDevice().GetKeyState().m_bPressedKeyTbl[VK_SPACE])
+		{
+			PostEvent(0.0f, GetThis<GameOverStage>(), scene, L"ToTitleStage");
+		}
 
 	}
 	void GameOverStage::CreateGameOverSprite() {
