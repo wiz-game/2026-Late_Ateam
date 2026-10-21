@@ -1,4 +1,4 @@
-/*!
+﻿/*!
 @file Koban.cpp
 @brief キャラクターなど実体
 */

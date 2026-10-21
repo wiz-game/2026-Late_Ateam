@@ -1,4 +1,4 @@
-/*!
+﻿/*!
 @file TitleStage.cpp
 @brief タイトルステージ実体
 */

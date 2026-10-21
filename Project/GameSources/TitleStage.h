@@ -1,4 +1,4 @@
-/*!
+﻿/*!
 @file TitleStage.h
 @brief ゲームステージ
 */
