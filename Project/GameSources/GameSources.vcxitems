@@ -15,10 +15,12 @@
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="$(MSBuildThisFileDirectory)ActionCamera.h" />
+    <ClInclude Include="$(MSBuildThisFileDirectory)ActionCamPos.h" />
     <ClInclude Include="$(MSBuildThisFileDirectory)Arrow.h" />
     <ClInclude Include="$(MSBuildThisFileDirectory)CameraState.h" />
     <ClInclude Include="$(MSBuildThisFileDirectory)Character.h" />
     <ClInclude Include="$(MSBuildThisFileDirectory)CharacterController.h" />
+    <ClInclude Include="$(MSBuildThisFileDirectory)ClearObject.h" />
     <ClInclude Include="$(MSBuildThisFileDirectory)ClearStage.h" />
     <ClInclude Include="$(MSBuildThisFileDirectory)DXModel.h" />
     <ClInclude Include="$(MSBuildThisFileDirectory)DXModelResource.h" />
@@ -50,10 +52,12 @@
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="$(MSBuildThisFileDirectory)ActionCamera.cpp" />
+    <ClCompile Include="$(MSBuildThisFileDirectory)ActionCamPos.cpp" />
     <ClCompile Include="$(MSBuildThisFileDirectory)Arrow.cpp" />
     <ClCompile Include="$(MSBuildThisFileDirectory)CameraState.cpp" />
     <ClCompile Include="$(MSBuildThisFileDirectory)Character.cpp" />
     <ClCompile Include="$(MSBuildThisFileDirectory)CharacterController.cpp" />
+    <ClCompile Include="$(MSBuildThisFileDirectory)ClearObject.cpp" />
     <ClCompile Include="$(MSBuildThisFileDirectory)ClearStage.cpp" />
     <ClCompile Include="$(MSBuildThisFileDirectory)DXModel.cpp">
       <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">NotUsing</PrecompiledHeader>

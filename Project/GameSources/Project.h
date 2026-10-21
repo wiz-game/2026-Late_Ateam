@@ -23,6 +23,7 @@
 #include "Koban.h"
 #include "Enemy.h"
 #include "WayPoint.h"
+#include "ClearObject.h"
 
 // ステージ関係
 #include "GameStage.h"
@@ -45,4 +46,5 @@
 
 //演出関係
 #include "ActionCamera.h"
+#include "ActionCamPos.h"
 #include "Sprite.h"
