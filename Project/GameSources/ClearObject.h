@@ -1,4 +1,4 @@
-/*!
+﻿/*!
 @file ClearObject.h
 @brief ゴールなど
 */

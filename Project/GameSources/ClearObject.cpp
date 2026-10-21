@@ -1,4 +1,4 @@
-/*!
+﻿/*!
 @file ClearObject.cpp
 @brief ゴールなど実体
 */
