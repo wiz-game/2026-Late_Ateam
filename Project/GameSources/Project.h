@@ -21,8 +21,8 @@
 #include "Ground.h"
 #include "Wall.h"
 #include "Koban.h"
-
 #include "Enemy.h"
+#include "WayPoint.h"
 
 // ステージ関係
 #include "GameStage.h"
