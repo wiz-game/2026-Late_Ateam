@@ -7,7 +7,7 @@
 #include "Project.h"
 
 namespace basecross {
-	class Enemy : public GameObject
+	class Enemy : public GameObjectForEdit
 	{
 		std::shared_ptr<Transform> m_transComp; // トランスフォームはよく使うのでメンバにしておく
 		std::shared_ptr<PNTStaticDraw> m_drawComp; // ドローコンポーネント
@@ -44,8 +44,15 @@ namespace basecross {
 		EnemyState m_state = EnemyState::Patol; // 敵キャラクターの状態
 
 	public:
-		Enemy(const std::shared_ptr<Stage>& stage) :
-			GameObject(stage),
+		Enemy(const std::shared_ptr<Stage>& stage,
+			const Vec3& scale,
+			const Vec3& rot, 
+			const Vec3& pos
+		) :
+			GameObjectForEdit(stage),
+			m_pos(pos),
+			m_scale(scale),
+			m_rot(rot),
 			m_speed(5.0f)
 		{}
 		virtual ~Enemy()

@@ -166,4 +166,6 @@ namespace basecross {
 		m_pos += toTarget * m_CatchSpeed * delta;
 		m_transComp->SetPosition(m_pos);
 	}
+
+	REGISTER(Enemy, 4, L"Enemy");
 }
