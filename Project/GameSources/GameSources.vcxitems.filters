@@ -197,6 +197,7 @@
     </ClInclude>
     <ClInclude Include="$(MSBuildThisFileDirectory)ClearStage.h">
       <Filter>Stages\ClearStage</Filter>
+    </ClInclude>
     <ClInclude Include="$(MSBuildThisFileDirectory)Enemy.h">
       <Filter>Objects\Enemy</Filter>
     </ClInclude>
@@ -291,6 +292,7 @@
     </ClCompile>
     <ClCompile Include="$(MSBuildThisFileDirectory)ClearStage.cpp">
       <Filter>Stages\ClearStage</Filter>
+    </ClCompile>
     <ClCompile Include="$(MSBuildThisFileDirectory)Enemy.cpp">
       <Filter>Objects\Enemy</Filter>
     </ClCompile>

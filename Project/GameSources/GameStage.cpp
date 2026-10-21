@@ -20,9 +20,12 @@ namespace basecross {
 		camera->SetAt(Vec3(0.0f, 0.0f, 0.0f));
 		m_camera = camera;
 
+		auto actionCamera = ObjectFactory::Create<ActionCamera>();
+		m_actionCamera = actionCamera;
+
 		// ビューにカメラを設定
-		auto view = CreateView<SingleView>();
-		view->SetCamera(camera);
+		m_view = CreateView<SingleView>();
+		m_view->SetCamera(camera);
 
 		//マルチライトの作成
 		auto light = CreateLight<MultiLight>();
@@ -36,6 +39,8 @@ namespace basecross {
 
 		// カメラをプレイヤーに紐づけ
 		m_camera->SetTargetObject(player);
+
+		m_actionCamera->SetPleyer(player);
 
 		// プレイヤーを設定
 		SetSharedGameObject(L"Player", player);
@@ -91,15 +96,51 @@ namespace basecross {
 		// アプリケーションオブジェクトを取得
 		auto& app = App::GetApp();
 
+		TopActionCamera();
 	}
 
 	void GameStage::OnUpdate2()
 	{
 		m_jphManger.Update(1.0f / 60.0f);
+
 	}
 
 	void GameStage::OnDraw()
 	{
+	}
+
+	void GameStage::TopActionCamera()
+	{
+		static bool isActionCamera = false;
+		static bool oldXState = false;
+
+		XINPUT_STATE state{};
+
+		if (XInputGetState(0, &state) != ERROR_SUCCESS)
+		{
+			return;
+		}
+
+		bool xPressed =
+			(state.Gamepad.wButtons & XINPUT_GAMEPAD_X) != 0;
+
+		if (xPressed && !oldXState)
+		{
+			isActionCamera = !isActionCamera;
+
+			if (isActionCamera)
+			{
+				OutputDebugString(L"Action Camera\n");
+				m_view->SetCamera(m_actionCamera);
+			}
+			else
+			{
+				OutputDebugString(L"Normal Camera\n");
+				m_view->SetCamera(m_camera);
+			}
+		}
+
+		oldXState = xPressed;
 	}
 }
 //end basecross
