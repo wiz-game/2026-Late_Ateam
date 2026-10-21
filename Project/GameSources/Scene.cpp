@@ -15,26 +15,10 @@ namespace basecross{
 	///	ゲームシーン
 	//--------------------------------------------------------------------------------------
 	void Scene::CreateResourses() {
-		// アプリケーションオブジェクトを取得する
-		auto& app = App::GetApp();
 
-		// メディアフォルダーのパスを取得する
-		auto mediaPath = app->GetDataDirWString();
-
-		// テクスチャパス取得
-		auto texPath = mediaPath + L"Textures\\";
-		//ゲームタイトル文画像の登録
-		app->RegisterTexture(L"TEX_TITLE", texPath + L"Title.png");
-		//スタートボタン画像の登録
-		app->RegisterTexture(L"TEX_START", texPath + L"StartButton.png");
-		//クリア画像の登録
-		app->RegisterTexture(L"TEX_CLEAR", texPath + L"Clear.png");
-		//クリアボタン画像の登録
-		app->RegisterTexture(L"TEX_TITLEBACK", texPath + L"TitleBack.png");
-		//ゲームオーバー画像の登録
-		app->RegisterTexture(L"TEX_GAMEOVER", texPath + L"GameOver.png");
-		//ゲームオーバーボタン画像の登録
-		app->RegisterTexture(L"TEX_TITLBACK1", texPath + L"TitleBack1.png");
+		// リソース作成
+		LoadMedia loadMedia;
+		loadMedia.RegisterMediaFiles(App::GetApp()->GetDataDirWString());
 
 	}
 

@@ -55,10 +55,10 @@ namespace basecross {
 
 	}
 	void GameOverStage::CreateGameOverSprite() {
-		AddGameObject<Sprite>(L"TEX_GAMEOVER", false,
+		AddGameObject<Sprite>(L"GameOver", false,
 			Vec2(900, 350), Vec2(0.0f, 150.0f));
 
-		AddGameObject<Sprite>(L"TEX_TITLBACK1", false,
+		AddGameObject<Sprite>(L"TitleBack1", false,
 			Vec2(500, 150), Vec2(0.0f, -200.0f));
 
 		//auto Score = Player::DrawStrings();

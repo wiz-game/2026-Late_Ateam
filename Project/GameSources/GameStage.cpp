@@ -30,6 +30,10 @@ namespace basecross {
 		//マルチライトの作成
 		auto light = CreateLight<MultiLight>();
 		light->SetDefaultLighting(); //デフォルトのライティングを指定
+
+		// スカイボックスの作成
+		AddGameObject<SkyBox>();
+
 	}
 
 	void GameStage::CreatePlayer() 
@@ -76,6 +80,7 @@ namespace basecross {
 			LoadStage();			// ステージのロード	
 			AddGameObject<Editor>();// エディターの作成	
 //------------------------------------------------------------------------------------------
+
 		}
 		catch (...) {
 			throw;

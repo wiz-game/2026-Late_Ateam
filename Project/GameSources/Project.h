@@ -24,6 +24,7 @@
 #include "Enemy.h"
 #include "WayPoint.h"
 #include "ClearObject.h"
+#include "SkyBox.h"
 
 // ステージ関係
 #include "GameStage.h"
@@ -44,7 +45,10 @@
 // ステートマシン関係
 #include "CameraState.h"
 
-//演出関係
+// 演出関係
 #include "ActionCamera.h"
 #include "ActionCamPos.h"
 #include "Sprite.h"
+
+// その他
+#include "LoadMedia.h"

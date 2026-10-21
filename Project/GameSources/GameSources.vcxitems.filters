@@ -115,6 +115,12 @@
     <Filter Include="Objects\ClearObject">
       <UniqueIdentifier>{de241800-36c8-49de-a345-be7d2e248516}</UniqueIdentifier>
     </Filter>
+    <Filter Include="Objects\SkyBox">
+      <UniqueIdentifier>{d4bf0575-f9cd-40f8-9e2f-c9647e5a2228}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="LoadMedia">
+      <UniqueIdentifier>{5aead82d-6571-4407-8243-431ae567226a}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="$(MSBuildThisFileDirectory)PNTDXModelDraw.h">
@@ -222,6 +228,12 @@
     <ClInclude Include="$(MSBuildThisFileDirectory)ClearObject.h">
       <Filter>Objects\ClearObject</Filter>
     </ClInclude>
+    <ClInclude Include="$(MSBuildThisFileDirectory)SkyBox.h">
+      <Filter>Objects\SkyBox</Filter>
+    </ClInclude>
+    <ClInclude Include="$(MSBuildThisFileDirectory)LoadMedia.h">
+      <Filter>LoadMedia</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="$(MSBuildThisFileDirectory)PNTDXModelDraw.cpp">
@@ -325,6 +337,12 @@
     </ClCompile>
     <ClCompile Include="$(MSBuildThisFileDirectory)ClearObject.cpp">
       <Filter>Objects\ClearObject</Filter>
+    </ClCompile>
+    <ClCompile Include="$(MSBuildThisFileDirectory)SkyBox.cpp">
+      <Filter>Objects\SkyBox</Filter>
+    </ClCompile>
+    <ClCompile Include="$(MSBuildThisFileDirectory)LoadMedia.cpp">
+      <Filter>LoadMedia</Filter>
     </ClCompile>
   </ItemGroup>
 </Project>

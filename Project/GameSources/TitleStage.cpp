@@ -54,10 +54,10 @@ namespace basecross {
 
 	}
 	void TitleStage::CreateTitleSprite() {
-		AddGameObject<Sprite>(L"TEX_TITLE", false,
+		AddGameObject<Sprite>(L"Title", false,
 			Vec2(900, 350), Vec2(0.0f, 150.0f));
 
-		AddGameObject<Sprite>(L"TEX_START", false,
+		AddGameObject<Sprite>(L"StartButton", false,
 			Vec2(500, 150), Vec2(0.0f, -200.0f));
 
 		//auto Score = Player::DrawStrings();
