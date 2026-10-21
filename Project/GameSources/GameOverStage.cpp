@@ -32,6 +32,7 @@ namespace basecross {
 		try {
 			//ビューとライトの作成
 			CreateViewLight();
+			CreateGameOverSprite();
 
 		}
 		catch (...) {
@@ -43,5 +44,15 @@ namespace basecross {
 	{
 
 	}
+	void GameOverStage::CreateGameOverSprite() {
+		AddGameObject<Sprite>(L"TEX_GAMEOVER", false,
+			Vec2(900, 350), Vec2(0.0f, 150.0f));
+
+		AddGameObject<Sprite>(L"TEX_TITLBACK1", false,
+			Vec2(500, 150), Vec2(0.0f, -200.0f));
+
+		//auto Score = Player::DrawStrings();
+	}
+
 }
 //end basecross
