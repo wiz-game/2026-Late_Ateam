@@ -15,6 +15,9 @@ namespace basecross {
 	{
 		void CreateViewLight(); //ビューの作成
 
+		void CreateClearSprite();
+
+
 	public:
 		//構築と破棄
 		ClearStage() :Stage() {}

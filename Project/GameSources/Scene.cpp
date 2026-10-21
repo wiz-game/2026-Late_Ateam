@@ -27,6 +27,14 @@ namespace basecross{
 		app->RegisterTexture(L"TEX_TITLE", texPath + L"Title.png");
 		//ƒXƒ^[ƒgƒ{ƒ^ƒ“‰æ‘œ‚Ì“o˜^
 		app->RegisterTexture(L"TEX_START", texPath + L"StartButton.png");
+		//ƒNƒŠƒA‰æ‘œ‚Ì“o˜^
+		app->RegisterTexture(L"TEX_CLEAR", texPath + L"Clear.png");
+		//ƒNƒŠƒAƒ{ƒ^ƒ“‰æ‘œ‚Ì“o˜^
+		app->RegisterTexture(L"TEX_TITLEBACK", texPath + L"TitleBack.png");
+		//ƒQ[ƒ€ƒI[ƒo[‰æ‘œ‚Ì“o˜^
+		app->RegisterTexture(L"TEX_GAMEOVER", texPath + L"GameOver.png");
+		//ƒQ[ƒ€ƒI[ƒo[ƒ{ƒ^ƒ“‰æ‘œ‚Ì“o˜^
+		app->RegisterTexture(L"TEX_TITLBACK1", texPath + L"TitleBack1.png");
 
 	}
 

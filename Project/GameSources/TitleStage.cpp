@@ -32,6 +32,7 @@ namespace basecross {
 		try {
 			auto& app = App::GetApp();
 			CreateViewLight();
+			CreateTitleSprite();
 
 		}
 		catch (...) {
@@ -52,6 +53,16 @@ namespace basecross {
 		}
 
 	}
+	void TitleStage::CreateTitleSprite() {
+		AddGameObject<Sprite>(L"TEX_TITLE", false,
+			Vec2(900, 350), Vec2(0.0f, 150.0f));
+
+		AddGameObject<Sprite>(L"TEX_START", false,
+			Vec2(500, 150), Vec2(0.0f, -200.0f));
+
+		//auto Score = Player::DrawStrings();
+	}
+
 }
 
 

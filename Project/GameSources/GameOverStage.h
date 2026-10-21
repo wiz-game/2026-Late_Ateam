@@ -15,6 +15,8 @@ namespace basecross {
 	{
 		void CreateViewLight(); //ビューの作成
 
+		void CreateGameOverSprite();
+
 	public:
 		//構築と破棄
 		GameOverStage() :Stage() {}
