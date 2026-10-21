@@ -25,6 +25,7 @@
 #include "WayPoint.h"
 #include "ClearObject.h"
 #include "SkyBox.h"
+#include "InvisibleWall.h"
 
 // ステージ関係
 #include "GameStage.h"
