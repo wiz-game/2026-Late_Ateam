@@ -47,6 +47,11 @@ namespace basecross {
 				m_canClear = false;
 			}
 		}
+
+		if (Other->FindTag(L"Enemy"))
+		{
+			PostEvent(0.0f, GetThis<Player>(), scene, L"ToGameOverStage");
+		}
 	}
 
 	void Player::OnCollisionExecute(shared_ptr<GameObject>&Other)
