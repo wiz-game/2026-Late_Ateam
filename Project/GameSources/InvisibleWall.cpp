@@ -1,4 +1,4 @@
-/*!
+﻿/*!
 @file InvisibleWall.cpp
 @brief 侵入不可オブジェクトなど実体
 */

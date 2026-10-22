@@ -8,8 +8,8 @@
 
 namespace basecross {
 
-	ActionCamPos::ActionCamPos(const Vec3 postion,float radius)
-		: m_pos(postion), m_radius(radius)
+	ActionCamPos::ActionCamPos(const Vec3 postion,float radius, const Vec3& roomCenter)
+		: m_pos(postion), m_radius(radius), m_roomCenter(roomCenter)
 	{}
 
 	bool ActionCamPos::IsInRange(const Vec3& playerPos)

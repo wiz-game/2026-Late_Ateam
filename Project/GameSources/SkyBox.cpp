@@ -1,4 +1,4 @@
-/*!
+﻿/*!
 @file SkyBox.cpp
 @brief スカイボックス実体
 */
