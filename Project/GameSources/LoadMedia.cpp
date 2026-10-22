@@ -5,6 +5,7 @@
 
 #include "stdafx.h"
 #include "Project.h"
+#include "DXModelResource.h"
 
 namespace basecross
 {
@@ -84,6 +85,10 @@ namespace basecross
 					else if (ext == L".bmf")
 					{
 						RegisterSingleModel(registerName, Directory + L"\\", findFileData.cFileName);
+					}
+					else if (ext == L".dxm")
+					{
+						RegisterDXModel(registerName, fullPath);
 					}
 					else if (ext == L".wav")
 					{
@@ -170,5 +175,11 @@ namespace basecross
 			throw;
 		}
 
+	}
+
+	void LoadMedia::RegisterDXModel(const wstring& Key, const wstring& ModelPath)
+	{
+		auto dxmodel = dxm::DXModel::CreateFromFile(ModelPath);
+		DXModelResource::RegisterDXModel(Key, dxmodel);
 	}
 }
