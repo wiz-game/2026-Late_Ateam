@@ -1,4 +1,4 @@
-/*!
+﻿/*!
 @file LoadMedia.h
 @brief mediaファイルの読み込み実体
 */

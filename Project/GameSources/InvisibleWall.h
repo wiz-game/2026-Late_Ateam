@@ -1,4 +1,4 @@
-/*!
+﻿/*!
 @file InvisibleWall.h
 @brief 侵入不可オブジェクトなど
 */

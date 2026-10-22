@@ -1,4 +1,4 @@
-/*!
+﻿/*!
 @file SkyBox.h
 @brief スカイボックス
 */
