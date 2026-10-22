@@ -121,6 +121,15 @@
     <Filter Include="LoadMedia">
       <UniqueIdentifier>{5aead82d-6571-4407-8243-431ae567226a}</UniqueIdentifier>
     </Filter>
+    <Filter Include="Action\ActionCamPosData">
+      <UniqueIdentifier>{d3f99404-0a99-45b7-92b5-01b62c61c99d}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Objects\Floor">
+      <UniqueIdentifier>{ad377b74-ed3d-446c-9c01-bf5551789dbf}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Objects\InvisibleWall">
+      <UniqueIdentifier>{ebe41cfc-731f-4798-bb7c-81ce3faf4ad7}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="$(MSBuildThisFileDirectory)PNTDXModelDraw.h">
@@ -234,9 +243,15 @@
     <ClInclude Include="$(MSBuildThisFileDirectory)LoadMedia.h">
       <Filter>LoadMedia</Filter>
     </ClInclude>
-    <ClInclude Include="$(MSBuildThisFileDirectory)ActionCamPosData.h" />
-    <ClInclude Include="$(MSBuildThisFileDirectory)Floor.h" />
-    <ClInclude Include="$(MSBuildThisFileDirectory)InvisibleWall.h" />
+    <ClInclude Include="$(MSBuildThisFileDirectory)ActionCamPosData.h">
+      <Filter>Action\ActionCamPosData</Filter>
+    </ClInclude>
+    <ClInclude Include="$(MSBuildThisFileDirectory)Floor.h">
+      <Filter>Objects\Floor</Filter>
+    </ClInclude>
+    <ClInclude Include="$(MSBuildThisFileDirectory)InvisibleWall.h">
+      <Filter>Objects\InvisibleWall</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="$(MSBuildThisFileDirectory)PNTDXModelDraw.cpp">
@@ -347,8 +362,14 @@
     <ClCompile Include="$(MSBuildThisFileDirectory)LoadMedia.cpp">
       <Filter>LoadMedia</Filter>
     </ClCompile>
-    <ClCompile Include="$(MSBuildThisFileDirectory)ActionCamPosData.cpp" />
-    <ClCompile Include="$(MSBuildThisFileDirectory)Floor.cpp" />
-    <ClCompile Include="$(MSBuildThisFileDirectory)InvisibleWall.cpp" />
+    <ClCompile Include="$(MSBuildThisFileDirectory)ActionCamPosData.cpp">
+      <Filter>Action\ActionCamPosData</Filter>
+    </ClCompile>
+    <ClCompile Include="$(MSBuildThisFileDirectory)Floor.cpp">
+      <Filter>Objects\Floor</Filter>
+    </ClCompile>
+    <ClCompile Include="$(MSBuildThisFileDirectory)InvisibleWall.cpp">
+      <Filter>Objects\InvisibleWall</Filter>
+    </ClCompile>
   </ItemGroup>
 </Project>
