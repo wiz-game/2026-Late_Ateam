@@ -21,12 +21,10 @@ namespace basecross {
 
 	void Player::OnUpdate()
 	{
-		//Appとゲームパッドの取得
-		auto& app = App::GetApp();
-		auto pad = app->GetInputDevice().GetControlerVec()[0];
 
 		//プレイヤーの動き
 		NormalMove();
+
 	}
 
 	void Player::OnCollisionEnter(shared_ptr<GameObject>& Other)
