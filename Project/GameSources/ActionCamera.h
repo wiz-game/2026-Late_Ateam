@@ -26,6 +26,14 @@ namespace basecross {
 
 		void SetPleyer(const weak_ptr<Player>& player) { m_Player = player; }
 
+		void SetRoomCrnter(const Vec3& center)
+		{
+			m_roomCenter = center;
+		}
+
+	private:
+		Vec3 m_roomCenter;
+
 	};
 
 }

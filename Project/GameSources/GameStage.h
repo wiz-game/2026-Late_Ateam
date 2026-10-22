@@ -37,7 +37,6 @@ namespace basecross {
 		virtual void OnUpdate2() override;
 		virtual void OnDraw()override; //•`‰æ
 
-		void SettingCamPos();
 		void TopActionCamera();
 	};
 }
