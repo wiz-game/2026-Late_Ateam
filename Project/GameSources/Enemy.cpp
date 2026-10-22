@@ -37,6 +37,12 @@ namespace basecross {
 
 		//プレイヤーの取得
 		m_player = GetStage()->GetSharedGameObject<Player>(L"Player");
+
+		float inner = m_EyeAngle * 0.5f; //両眼の端
+		float outer = (std::min)(inner + m_AlertEyeAngle, 180.0f);//単眼の外端
+
+		m_innerCos = cosf(XMConvertToRadians(inner));
+		m_outerCos = cosf(XMConvertToRadians(outer));
 	}
 
 	void Enemy::OnUpdate()
@@ -56,12 +62,40 @@ namespace basecross {
 		case EnemyState::Patol:
 			UpdatePatol(delta);//巡回
 			wss << L"Patl";
-			//Enemyの視界にPlayerが入っていたらステートを警戒モードにする
+			//両眼視界に入っていたら捕獲モード
 			if (IsPlayerInSight(playerPos))
 			{
 				m_state = EnemyState::Chase;
 			}
+			//単眼視界に入っていたら警戒モード
+			else if (AlertEye(playerPos))
+			{
+				m_state = EnemyState::Alert;
+			}
+			else
+			{
+				m_state = EnemyState::Patol;
+			}
 			break;
+
+		case EnemyState::Alert:
+			wss << L"Alert";
+			if (IsPlayerInSight(playerPos))
+			{
+				m_state = EnemyState::Chase;
+			}
+			else if (AlertEye(playerPos))
+			{
+				//単眼視界に入っていたらEnemyの向きをPlayer方向にする
+				TurnPlayer(playerPos, delta);
+			}
+			else
+			{
+				//何もなければ巡回に戻る
+				m_state = EnemyState::Patol;
+			}
+			break;
+
 
 		case EnemyState::Chase:
 			UpdateChase(delta, playerPos);
@@ -74,20 +108,51 @@ namespace basecross {
 		app->GetScene<Scene>()->SetDebugString(wss.str());
 	}
 
-	//視界の描画用計算
-	Vec3 Enemy::RotateY(const Vec3& v, float angle)
-	{
-		float c = cosf(angle);
-		float s = sinf(angle);
+	////視界の描画用計算
+	//Vec3 Enemy::RotateY(const Vec3& v, float angle)
+	//{
+	//	float c = cosf(angle);
+	//	float s = sinf(angle);
 
-		return Vec3(
-			v.x * c + v.z * s,
-			v.y,
-			-v.x * s + v.z * c
-		);
+	//	return Vec3(
+	//		v.x * c + v.z * s,
+	//		v.y,
+	//		-v.x * s + v.z * c
+	//	);
+	//}
+
+	//m_forwardを見た目に反映
+	void Enemy::ApplyRotation()
+	{
+		float angleY = atan2(m_forward.x, m_forward.z);
+		m_transComp->SetRotation(Vec3(0.0f, angleY, 0.0f));
+	}
+	
+	//Player方向を向く関数
+	void Enemy::TurnPlayer(const Vec3& playerPos, float delta)
+	{
+		Vec3 toPlayer = playerPos - m_pos;
+		toPlayer.y = 0.0f;
+
+		if (toPlayer.length() < 0.01f) return;
+		toPlayer.normalize();
+
+		float current = atan2(m_forward.x, m_forward.z);
+		float target = atan2(toPlayer.x, toPlayer.z);
+
+		float diff = target - current;
+		while (diff > XM_PI) diff -= XM_2PI;
+		while (diff < -XM_PI) diff += XM_2PI;
+
+		float maxStep = m_turnSpeed * delta;
+		diff = std::clamp(diff, -maxStep, maxStep);
+
+		float newAngle = current + diff;
+		m_forward = Vec3(sinf(newAngle), 0.0f, cosf(newAngle));
+		ApplyRotation();
 	}
 
-	//視界の判定
+	//両眼視界（発見）の判定
 	bool Enemy::IsPlayerInSight(const Vec3& playerPos) const
 	{
 		//距離
@@ -103,15 +168,31 @@ namespace basecross {
 
 		toPlayer.normalize();
 		float dot = toPlayer.dot(m_forward);//内積:1に近いほど正面 -1は真後ろ
-		//角度をラジアンに変換
-		float halfAngle = XMConvertToRadians(m_EyeAngle * 0.5f);//正面を中心に半分ずつ
-		
-		//Playerへの方向と正面のずれが視界の範囲を超えていたら、見えていない
-		if (dot < cosf(halfAngle)) return false;
 
-		//どれにも当てはまらなければ見えている
-		return true;
+		return dot >= m_innerCos;
 	}
+
+	//単眼視界（警戒）の判定
+	bool Enemy::AlertEye(const Vec3& playerPos) const
+	{
+		//距離
+		Vec3 toPlayer = playerPos - m_pos;
+		toPlayer.y = 0.0f;	//高さは無視
+		float dist = toPlayer.length();
+
+		//Playerが視界範囲より遠いなら、見えていない（移行の処理はしない）
+		if (dist > m_EyeRenge) return false;
+
+		//ほぼ同じ位置にいるなら見えている
+		if (dist < 0.01f) return true;
+
+		toPlayer.normalize();
+		float dot = toPlayer.dot(m_forward);
+
+		//両眼の外端かつ単眼の外端の内側
+		return dot < m_innerCos && dot >= m_outerCos;
+	}
+
 
 	//巡回関数
 	void Enemy::UpdatePatol(float delta)
@@ -145,8 +226,7 @@ namespace basecross {
 		m_transComp->SetPosition(m_pos);
 
 		//見た目も進行方向へ
-		float angleY = atan2(toTarget.x, toTarget.z);
-		m_transComp->SetRotation(Vec3(0.0f, angleY, 0.0f));
+		ApplyRotation();
 	}
 
 	//追跡関数
@@ -163,9 +243,9 @@ namespace basecross {
 		}
 
 		toTarget.normalize();
-		m_forward = toTarget;
 		m_pos += toTarget * m_CatchSpeed * delta;
 		m_transComp->SetPosition(m_pos);
+		TurnPlayer(playerPos, delta);
 	}
 
 }
