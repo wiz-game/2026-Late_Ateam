@@ -27,7 +27,5 @@ namespace basecross {
 
 	}
 
-	//REGISTER(Floor, 7, L"Floor");
-
 }
 //end basecross

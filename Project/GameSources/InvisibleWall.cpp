@@ -33,7 +33,5 @@ namespace basecross {
 		
 	}
 
-	//REGISTER(InvisibleWall, 6, L"InvisibleWall");
-
 }
 //end basecross
