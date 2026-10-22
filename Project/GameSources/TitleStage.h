@@ -1,4 +1,4 @@
-/*!
+﻿/*!
 @file TitleStage.h
 @brief ゲームステージ
 */
@@ -13,6 +13,9 @@ namespace basecross {	//--------------------------------------------------------
 	{
 
 		void CreateViewLight(); //ビューの作成
+
+		void CreateTitleSprite();
+
 
 	public:
 		//構築と破棄

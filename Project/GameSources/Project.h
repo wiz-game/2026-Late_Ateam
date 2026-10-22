@@ -20,9 +20,13 @@
 #include "MainCamera.h"
 #include "Ground.h"
 #include "Wall.h"
+#include "Floor.h"
 #include "Koban.h"
 #include "Enemy.h"
 #include "WayPoint.h"
+#include "ClearObject.h"
+#include "SkyBox.h"
+#include "InvisibleWall.h"
 
 // ステージ関係
 #include "GameStage.h"
@@ -43,6 +47,11 @@
 // ステートマシン関係
 #include "CameraState.h"
 
-//演出関係
+// 演出関係
 #include "ActionCamera.h"
+#include "ActionCamPos.h"
+#include "ActionCamPosData.h"
 #include "Sprite.h"
+
+// その他
+#include "LoadMedia.h"

@@ -24,16 +24,53 @@ namespace basecross {
 		//Appとゲームパッドの取得
 		auto& app = App::GetApp();
 		auto pad = app->GetInputDevice().GetControlerVec()[0];
+
 		//プレイヤーの動き
 		NormalMove();
+	}
+
+	void Player::OnCollisionEnter(shared_ptr<GameObject>& Other)
+	{
+		auto& app = App::GetApp();
+		auto scene = app->GetScene<Scene>();
+
+		if (Other->FindTag(L"Koban"))
+		{
+			m_canClear = true;
+		}
+
+		if (Other->FindTag(L"ClearObject"))
+		{
+			if (m_canClear == true)
+			{
+				PostEvent(0.0f, GetThis<Player>(), scene, L"ToClearStage");
+				m_canClear = false;
+			}
+		}
+
+		if (Other->FindTag(L"Enemy"))
+		{
+			PostEvent(0.0f, GetThis<Player>(), scene, L"ToGameOverStage");
+		}
+	}
+
+	void Player::OnCollisionExecute(shared_ptr<GameObject>&Other)
+	{
+		
+	}
+
+	void Player::OnCollisionExit(shared_ptr<GameObject>&Other)
+	{
+		
 	}
 
 	bool Player::IsJampPressed()
 	{
 		auto& app = App::GetApp();
 		auto pad = app->GetInputDevice().GetControlerVec()[0];
+		auto key = app->GetInputDevice().GetKeyState();
 
-		return (pad.wPressedButtons & XINPUT_GAMEPAD_A);
+		return (pad.wPressedButtons & XINPUT_GAMEPAD_A || key.m_bPressedKeyTbl[VK_SPACE]);
 
 	}
 
@@ -53,7 +90,7 @@ namespace basecross {
 	// Transformコンポーネントの初期化
 	void Player::InitTransComp()
 	{
-		Vec3 pos = Vec3(0.0f, 5.0f, 0.0f);
+		Vec3 pos = Vec3(0.0f, 0.0f, 0.0f);
 		Vec3 rot;
 
 		m_prevY = pos.y;

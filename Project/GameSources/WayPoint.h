@@ -1,4 +1,4 @@
-/*!
+﻿/*!
 @file WayPoint.h
 @brief WayPointなど
 */

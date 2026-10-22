@@ -1,4 +1,4 @@
-/*!
+﻿/*!
 @file Koban.h
 @brief キャラクターなど
 */
@@ -15,6 +15,8 @@ namespace basecross {
 	class Koban : public GameObjectForEdit
 	{
 	private:
+		std::weak_ptr<Player> m_player;	//Player
+
 		Vec3 m_Scale;
 		Vec3 m_Rotation;
 		Vec3 m_Position;
@@ -38,6 +40,7 @@ namespace basecross {
 		virtual void OnCreate() override; // 初期化
 		virtual void OnUpdate() override; // 更新
 		//virtual void OnDraw() override; // 描画
+
 	};
 
 }

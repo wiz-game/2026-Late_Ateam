@@ -44,6 +44,9 @@ namespace basecross {
         // ステージナンバー
         int m_stageNum;
 
+        // プレイヤー
+        std::weak_ptr<Player> m_player;	//Player
+
         // XYZ矢印
         weak_ptr<GameObject> m_arrow;
 

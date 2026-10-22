@@ -30,6 +30,10 @@ namespace basecross {
 		//マルチライトの作成
 		auto light = CreateLight<MultiLight>();
 		light->SetDefaultLighting(); //デフォルトのライティングを指定
+
+		// スカイボックスの作成
+		AddGameObject<SkyBox>();
+
 	}
 
 	void GameStage::CreatePlayer() 
@@ -71,11 +75,14 @@ namespace basecross {
 			// ビューとライトの作成
 			CreateViewLight();
 
+			SettingCamPos();
+
 //----<Editor>------------------------------------------------------------------------------
 			CreatePlayer();			// プレイヤーの作成	
 			LoadStage();			// ステージのロード	
 			AddGameObject<Editor>();// エディターの作成	
 //------------------------------------------------------------------------------------------
+
 		}
 		catch (...) {
 			throw;
@@ -100,10 +107,37 @@ namespace basecross {
 	{
 	}
 
+//----------------------------<アクションカメラ関係>----------------------------------------------
+
+	void GameStage::SettingCamPos()
+	{
+		m_acPostionList.emplace_back(
+			Vec3(2.0f, 2.0f, 1.5f), 10.0f
+		);      //X軸　Y軸　　Z軸　　反応位置
+	}
+
 	void GameStage::TopActionCamera()
 	{
 		static bool isActionCamera = false;
 		static bool oldXState = false;
+
+		auto playMove = std::dynamic_pointer_cast<Player>(GetSharedObject(L"Player", false));
+
+		if (!playMove)
+		{
+			return;
+
+		}bool canUseActionCamera = false;
+
+		for (auto& trigger : m_acPostionList)
+		{
+			if (trigger.IsInRange(playMove->GetComponent<Transform>()->GetPosition()))
+			{
+				OutputDebugString(L"In Range!\n");
+				canUseActionCamera = true;
+				break;
+			}
+		}
 
 		XINPUT_STATE state{};
 
@@ -115,17 +149,19 @@ namespace basecross {
 		bool xPressed =
 			(state.Gamepad.wButtons & XINPUT_GAMEPAD_X) != 0;
 
-		if (xPressed && !oldXState)
+		if (canUseActionCamera && xPressed && !oldXState)
 		{
 			isActionCamera = !isActionCamera;
 
 			if (isActionCamera)
 			{
+				playMove->SetPlayerUpdateActive(false);
 				OutputDebugString(L"Action Camera\n");
 				m_view->SetCamera(m_actionCamera);
 			}
 			else
 			{
+				playMove->SetPlayerUpdateActive(true);
 				OutputDebugString(L"Normal Camera\n");
 				m_view->SetCamera(m_camera);
 			}

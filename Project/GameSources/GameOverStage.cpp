@@ -1,4 +1,4 @@
-/*!
+﻿/*!
 @file GameOverStage.cpp
 @brief ゲームオーバーステージ実体
 */
@@ -32,6 +32,7 @@ namespace basecross {
 		try {
 			//ビューとライトの作成
 			CreateViewLight();
+			CreateGameOverSprite();
 
 		}
 		catch (...) {
@@ -41,7 +42,27 @@ namespace basecross {
 
 	void GameOverStage::OnUpdate()
 	{
+		auto& app = App::GetApp();
+		auto scene = app->GetScene<Scene>();
+
+		auto pad = app->GetInputDevice().GetControlerVec()[0];
+
+
+		if (pad.wPressedButtons & XINPUT_GAMEPAD_A || App::GetApp()->GetInputDevice().GetKeyState().m_bPressedKeyTbl[VK_SPACE])
+		{
+			PostEvent(0.0f, GetThis<GameOverStage>(), scene, L"ToTitleStage");
+		}
 
 	}
+	void GameOverStage::CreateGameOverSprite() {
+		AddGameObject<Sprite>(L"GameOver", false,
+			Vec2(900, 350), Vec2(0.0f, 150.0f));
+
+		AddGameObject<Sprite>(L"TitleBack1", false,
+			Vec2(500, 150), Vec2(0.0f, -200.0f));
+
+		//auto Score = Player::DrawStrings();
+	}
+
 }
 //end basecross

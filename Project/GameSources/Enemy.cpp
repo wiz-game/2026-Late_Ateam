@@ -1,4 +1,4 @@
-/*!
+﻿/*!
 @file Enemy.cpp
 @brief 敵キャラクターの実体
 */
@@ -27,6 +27,8 @@ namespace basecross {
 
 	void Enemy::OnCreate()
 	{
+		AddTag(L"Enemy");
+
 		//各コンポーネントの初期化
 		InitDrawComp();
 		InitTransComp();
@@ -101,7 +103,6 @@ namespace basecross {
 			break;
 
 		case EnemyState::Catch:
-			PostEvent(0.0f, GetThis<Enemy>(), scene, L"ToGameOverStage");
 			break;
 		}
 		app->GetScene<Scene>()->SetDebugString(wss.str());
@@ -247,5 +248,4 @@ namespace basecross {
 		TurnPlayer(playerPos, delta);
 	}
 
-	REGISTER(Enemy, 4, L"Enemy");
 }

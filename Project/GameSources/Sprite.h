@@ -14,11 +14,15 @@ namespace basecross {
 	//--------------------------------------------------------------------------------------
 	class Sprite : public GameObject
 	{
+		bool m_Trace;
+		Vec2 m_StartScale;
+		Vec2 m_StartPos;
+		wstring m_TextureKey;
+
 	public:
 		// 構築と破棄
-		Sprite(const shared_ptr<Stage>& stage) :
-			GameObject(stage)
-		{}
+		Sprite(const shared_ptr<Stage>& StagePtr, const wstring& TextureKey, bool Trace,
+			const Vec2& StartScale, const Vec2& StartPos);
 		virtual ~Sprite()
 		{}
 

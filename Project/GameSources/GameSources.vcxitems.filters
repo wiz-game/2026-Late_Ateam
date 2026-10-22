@@ -106,6 +106,30 @@
     <Filter Include="Objects\WayPoint">
       <UniqueIdentifier>{c701980d-fdf1-4806-84cf-127850918743}</UniqueIdentifier>
     </Filter>
+    <Filter Include="Action\ActionCamera">
+      <UniqueIdentifier>{f1161ae9-97f8-4b3b-8b5a-34122551bcdb}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Action\ActionCamPos">
+      <UniqueIdentifier>{18772894-187b-4536-883f-38d053614cc8}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Objects\ClearObject">
+      <UniqueIdentifier>{de241800-36c8-49de-a345-be7d2e248516}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Objects\SkyBox">
+      <UniqueIdentifier>{d4bf0575-f9cd-40f8-9e2f-c9647e5a2228}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="LoadMedia">
+      <UniqueIdentifier>{5aead82d-6571-4407-8243-431ae567226a}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Action\ActionCamPosData">
+      <UniqueIdentifier>{d3f99404-0a99-45b7-92b5-01b62c61c99d}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Objects\Floor">
+      <UniqueIdentifier>{ad377b74-ed3d-446c-9c01-bf5551789dbf}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Objects\InvisibleWall">
+      <UniqueIdentifier>{ebe41cfc-731f-4798-bb7c-81ce3faf4ad7}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="$(MSBuildThisFileDirectory)PNTDXModelDraw.h">
@@ -189,9 +213,6 @@
     <ClInclude Include="$(MSBuildThisFileDirectory)Koban.h">
       <Filter>Objects\Koban</Filter>
     </ClInclude>
-    <ClInclude Include="$(MSBuildThisFileDirectory)ActionCamera.h">
-      <Filter>Action</Filter>
-    </ClInclude>
     <ClInclude Include="$(MSBuildThisFileDirectory)Sprite.h">
       <Filter>UI</Filter>
     </ClInclude>
@@ -206,6 +227,30 @@
     </ClInclude>
     <ClInclude Include="$(MSBuildThisFileDirectory)WayPoint.h">
       <Filter>Objects\WayPoint</Filter>
+    </ClInclude>
+    <ClInclude Include="$(MSBuildThisFileDirectory)ActionCamera.h">
+      <Filter>Action\ActionCamera</Filter>
+    </ClInclude>
+    <ClInclude Include="$(MSBuildThisFileDirectory)ActionCamPos.h">
+      <Filter>Action\ActionCamPos</Filter>
+    </ClInclude>
+    <ClInclude Include="$(MSBuildThisFileDirectory)ClearObject.h">
+      <Filter>Objects\ClearObject</Filter>
+    </ClInclude>
+    <ClInclude Include="$(MSBuildThisFileDirectory)SkyBox.h">
+      <Filter>Objects\SkyBox</Filter>
+    </ClInclude>
+    <ClInclude Include="$(MSBuildThisFileDirectory)LoadMedia.h">
+      <Filter>LoadMedia</Filter>
+    </ClInclude>
+    <ClInclude Include="$(MSBuildThisFileDirectory)ActionCamPosData.h">
+      <Filter>Action\ActionCamPosData</Filter>
+    </ClInclude>
+    <ClInclude Include="$(MSBuildThisFileDirectory)Floor.h">
+      <Filter>Objects\Floor</Filter>
+    </ClInclude>
+    <ClInclude Include="$(MSBuildThisFileDirectory)InvisibleWall.h">
+      <Filter>Objects\InvisibleWall</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
@@ -287,9 +332,6 @@
     <ClCompile Include="$(MSBuildThisFileDirectory)Koban.cpp">
       <Filter>Objects\Koban</Filter>
     </ClCompile>
-    <ClCompile Include="$(MSBuildThisFileDirectory)ActionCamera.cpp">
-      <Filter>Action</Filter>
-    </ClCompile>
     <ClCompile Include="$(MSBuildThisFileDirectory)Sprite.cpp">
       <Filter>UI</Filter>
     </ClCompile>
@@ -304,6 +346,30 @@
     </ClCompile>
     <ClCompile Include="$(MSBuildThisFileDirectory)WayPoint.cpp">
       <Filter>Objects\WayPoint</Filter>
+    </ClCompile>
+    <ClCompile Include="$(MSBuildThisFileDirectory)ActionCamera.cpp">
+      <Filter>Action\ActionCamera</Filter>
+    </ClCompile>
+    <ClCompile Include="$(MSBuildThisFileDirectory)ActionCamPos.cpp">
+      <Filter>Action\ActionCamPos</Filter>
+    </ClCompile>
+    <ClCompile Include="$(MSBuildThisFileDirectory)ClearObject.cpp">
+      <Filter>Objects\ClearObject</Filter>
+    </ClCompile>
+    <ClCompile Include="$(MSBuildThisFileDirectory)SkyBox.cpp">
+      <Filter>Objects\SkyBox</Filter>
+    </ClCompile>
+    <ClCompile Include="$(MSBuildThisFileDirectory)LoadMedia.cpp">
+      <Filter>LoadMedia</Filter>
+    </ClCompile>
+    <ClCompile Include="$(MSBuildThisFileDirectory)ActionCamPosData.cpp">
+      <Filter>Action\ActionCamPosData</Filter>
+    </ClCompile>
+    <ClCompile Include="$(MSBuildThisFileDirectory)Floor.cpp">
+      <Filter>Objects\Floor</Filter>
+    </ClCompile>
+    <ClCompile Include="$(MSBuildThisFileDirectory)InvisibleWall.cpp">
+      <Filter>Objects\InvisibleWall</Filter>
     </ClCompile>
   </ItemGroup>
 </Project>

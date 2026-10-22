@@ -27,7 +27,7 @@ namespace basecross {
 
 	}
 
-	REGISTER(Ground, 1, L"Ground");
+	//REGISTER(Ground, 1, L"Ground");
 
 }
 //end basecross
