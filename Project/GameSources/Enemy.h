@@ -20,8 +20,14 @@ namespace basecross {
 
 		float m_speed = 5.0f;		// 移動の速さ
 
-		float m_EyeRenge = 10.0f;	// 視野範囲
-		float m_EyeAngle = 60.0f;	// 視野角度
+		float m_EyeRenge = 20.0f;	// 視野範囲
+		float m_EyeAngle = 80.0f;	// 視野角度
+		float m_AlertEyeAngle = 50.0f;	//警戒視界の角度
+
+		float m_innerCos = 0.0f;
+		float m_outerCos = 0.0f;
+
+		float m_turnSpeed = 2.0f;	//回転速度
 
 		float m_CatchSpeed = 8.0f;	// 追跡時の速さ
 		float m_CatchRenge = 1.0f;	// 捕獲範囲
@@ -60,8 +66,11 @@ namespace basecross {
 		virtual void OnCreate() override;
 		virtual void OnUpdate() override;
 
-		Vec3 RotateY(const Vec3& v, float angle);//視界の描画
-		bool IsPlayerInSight(const Vec3& playerPos) const;//視界の判定
+		//Vec3 RotateY(const Vec3& v, float angle);//視界の描画
+		bool IsPlayerInSight(const Vec3& playerPos) const;	//両眼視界（発見）の判定
+		bool AlertEye(const Vec3& playerPos) const;			//単眼視界（警戒）の判定
+		void TurnPlayer(const Vec3& playerPos, float delta);//Player方向を向く関数
+		void ApplyRotation();	//m_forwardを見た目に反映
 
 		void UpdatePatol(float delta);//巡回関数
 		void UpdateChase(float delta, const Vec3& playerPos);//追跡関数
