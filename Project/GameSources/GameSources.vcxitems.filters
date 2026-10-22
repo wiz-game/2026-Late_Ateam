@@ -234,6 +234,9 @@
     <ClInclude Include="$(MSBuildThisFileDirectory)LoadMedia.h">
       <Filter>LoadMedia</Filter>
     </ClInclude>
+    <ClInclude Include="$(MSBuildThisFileDirectory)ActionCamPosData.h" />
+    <ClInclude Include="$(MSBuildThisFileDirectory)Floor.h" />
+    <ClInclude Include="$(MSBuildThisFileDirectory)InvisibleWall.h" />
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="$(MSBuildThisFileDirectory)PNTDXModelDraw.cpp">
@@ -344,5 +347,8 @@
     <ClCompile Include="$(MSBuildThisFileDirectory)LoadMedia.cpp">
       <Filter>LoadMedia</Filter>
     </ClCompile>
+    <ClCompile Include="$(MSBuildThisFileDirectory)ActionCamPosData.cpp" />
+    <ClCompile Include="$(MSBuildThisFileDirectory)Floor.cpp" />
+    <ClCompile Include="$(MSBuildThisFileDirectory)InvisibleWall.cpp" />
   </ItemGroup>
 </Project>
