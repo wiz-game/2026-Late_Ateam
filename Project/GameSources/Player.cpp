@@ -14,9 +14,9 @@ namespace basecross {
 		InitDrawComp();
 		InitTransComp();
 
-		auto ptrColl = AddComponent<CollisionCapsule>();
+		auto ptrColl = AddComponent<CollisionSphere>();
 		//ptrColl->SetFixed(true);
-		//ptrColl->SetDrawActive(true);
+		ptrColl->SetDrawActive(true);
 	}
 
 	void Player::OnUpdate()
@@ -75,14 +75,24 @@ namespace basecross {
 	// Drawコンポーネントの初期化
 	void Player::InitDrawComp()
 	{
-		//m_drawComp = AddComponent<PNTDXModelDraw>();
-		m_drawComp = AddComponent<PNTStaticDraw>();
-		m_drawComp->SetMeshResource(L"DEFAULT_CAPSULE");
+		auto ptrDraw = AddComponent<PNTDXModelDraw>();
+		ptrDraw->SetMultiMeshResource(L"Player_NinjaCat");
 
 		// 影付け
 		auto shadowComp = AddComponent<Shadowmap>();
-		shadowComp->SetMeshResource(L"DEFAULT_CAPSULE");
-		//shadowComp->SetMultiMeshResource(L"MODEL_PLAYER_DX_NORMAL");
+		shadowComp->SetMultiMeshResource(L"Player_NinjaCat");
+
+		Mat4x4 span; // モデルとトランスフォームの間の差分行列
+		span.affineTransformation(
+			Vec3(0.5f, 0.5f, 0.5f),
+			Vec3(0.0f, 0.0f, 0.0f),
+			Vec3(0.0f, 0.0f, 0.0f),
+			Vec3(0.0f, -1.0f, 0.0f)
+
+		);
+
+		ptrDraw->SetMeshToTransformMatrix(span);
+
 	}
 
 	// Transformコンポーネントの初期化
