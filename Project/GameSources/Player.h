@@ -15,7 +15,7 @@ namespace basecross {
 		//std::shared_ptr<PNTDXModelDraw> m_drawComp; // ドローコンポーネント
 
 		float m_speed; // 移動の速さ
-		float m_scale = 1.0f; // プレイヤーのスケール
+		float m_scale = 0.5f; // プレイヤーのスケール
 
 		bool m_isGround = false;
 		bool m_canClear = false;
