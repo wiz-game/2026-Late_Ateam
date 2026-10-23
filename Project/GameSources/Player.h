@@ -24,6 +24,10 @@ namespace basecross {
 
 		float m_airControl = 0.1f;
 
+		static constexpr float COLL_RADIUS = 0.6f;  // カプセルの半径(幅は1.2)
+		static constexpr float COLL_LENGTH = 1.2f;  // 円筒部分の長さ(全長は 1.2 + 0.6×2 = 2.4)
+		float m_angleY = 0.0f;                      // プレイヤーの向き(下の理由で自前で保持)
+
 		void InitDrawComp(); // Drawコンポーネントの初期化
 		void InitTransComp(); // Transformコンポーネントの初期化
 
