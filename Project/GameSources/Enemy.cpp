@@ -38,9 +38,12 @@ namespace basecross {
 		//プレイヤーの取得
 		m_player = GetStage()->GetSharedGameObject<Player>(L"Player");
 
+
+		//角度は変わらないためOnCreateで実装
 		float inner = m_EyeAngle * 0.5f; //両眼の端
 		float outer = (std::min)(inner + m_AlertEyeAngle, 180.0f);//単眼の外端
 
+		//角度をcosにする（内積を使用するため）
 		m_innerCos = cosf(XMConvertToRadians(inner));
 		m_outerCos = cosf(XMConvertToRadians(outer));
 	}
@@ -128,20 +131,23 @@ namespace basecross {
 		m_transComp->SetRotation(Vec3(0.0f, angleY, 0.0f));
 	}
 	
-	//Player方向を向く関数
+	//Player方向をゆっくり向く関数
 	void Enemy::TurnPlayer(const Vec3& playerPos, float delta)
 	{
+		//Playerの方向を求める
 		Vec3 toPlayer = playerPos - m_pos;
 		toPlayer.y = 0.0f;
 
 		if (toPlayer.length() < 0.01f) return;
 		toPlayer.normalize();
 
-		float current = atan2(m_forward.x, m_forward.z);
-		float target = atan2(toPlayer.x, toPlayer.z);
+		//向きを角度に変換
+		float current = atan2(m_forward.x, m_forward.z);//現在敵が向いている角度
+		float target = atan2(toPlayer.x, toPlayer.z);	//本来向きたい角度
 
 		float diff = target - current;
-		while (diff > XM_PI) diff -= XM_2PI;
+		//-180°～+180°の範囲で収まるようにする
+		while (diff > XM_PI) diff -= XM_2PI;	//例）360°なら2π引く
 		while (diff < -XM_PI) diff += XM_2PI;
 
 		float maxStep = m_turnSpeed * delta;
@@ -169,6 +175,7 @@ namespace basecross {
 		toPlayer.normalize();
 		float dot = toPlayer.dot(m_forward);//内積:1に近いほど正面 -1は真後ろ
 
+		//両眼視界：角度 < 40°⇔ dot >= cos( 40°) = 0.5
 		return dot >= m_innerCos;
 	}
 
@@ -189,7 +196,7 @@ namespace basecross {
 		toPlayer.normalize();
 		float dot = toPlayer.dot(m_forward);
 
-		//両眼の外端かつ単眼の外端の内側
+		//単眼視界：40°< 角度 <= 90°⇔ cos( 90°) <= dot < cos( 40°)
 		return dot < m_innerCos && dot >= m_outerCos;
 	}
 
