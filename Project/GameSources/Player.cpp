@@ -14,8 +14,9 @@ namespace basecross {
 		InitDrawComp();
 		InitTransComp();
 
-		auto ptrColl = AddComponent<CollisionSphere>();
-		//ptrColl->SetFixed(true);
+		auto ptrColl = AddComponent<CollisionCapsule>();   // CollisionSphere から変更
+		ptrColl->SetMakedRadius(COLL_RADIUS);
+		ptrColl->SetMakedHeight(COLL_LENGTH);
 		ptrColl->SetDrawActive(true);
 	}
 
@@ -82,16 +83,15 @@ namespace basecross {
 		auto shadowComp = AddComponent<Shadowmap>();
 		shadowComp->SetMultiMeshResource(L"Player_NinjaCat");
 
-		Mat4x4 span; // モデルとトランスフォームの間の差分行列
-		span.affineTransformation(
-			Vec3(0.5f, 0.5f, 0.5f),
-			Vec3(0.0f, 0.0f, 0.0f),
-			Vec3(0.0f, 0.0f, 0.0f),
-			Vec3(0.0f, -1.0f, 0.0f)
-
-		);
-
+		Mat4x4 span, mT, mR;
+		span.scale(Vec3(0.5f));
+		mT.translation(Vec3(0.0f, -COLL_RADIUS, 0.0f));
+		Quat q; q.rotationX(-XM_PIDIV2);
+		mR.rotation(q);
+		span *= mT;
+		span *= mR;
 		ptrDraw->SetMeshToTransformMatrix(span);
+		shadowComp->SetMeshToTransformMatrix(span);        // 影にも同じ補正
 
 	}
 
@@ -99,7 +99,7 @@ namespace basecross {
 	void Player::InitTransComp()
 	{
 		Vec3 pos = Vec3(0.0f, 0.0f, 0.0f);
-		Vec3 rot;
+		Vec3 rot(XM_PIDIV2, 0.0f, 0.0f);
 
 		m_prevY = pos.y;
 
@@ -230,12 +230,11 @@ namespace basecross {
 		m_prevY = pos.y;
 
 		// プレイヤーの方向
-		float playerAngle = m_transComp->GetQuaternion().toRotVec().y;
-		if (inputVec.length() > 0.1f)playerAngle = atan2f(-(inputVec.x * sinf(m_cameraAngleY) + inputVec.z * cosf(m_cameraAngleY)), (inputVec.x * cosf(m_cameraAngleY) - inputVec.z * sinf(m_cameraAngleY))) - XM_PIDIV2;
+		if (inputVec.length() > 0.1f)
+			m_angleY = atan2f(-(inputVec.x * sinf(m_cameraAngleY) + inputVec.z * cosf(m_cameraAngleY)), (inputVec.x * cosf(m_cameraAngleY) - inputVec.z * sinf(m_cameraAngleY))) - XM_PIDIV2;
 
-		//プレイヤーの向きを変更
-		m_transComp->SetRotation(Vec3(0.0f, playerAngle, 0.0f));
-
+		//プレイヤーの向きを変更(先に90°倒し、そのあとY回転)
+		m_transComp->SetRotation(Vec3(XM_PIDIV2, m_angleY, 0.0f));
 		return false;
 	}
 
