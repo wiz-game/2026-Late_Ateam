@@ -17,7 +17,7 @@ namespace basecross {
 		auto ptrColl = AddComponent<CollisionCapsule>();   // CollisionSphere ‚©‚ç•ÏX
 		ptrColl->SetMakedRadius(COLL_RADIUS);
 		ptrColl->SetMakedHeight(COLL_LENGTH);
-		ptrColl->SetDrawActive(true);
+		ptrColl->SetDrawActive(false);
 	}
 
 	void Player::OnUpdate()
