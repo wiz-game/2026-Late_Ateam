@@ -130,6 +130,15 @@
     <Filter Include="Objects\InvisibleWall">
       <UniqueIdentifier>{ebe41cfc-731f-4798-bb7c-81ce3faf4ad7}</UniqueIdentifier>
     </Filter>
+    <Filter Include="Objects\Shouji">
+      <UniqueIdentifier>{134b0565-def6-4955-9e9a-7fd8f3452e31}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Objects\Andon">
+      <UniqueIdentifier>{6ebb7ca5-2cce-402b-82e1-a8cded926b73}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Objects\Tourou">
+      <UniqueIdentifier>{54573708-bbf9-441f-86d8-0d25cdf04c6f}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="$(MSBuildThisFileDirectory)PNTDXModelDraw.h">
@@ -252,6 +261,15 @@
     <ClInclude Include="$(MSBuildThisFileDirectory)InvisibleWall.h">
       <Filter>Objects\InvisibleWall</Filter>
     </ClInclude>
+    <ClInclude Include="$(MSBuildThisFileDirectory)Shouji.h">
+      <Filter>Objects\Shouji</Filter>
+    </ClInclude>
+    <ClInclude Include="$(MSBuildThisFileDirectory)Andon.h">
+      <Filter>Objects\Andon</Filter>
+    </ClInclude>
+    <ClInclude Include="$(MSBuildThisFileDirectory)Tourou.h">
+      <Filter>Objects\Tourou</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="$(MSBuildThisFileDirectory)PNTDXModelDraw.cpp">
@@ -370,6 +388,15 @@
     </ClCompile>
     <ClCompile Include="$(MSBuildThisFileDirectory)InvisibleWall.cpp">
       <Filter>Objects\InvisibleWall</Filter>
+    </ClCompile>
+    <ClCompile Include="$(MSBuildThisFileDirectory)Shouji.cpp">
+      <Filter>Objects\Shouji</Filter>
+    </ClCompile>
+    <ClCompile Include="$(MSBuildThisFileDirectory)Andon.cpp">
+      <Filter>Objects\Andon</Filter>
+    </ClCompile>
+    <ClCompile Include="$(MSBuildThisFileDirectory)Tourou.cpp">
+      <Filter>Objects\Tourou</Filter>
     </ClCompile>
   </ItemGroup>
 </Project>

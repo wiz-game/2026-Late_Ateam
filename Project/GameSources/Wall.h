@@ -1,6 +1,6 @@
 ﻿/*!
 @file Wall.h
-@brief キャラクターなど
+@brief 壁など
 */
 
 #pragma once
@@ -10,7 +10,7 @@ namespace basecross {
 
 
 	//--------------------------------------------------------------------------------------
-	//	class GenericSprite : public GameObject;
+	//	class Wall : public GameObjectForEdit;
 	//--------------------------------------------------------------------------------------
 	class Wall : public GameObjectForEdit
 	{
