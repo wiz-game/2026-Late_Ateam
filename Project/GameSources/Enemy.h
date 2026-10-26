@@ -7,11 +7,14 @@
 #include "Project.h"
 
 namespace basecross {
+	class WayPointManager;
+
 	class Enemy : public GameObjectForEdit
 	{
 		std::shared_ptr<Transform> m_transComp; // トランスフォームはよく使うのでメンバにしておく
 		std::shared_ptr<PNTStaticDraw> m_drawComp; // ドローコンポーネント
 		std::weak_ptr<Player> m_player;	//Player
+		std::weak_ptr<WayPointManager> m_wpManager;	//WayPointManager
 
 		Vec3 m_pos = Vec3(10.0f, 0.0f, 0.0f);	//位置
 		Vec3 m_scale = Vec3(1.0f, 1.0f, 1.0f);	//スケール
@@ -32,12 +35,14 @@ namespace basecross {
 		float m_CatchSpeed = 8.0f;	// 追跡時の速さ
 		float m_CatchRenge = 1.0f;	// 捕獲範囲
 
-		std::vector<Vec3> m_patrolPositions; //巡回ポイント
+		//std::vector<Vec3> m_patrolPositions; //巡回ポイント
 		size_t m_currentIndex = 0;		//今向かっているポイントの番号
 		float m_arriveDistance = 0.5f;	//到着したとみなす距離
 
 		void InitDrawComp(); // Drawコンポーネントの初期化
 		void InitTransComp(); // Transformコンポーネントの初期化
+
+		int m_groupId = 0;	//どのウェイポイントか判定するID
 
 		enum class EnemyState
 		{
@@ -75,12 +80,22 @@ namespace basecross {
 		void UpdatePatol(float delta);//巡回関数
 		void UpdateChase(float delta, const Vec3& playerPos);//追跡関数
 
-		void SetEnemyPoint(const std::vector<Vec3>& points)
+		//void SetEnemyPoint(const std::vector<Vec3>& points)
+		//{
+		//	m_patrolPositions = points;
+		//	m_currentIndex = 0;
+		//	//if (!points.empty()) m_pos = points[0];
+		//	//m_transComp->SetPosition(m_pos);
+		//}
+
+		int GetGroupID() const
 		{
-			m_patrolPositions = points;
-			m_currentIndex = 0;
-			//if (!points.empty()) m_pos = points[0];
-			//m_transComp->SetPosition(m_pos);
+			return m_groupId;
+		}
+
+		void SetGroupID(int id)
+		{
+			m_groupId = id;
 		}
 	};
 }

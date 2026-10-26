@@ -79,10 +79,13 @@ namespace basecross {
 
 //----<Editor>------------------------------------------------------------------------------
 			CreatePlayer();			// プレイヤーの作成	
+			auto mgr = AddGameObject<WayPointManager>();
+			SetSharedGameObject(L"WayPointManager", mgr);
 			LoadStage();			// ステージのロード	
 			AddGameObject<Editor>();// エディターの作成	
 //------------------------------------------------------------------------------------------
 
+			mgr->Rebuild();
 		}
 		catch (...) {
 			throw;

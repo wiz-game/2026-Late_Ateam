@@ -37,7 +37,7 @@ namespace basecross {
 
 		//プレイヤーの取得
 		m_player = GetStage()->GetSharedGameObject<Player>(L"Player");
-
+		m_wpManager = GetStage()->GetSharedGameObject<WayPointManager>(L"WayPointManager");
 
 		//角度は変わらないためOnCreateで実装
 		float inner = m_EyeAngle * 0.5f; //両眼の端
@@ -68,12 +68,12 @@ namespace basecross {
 			//両眼視界に入っていたら捕獲モード
 			if (IsPlayerInSight(playerPos))
 			{
-				m_state = EnemyState::Chase;
+				m_state = EnemyState::Patol;
 			}
 			//単眼視界に入っていたら警戒モード
 			else if (AlertEye(playerPos))
 			{
-				m_state = EnemyState::Alert;
+				m_state = EnemyState::Patol;
 			}
 			else
 			{
@@ -103,11 +103,29 @@ namespace basecross {
 		case EnemyState::Chase:
 			UpdateChase(delta, playerPos);
 			wss << L"Chase";
+
+			//両眼視界に入っていたら捕獲モード
+			if (IsPlayerInSight(playerPos))
+			{
+				m_state = EnemyState::Chase;
+			}
+			//単眼視界に入っていたら警戒モード
+			else if (AlertEye(playerPos))
+			{
+				m_state = EnemyState::Alert;
+			}
+			else
+			{
+				m_state = EnemyState::Patol;
+			}
+
 			break;
 
 		case EnemyState::Catch:
 			break;
 		}
+
+		
 		app->GetScene<Scene>()->SetDebugString(wss.str());
 	}
 
@@ -204,32 +222,37 @@ namespace basecross {
 	//巡回関数
 	void Enemy::UpdatePatol(float delta)
 	{
-		if (m_patrolPositions.empty()) return;
+		auto mgr = m_wpManager.lock();
+		if (!mgr)
+		{
+			//m_wpManagerが空だったら再取得する
+			mgr = GetStage()->GetSharedGameObject<WayPointManager>(L"WayPointManager", false);
+			m_wpManager = mgr;
+			if (!mgr)return;
+		}
+
+		size_t count = mgr->GetCount(m_groupId);
+		if (count == 0)return;
+
+		if (m_currentIndex >= count) m_currentIndex = 0;//WayPointが減った場合の保険
 
 		Vec3 pos = m_transComp->GetPosition();
-		Vec3 target = m_patrolPositions[m_currentIndex];
-
-		Vec3 toTarget = target - pos;	//現在の位置から目的地まで
+		Vec3 toTarget = mgr->GetPoint(m_groupId,m_currentIndex) - pos;//現在の位置から目的地まで
 		toTarget.y = 0.0f;				//水平方向だけで判定
 		float dist = toTarget.length();
 
 		//ある程度目的地に到着したら次のポイントへ
 		if (dist < m_arriveDistance)
 		{
-			m_currentIndex++;
-
-			//最後のポイントまで行ったらポイント０に戻る
-			if (m_currentIndex >= m_patrolPositions.size())
-			{
-				m_currentIndex = 0;
-			}
+			//最後まで行ったら最初のWayPointに戻る
+			m_currentIndex = (m_currentIndex + 1) % count;
 			return;
 		}
 
 		//目的地に向かって移動
 		toTarget.normalize();
 		m_forward = toTarget;	//向きを更新
-		m_pos += toTarget * m_speed * delta;
+		m_pos = pos + toTarget * m_speed * delta;
 		m_transComp->SetPosition(m_pos);
 
 		//見た目も進行方向へ
