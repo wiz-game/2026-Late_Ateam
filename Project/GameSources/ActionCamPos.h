@@ -32,7 +32,8 @@ namespace basecross {
 			GameObjectForEdit(stage),
 			m_pos(Position),
 			m_scale(Scale),
-			m_roomCenter(Rotation)
+			m_roomCenter(Rotation),
+			m_radius(Scale.x)
 		{
 		}
 

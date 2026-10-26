@@ -27,6 +27,7 @@ namespace basecross {
 		Vec3 diff = playerPos - pos;
 
 		return diff.length() <= m_radius;
+		OutputDebugString(L"IsInRange\n");
 	}
 }
 //end basecross

@@ -125,7 +125,7 @@ namespace basecross {
 
 		auto triggerList = GetGameObjectVec();
 		auto playMove = std::dynamic_pointer_cast<Player>(GetSharedObject(L"Player", false));
-
+		
 		if (!playMove)
 		{
 			return;
@@ -135,12 +135,20 @@ namespace basecross {
 		ActionCamPos* currentTrigger = nullptr;
 		bool canUseActionCamera = false;
 
-		for (auto& trigger : m_acPostionList)
+		auto& objList= GetGameObjectVec();
+
+		for (auto& obj : objList)
 		{
-			if (trigger.IsInRange(playMove->GetComponent<Transform>()->GetPosition()))
+			auto trigger = std::dynamic_pointer_cast<ActionCamPos>(obj);
+			if (!trigger)
+			{
+				continue;
+			}
+
+			if (trigger->IsInRange(playMove->GetComponent<Transform>()->GetPosition()))
 			{
 				OutputDebugString(L"In Range!\n");
-				currentTrigger = &trigger;
+				currentTrigger = trigger.get();
 				canUseActionCamera = true;
 				break;
 			}
