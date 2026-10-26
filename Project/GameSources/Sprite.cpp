@@ -41,5 +41,24 @@ namespace basecross {
 
 	}
 
+	void Sprite::OnUpdate() {
+		if (m_Selected) {
+			float ElapsedTime = App::GetApp()->GetElapsedTime();
+			m_TotalTime += ElapsedTime * 5.0f;
+			if (m_TotalTime >= XM_2PI) {
+				m_TotalTime = 0;
+			}
+			auto PtrDraw = GetComponent<PCTSpriteDraw>();
+			Col4 col(1.0, 1.0, 1.0, 1.0);
+			col.w = sin(m_TotalTime) * 0.5f + 0.5f;
+			PtrDraw->SetDiffuse(col);
+		}
+		else {
+			auto PtrDraw = GetComponent<PCTSpriteDraw>();
+			Col4 col(1.0, 1.0, 1.0, 1.0);
+			PtrDraw->SetDiffuse(col);
+		}
+	}
+
 }
 //end basecross
