@@ -14,19 +14,18 @@ namespace basecross {
 		InitDrawComp();
 		InitTransComp();
 
-		auto ptrColl = AddComponent<CollisionCapsule>();
-		//ptrColl->SetFixed(true);
-		//ptrColl->SetDrawActive(true);
+		auto ptrColl = AddComponent<CollisionCapsule>();   // CollisionSphere から変更
+		ptrColl->SetMakedRadius(COLL_RADIUS);
+		ptrColl->SetMakedHeight(COLL_LENGTH);
+		ptrColl->SetDrawActive(false);
 	}
 
 	void Player::OnUpdate()
 	{
-		//Appとゲームパッドの取得
-		auto& app = App::GetApp();
-		auto pad = app->GetInputDevice().GetControlerVec()[0];
 
 		//プレイヤーの動き
 		NormalMove();
+
 	}
 
 	void Player::OnCollisionEnter(shared_ptr<GameObject>& Other)
@@ -77,21 +76,30 @@ namespace basecross {
 	// Drawコンポーネントの初期化
 	void Player::InitDrawComp()
 	{
-		//m_drawComp = AddComponent<PNTDXModelDraw>();
-		m_drawComp = AddComponent<PNTStaticDraw>();
-		m_drawComp->SetMeshResource(L"DEFAULT_CAPSULE");
+		auto ptrDraw = AddComponent<PNTDXModelDraw>();
+		ptrDraw->SetMultiMeshResource(L"Player_NinjaCat");
 
 		// 影付け
 		auto shadowComp = AddComponent<Shadowmap>();
-		shadowComp->SetMeshResource(L"DEFAULT_CAPSULE");
-		//shadowComp->SetMultiMeshResource(L"MODEL_PLAYER_DX_NORMAL");
+		shadowComp->SetMultiMeshResource(L"Player_NinjaCat");
+
+		Mat4x4 span, mT, mR;
+		span.scale(Vec3(0.5f));
+		mT.translation(Vec3(0.0f, -COLL_RADIUS, 0.0f));
+		Quat q; q.rotationX(-XM_PIDIV2);
+		mR.rotation(q);
+		span *= mT;
+		span *= mR;
+		ptrDraw->SetMeshToTransformMatrix(span);
+		shadowComp->SetMeshToTransformMatrix(span);        // 影にも同じ補正
+
 	}
 
 	// Transformコンポーネントの初期化
 	void Player::InitTransComp()
 	{
 		Vec3 pos = Vec3(0.0f, 0.0f, 0.0f);
-		Vec3 rot;
+		Vec3 rot(XM_PIDIV2, 0.0f, 0.0f);
 
 		m_prevY = pos.y;
 
@@ -222,12 +230,11 @@ namespace basecross {
 		m_prevY = pos.y;
 
 		// プレイヤーの方向
-		float playerAngle = m_transComp->GetQuaternion().toRotVec().y;
-		if (inputVec.length() > 0.1f)playerAngle = atan2f(-(inputVec.x * sinf(m_cameraAngleY) + inputVec.z * cosf(m_cameraAngleY)), (inputVec.x * cosf(m_cameraAngleY) - inputVec.z * sinf(m_cameraAngleY))) - XM_PIDIV2;
+		if (inputVec.length() > 0.1f)
+			m_angleY = atan2f(-(inputVec.x * sinf(m_cameraAngleY) + inputVec.z * cosf(m_cameraAngleY)), (inputVec.x * cosf(m_cameraAngleY) - inputVec.z * sinf(m_cameraAngleY))) - XM_PIDIV2;
 
-		//プレイヤーの向きを変更
-		m_transComp->SetRotation(Vec3(0.0f, playerAngle, 0.0f));
-
+		//プレイヤーの向きを変更(先に90°倒し、そのあとY回転)
+		m_transComp->SetRotation(Vec3(XM_PIDIV2, m_angleY, 0.0f));
 		return false;
 	}
 

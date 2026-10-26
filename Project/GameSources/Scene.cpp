@@ -28,6 +28,7 @@ namespace basecross{
 		REGISTER(Koban, 10, L"Koban");
 		REGISTER(Enemy, 11, L"Enemy");
 		REGISTER(ClearObject, 12, L"ClearObject");
+		REGISTER(ActionCamPos, 13, L"ActionCamPos");
 	}
 
 	void Scene::OnCreate(){

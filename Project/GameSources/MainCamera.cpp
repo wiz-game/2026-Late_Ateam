@@ -51,15 +51,12 @@ namespace basecross {
 		auto targetPos = trans->GetPosition();
 		auto point = device.GetKeyState().m_MouseClientPoint;
 
-		if (isEditor)
+		if (device.GetKeyState().m_bPushKeyTbl[VK_RBUTTON])
 		{
-			if (device.GetKeyState().m_bPushKeyTbl[VK_RBUTTON])
-			{
-				m_angleY -= XMConvertToRadians(point.x - m_pastPoint.x) / 6.0f;
-				m_angleX -= XMConvertToRadians(point.y - m_pastPoint.y) / 9.0f;
-			}
-			m_pastPoint = point;
+			m_angleY -= XMConvertToRadians(point.x - m_pastPoint.x) / 6.0f;
+			m_angleX -= XMConvertToRadians(point.y - m_pastPoint.y) / 9.0f;
 		}
+		m_pastPoint = point;
 
 		m_angleY -= XMConvertToRadians(135.0f) * delta * pad.fThumbRX;
 		m_angleX += XMConvertToRadians(90.0f) * delta * pad.fThumbRY;

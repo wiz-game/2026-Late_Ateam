@@ -1,4 +1,4 @@
-/*!
+﻿/*!
 @file InvisibleWall.cpp
 @brief 侵入不可オブジェクトなど実体
 */
@@ -32,8 +32,6 @@ namespace basecross {
 	{
 		
 	}
-
-	//REGISTER(InvisibleWall, 6, L"InvisibleWall");
 
 }
 //end basecross

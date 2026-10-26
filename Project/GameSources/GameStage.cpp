@@ -75,7 +75,16 @@ namespace basecross {
 			// ビューとライトの作成
 			CreateViewLight();
 
-			SettingCamPos();
+			//データから地点を生成
+			//auto cameraDatta = ActionCamInfo::Create();
+			//for (const auto& data : cameraDatta)
+			//{
+			//	m_acPostionList.emplace_back(
+			//		data.ActionPos,
+			//		data.Radius,
+			//		data.RoomCenter
+			//	);
+			//}
 
 //----<Editor>------------------------------------------------------------------------------
 			CreatePlayer();			// プレイヤーの作成	
@@ -112,31 +121,37 @@ namespace basecross {
 
 //----------------------------<アクションカメラ関係>----------------------------------------------
 
-	void GameStage::SettingCamPos()
-	{
-		m_acPostionList.emplace_back(
-			Vec3(2.0f, 2.0f, 1.5f), 10.0f
-		);      //X軸　Y軸　　Z軸　　反応位置
-	}
-
 	void GameStage::TopActionCamera()
 	{
 		static bool isActionCamera = false;
 		static bool oldXState = false;
 
+		auto triggerList = GetGameObjectVec();
 		auto playMove = std::dynamic_pointer_cast<Player>(GetSharedObject(L"Player", false));
-
+		
 		if (!playMove)
 		{
 			return;
 
-		}bool canUseActionCamera = false;
+		}
 
-		for (auto& trigger : m_acPostionList)
+		ActionCamPos* currentTrigger = nullptr;
+		bool canUseActionCamera = false;
+
+		auto& objList= GetGameObjectVec();
+
+		for (auto& obj : objList)
 		{
-			if (trigger.IsInRange(playMove->GetComponent<Transform>()->GetPosition()))
+			auto trigger = std::dynamic_pointer_cast<ActionCamPos>(obj);
+			if (!trigger)
+			{
+				continue;
+			}
+
+			if (trigger->IsInRange(playMove->GetComponent<Transform>()->GetPosition()))
 			{
 				OutputDebugString(L"In Range!\n");
+				currentTrigger = trigger.get();
 				canUseActionCamera = true;
 				break;
 			}
@@ -155,6 +170,11 @@ namespace basecross {
 		if (canUseActionCamera && xPressed && !oldXState)
 		{
 			isActionCamera = !isActionCamera;
+
+			if (currentTrigger)
+			{
+				m_actionCamera->SetRoomCrnter(currentTrigger->GetRoomCenter());
+			}
 
 			if (isActionCamera)
 			{

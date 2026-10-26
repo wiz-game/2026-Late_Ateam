@@ -22,8 +22,12 @@ namespace basecross{
 	private:
 		int m_StageNum; // ステージの番号
 		int m_loadStageNumber; // 読み込むステージの番号
+		bool m_isStartFirst;
+		Vec3 m_checkpointPos;
 
 		void CreateResourses();
+		int m_SrageNum;
+
 
 	public:
 		//--------------------------------------------------------------------------------------
@@ -31,7 +35,17 @@ namespace basecross{
 		@brief コンストラクタ
 		*/
 		//--------------------------------------------------------------------------------------
-		Scene() :SceneBase(){}
+		Scene() :SceneBase(),
+			m_SrageNum(1),
+			m_isStartFirst(true)
+		{}
+		int GetStageNum() const {
+			return m_SrageNum;
+		}
+		void SetStageNum(int i) {
+			m_SrageNum = i;
+		}
+
 		//--------------------------------------------------------------------------------------
 		/*!
 		@brief デストラクタ
@@ -58,6 +72,8 @@ namespace basecross{
 
 		// ロードするステージのナンバーを設定
 		void SetLoadStageNumber(int stagenumber) { m_loadStageNumber = stagenumber; }
+		void SetCheckpointPos(const Vec3& pos) { m_checkpointPos = pos; }
+		void SetIsFirstStart(bool b) { m_isStartFirst = b; }
 
 
 	};

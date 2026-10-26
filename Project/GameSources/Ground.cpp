@@ -12,6 +12,7 @@ namespace basecross {
 	void Ground::OnCreate()
 	{
 		auto ptrTransform = GetComponent<Transform>();
+		SetMemberRotation(m_Rotation);
 		ptrTransform->SetScale(m_Scale);
 		ptrTransform->SetRotation(m_Rotation);
 		ptrTransform->SetPosition(m_Position);
@@ -26,8 +27,6 @@ namespace basecross {
 		//ptrColl->SetDrawActive(true);
 
 	}
-
-	//REGISTER(Ground, 1, L"Ground");
 
 }
 //end basecross

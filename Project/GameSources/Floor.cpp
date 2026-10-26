@@ -1,4 +1,4 @@
-/*!
+﻿/*!
 @file Ground.cpp
 @brief キャラクターなど実体
 */
@@ -26,8 +26,6 @@ namespace basecross {
 		//ptrColl->SetDrawActive(true);
 
 	}
-
-	//REGISTER(Floor, 7, L"Floor");
 
 }
 //end basecross

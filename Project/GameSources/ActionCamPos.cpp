@@ -8,15 +8,26 @@
 
 namespace basecross {
 
-	ActionCamPos::ActionCamPos(const Vec3 postion,float radius)
-		: m_pos(postion), m_radius(radius)
-	{}
+	void ActionCamPos::OnCreate()
+	{
+		auto ptrTransform = GetComponent<Transform>();
+		ptrTransform->SetPosition(m_pos);
+		ptrTransform->SetScale(m_scale);
+		ptrTransform->SetRotation(m_roomCenter);
+
+		m_draw = AddComponent<PNTStaticDraw>();
+		m_draw->SetMeshResource(L"DEFAULT_SQUARE");
+		m_draw->SetEmissive(Col4(1.0f));
+	}
 
 	bool ActionCamPos::IsInRange(const Vec3& playerPos)
 	{
-		Vec3 diff = playerPos - m_pos;
+		auto pos = GetComponent<Transform>()->GetPosition();
+
+		Vec3 diff = playerPos - pos;
 
 		return diff.length() <= m_radius;
+		OutputDebugString(L"IsInRange\n");
 	}
 }
 //end basecross

@@ -23,8 +23,8 @@ namespace basecross {
 
 		auto& playerPos = player->GetComponent<Transform>()->GetWorldPosition();
 
-		SetEye(playerPos + m_TopOffset);
-		SetAt(playerPos);
+		SetEye(m_roomCenter + m_TopOffset);
+		SetAt(m_roomCenter);
 	}
 }
 //end basecross

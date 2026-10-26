@@ -69,6 +69,12 @@ namespace basecross {
 	}
 	void Arrow::CheckHitAnyArrow(const Vec3& start, const Vec3& end)
 	{
+		if (!IsDrawActive())
+		{
+			m_hitArrowNum = -1;
+			return;
+		}
+
 		for (int i = 0; i < 3; i++)
 		{
 			auto drawComp = m_arrows[i]->GetComponent<PCTStaticDraw>();
