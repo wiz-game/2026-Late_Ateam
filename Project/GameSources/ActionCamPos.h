@@ -11,18 +11,33 @@ namespace basecross {
 	//--------------------------------------------------------------------------------------
 	//	class ActionCamPos 
 	//--------------------------------------------------------------------------------------
-	class ActionCamPos
+	class ActionCamPos : public GameObjectForEdit
 	{
+		std::shared_ptr<PNTStaticDraw> m_draw;
+
 		Vec3 m_pos;
+		Vec3 m_roomCenter;
+		Vec3 m_cameraOffset;
+		Vec3 m_scale;
+
 		float m_radius;
 
-		Vec3 m_roomCenter;
 	public :
 		ActionCamPos(
-			const Vec3 postion,
-			float radius,
-			const Vec3& roomCenter
-		);
+			const shared_ptr<Stage>& stage,
+			const Vec3& Scale,
+			const Vec3& Rotation,
+			const Vec3& Position
+		) :
+			GameObjectForEdit(stage),
+			m_pos(Position),
+			m_scale(Scale),
+			m_roomCenter(Rotation),
+			m_radius(Scale.x)
+		{
+		}
+
+		virtual void OnCreate() override;
 
 		bool IsInRange(const Vec3& playerPos);
 

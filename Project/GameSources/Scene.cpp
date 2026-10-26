@@ -31,6 +31,7 @@ namespace basecross{
 		REGISTER(Koban, 10, L"¬”»");
 		REGISTER(Enemy, 11, L"“G");
 		REGISTER(ClearObject, 12, L"ƒS[ƒ‹");
+		REGISTER(ActionCamPos, 13, L"˜ëáÕ‹“_ƒJƒƒ‰");
 	}
 
 	void Scene::OnCreate(){
