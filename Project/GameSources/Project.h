@@ -24,6 +24,7 @@
 #include "Koban.h"
 #include "Enemy.h"
 #include "WayPoint.h"
+#include "WayPointManager.h"
 #include "ClearObject.h"
 #include "SkyBox.h"
 #include "InvisibleWall.h"

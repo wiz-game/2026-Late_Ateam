@@ -252,6 +252,9 @@
     <ClInclude Include="$(MSBuildThisFileDirectory)InvisibleWall.h">
       <Filter>Objects\InvisibleWall</Filter>
     </ClInclude>
+    <ClInclude Include="$(MSBuildThisFileDirectory)WayPointManager.h">
+      <Filter>Objects\WayPoint</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="$(MSBuildThisFileDirectory)PNTDXModelDraw.cpp">
@@ -370,6 +373,9 @@
     </ClCompile>
     <ClCompile Include="$(MSBuildThisFileDirectory)InvisibleWall.cpp">
       <Filter>Objects\InvisibleWall</Filter>
+    </ClCompile>
+    <ClCompile Include="$(MSBuildThisFileDirectory)WayPointManager.cpp">
+      <Filter>Objects\WayPoint</Filter>
     </ClCompile>
   </ItemGroup>
 </Project>

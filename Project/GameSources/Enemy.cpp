@@ -37,10 +37,13 @@ namespace basecross {
 
 		//プレイヤーの取得
 		m_player = GetStage()->GetSharedGameObject<Player>(L"Player");
+		m_wpManager = GetStage()->GetSharedGameObject<WayPointManager>(L"WayPointManager");
 
+		//角度は変わらないためOnCreateで実装
 		float inner = m_EyeAngle * 0.5f; //両眼の端
 		float outer = (std::min)(inner + m_AlertEyeAngle, 180.0f);//単眼の外端
 
+		//角度をcosにする（内積を使用するため）
 		m_innerCos = cosf(XMConvertToRadians(inner));
 		m_outerCos = cosf(XMConvertToRadians(outer));
 	}
@@ -65,12 +68,12 @@ namespace basecross {
 			//両眼視界に入っていたら捕獲モード
 			if (IsPlayerInSight(playerPos))
 			{
-				m_state = EnemyState::Chase;
+				m_state = EnemyState::Patol;
 			}
 			//単眼視界に入っていたら警戒モード
 			else if (AlertEye(playerPos))
 			{
-				m_state = EnemyState::Alert;
+				m_state = EnemyState::Patol;
 			}
 			else
 			{
@@ -100,11 +103,29 @@ namespace basecross {
 		case EnemyState::Chase:
 			UpdateChase(delta, playerPos);
 			wss << L"Chase";
+
+			//両眼視界に入っていたら捕獲モード
+			if (IsPlayerInSight(playerPos))
+			{
+				m_state = EnemyState::Chase;
+			}
+			//単眼視界に入っていたら警戒モード
+			else if (AlertEye(playerPos))
+			{
+				m_state = EnemyState::Alert;
+			}
+			else
+			{
+				m_state = EnemyState::Patol;
+			}
+
 			break;
 
 		case EnemyState::Catch:
 			break;
 		}
+
+		
 		app->GetScene<Scene>()->SetDebugString(wss.str());
 	}
 
@@ -128,20 +149,23 @@ namespace basecross {
 		m_transComp->SetRotation(Vec3(0.0f, angleY, 0.0f));
 	}
 	
-	//Player方向を向く関数
+	//Player方向をゆっくり向く関数
 	void Enemy::TurnPlayer(const Vec3& playerPos, float delta)
 	{
+		//Playerの方向を求める
 		Vec3 toPlayer = playerPos - m_pos;
 		toPlayer.y = 0.0f;
 
 		if (toPlayer.length() < 0.01f) return;
 		toPlayer.normalize();
 
-		float current = atan2(m_forward.x, m_forward.z);
-		float target = atan2(toPlayer.x, toPlayer.z);
+		//向きを角度に変換
+		float current = atan2(m_forward.x, m_forward.z);//現在敵が向いている角度
+		float target = atan2(toPlayer.x, toPlayer.z);	//本来向きたい角度
 
 		float diff = target - current;
-		while (diff > XM_PI) diff -= XM_2PI;
+		//-180°～+180°の範囲で収まるようにする
+		while (diff > XM_PI) diff -= XM_2PI;	//例）360°なら2π引く
 		while (diff < -XM_PI) diff += XM_2PI;
 
 		float maxStep = m_turnSpeed * delta;
@@ -169,6 +193,7 @@ namespace basecross {
 		toPlayer.normalize();
 		float dot = toPlayer.dot(m_forward);//内積:1に近いほど正面 -1は真後ろ
 
+		//両眼視界：角度 < 40°⇔ dot >= cos( 40°) = 0.5
 		return dot >= m_innerCos;
 	}
 
@@ -189,7 +214,7 @@ namespace basecross {
 		toPlayer.normalize();
 		float dot = toPlayer.dot(m_forward);
 
-		//両眼の外端かつ単眼の外端の内側
+		//単眼視界：40°< 角度 <= 90°⇔ cos( 90°) <= dot < cos( 40°)
 		return dot < m_innerCos && dot >= m_outerCos;
 	}
 
@@ -197,32 +222,37 @@ namespace basecross {
 	//巡回関数
 	void Enemy::UpdatePatol(float delta)
 	{
-		if (m_patrolPositions.empty()) return;
+		auto mgr = m_wpManager.lock();
+		if (!mgr)
+		{
+			//m_wpManagerが空だったら再取得する
+			mgr = GetStage()->GetSharedGameObject<WayPointManager>(L"WayPointManager", false);
+			m_wpManager = mgr;
+			if (!mgr)return;
+		}
+
+		size_t count = mgr->GetCount(m_groupId);
+		if (count == 0)return;
+
+		if (m_currentIndex >= count) m_currentIndex = 0;//WayPointが減った場合の保険
 
 		Vec3 pos = m_transComp->GetPosition();
-		Vec3 target = m_patrolPositions[m_currentIndex];
-
-		Vec3 toTarget = target - pos;	//現在の位置から目的地まで
+		Vec3 toTarget = mgr->GetPoint(m_groupId,m_currentIndex) - pos;//現在の位置から目的地まで
 		toTarget.y = 0.0f;				//水平方向だけで判定
 		float dist = toTarget.length();
 
 		//ある程度目的地に到着したら次のポイントへ
 		if (dist < m_arriveDistance)
 		{
-			m_currentIndex++;
-
-			//最後のポイントまで行ったらポイント０に戻る
-			if (m_currentIndex >= m_patrolPositions.size())
-			{
-				m_currentIndex = 0;
-			}
+			//最後まで行ったら最初のWayPointに戻る
+			m_currentIndex = (m_currentIndex + 1) % count;
 			return;
 		}
 
 		//目的地に向かって移動
 		toTarget.normalize();
 		m_forward = toTarget;	//向きを更新
-		m_pos += toTarget * m_speed * delta;
+		m_pos = pos + toTarget * m_speed * delta;
 		m_transComp->SetPosition(m_pos);
 
 		//見た目も進行方向へ
