@@ -14,9 +14,9 @@ namespace basecross {
 
 		postion.push_back(
 			{
-				Vec3(10.0f, 0.0f,10.0f),
+				Vec3(25.0f, 0.0f,-25.0f),
 				10.0f,
-				Vec3(10.0f,0.0f,0.0f)
+				Vec3(10.0f,0.0f,10.0f)
 			}
 		);
 
