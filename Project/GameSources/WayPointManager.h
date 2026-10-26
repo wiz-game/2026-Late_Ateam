@@ -9,12 +9,14 @@
 namespace basecross
 {
 	//--------------------------------------------------------------------------------------
-	//	class WayPoint : public GameObjectForEdit;
+	//	class WayPointManager : public GameObject;
 	//--------------------------------------------------------------------------------------
 	class WayPointManager : public GameObject
 	{
 		//全WyaPointを調べて、グループごとに・順番通りに並べた座標表
 		map<int, vector<Vec3>> m_routes; //Enemyが参照するキャッシュ
+
+		bool m_dirty = true;	// 最初の更新で Rebuild する
 
 	public:
 
@@ -25,7 +27,7 @@ namespace basecross
 		{}
 
 		//virtual void OnCreate() override; // 初期化
-		//virtual void OnUpdate() override; // 更新
+		virtual void OnUpdate() override; // 更新
 		//virtual void OnDraw() override; // 描画
 
 		//全WyaPointを調べてm_routesを作り直す

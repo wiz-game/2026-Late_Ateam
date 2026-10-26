@@ -10,6 +10,15 @@
 
 namespace basecross {
 
+	void WayPointManager::OnUpdate()
+	{
+		if (m_dirty) 
+		{ 
+			Rebuild();
+			m_dirty = false;
+		}
+	}
+
 	void WayPointManager::Rebuild()
 	{
 		map<int, vector<pair<int, Vec3>>> tmp;

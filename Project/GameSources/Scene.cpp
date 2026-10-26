@@ -32,6 +32,7 @@ namespace basecross{
 		REGISTER(Enemy, 11, L"敵");
 		REGISTER(ClearObject, 12, L"ゴール");
 		REGISTER(ActionCamPos, 13, L"俯瞰視点カメラ");
+		REGISTER(WayPoint, 14, L"エネミー巡回地点");
 	}
 
 	void Scene::OnCreate(){

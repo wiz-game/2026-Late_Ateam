@@ -44,6 +44,12 @@ namespace basecross {
 		virtual void OnUpdate() override; // 更新
 		//virtual void OnDraw() override; // 描画
 
+		// WayPointが表示中かどうかを判定
+		bool IsShown() const
+		{
+			return m_drawComp && m_drawComp->IsDrawActive();
+		}
+
 		//ゲッター関数
 		int GetID() const
 		{
