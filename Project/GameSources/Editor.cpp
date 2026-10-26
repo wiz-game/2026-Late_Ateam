@@ -341,7 +341,7 @@ namespace basecross {
 			bool isHit = false;
 
 			// マルチメッシュを使用しているオブジェクトかどうかのブール
-			bool useMulti = false;
+			bool useMulti = player != nullptr;
 			if (!useMulti)
 			{
 				isHit = RayHitCheck::HitTest(v, startPos, endPos, hitPos);
@@ -351,8 +351,10 @@ namespace basecross {
 			if (useMulti)
 			{
 				float dis;
-				isHit = RayHitCheck::HitTestVirtualSphere(v, startPos, endPos, hitPos, dis);
+				float radius = v->GetComponent<Transform>()->GetScale().x * 1.2f;
+				isHit = RayHitCheck::HitTestVirtualSphere(v, startPos, endPos, hitPos, dis, radius);
 			}
+		
 
 
 			//当たっていたら配列に保存
