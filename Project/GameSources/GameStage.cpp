@@ -170,7 +170,7 @@ namespace basecross {
 
 			if (currentTrigger)
 			{
-				m_actionCamera->SetRoomCrnter(currentTrigger->GetRoomCenter());
+				m_actionCamera->SetRoomCrnter(currentTrigger->GatCameraPosition());
 			}
 
 			if (isActionCamera)

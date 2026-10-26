@@ -21,7 +21,9 @@ namespace basecross {
 		Vec3 m_scale;
 
 		float m_radius;
-
+	private :
+		static constexpr float ACTION_RADIUS = 1.5f;
+		static constexpr float TopAdd = 20.0f;
 	public :
 		ActionCamPos(
 			const shared_ptr<Stage>& stage,
@@ -32,8 +34,7 @@ namespace basecross {
 			GameObjectForEdit(stage),
 			m_pos(Position),
 			m_scale(Scale),
-			m_roomCenter(Rotation),
-			m_radius(Scale.x)
+			m_roomCenter(Rotation)
 		{
 		}
 
@@ -45,6 +46,8 @@ namespace basecross {
 		{
 			return m_roomCenter;
 		}
+
+		Vec3 GatCameraPosition() const;
 
 	};
 
