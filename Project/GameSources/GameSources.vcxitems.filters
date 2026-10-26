@@ -28,15 +28,6 @@
     <Filter Include="Objects\DefaultObject">
       <UniqueIdentifier>{33ec5873-98a7-4f00-a694-47669a722f73}</UniqueIdentifier>
     </Filter>
-    <Filter Include="Objects\Camera">
-      <UniqueIdentifier>{cf4726c5-d121-4cd6-a8cc-ceb892440a6c}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="Objects\Camera\MainCamera">
-      <UniqueIdentifier>{e48bde9a-3a3f-4de6-8910-6248aefd8216}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="Objects\Camera\EditorCamera">
-      <UniqueIdentifier>{18ad6a9e-8265-4c8d-9d4c-0988a6c37915}</UniqueIdentifier>
-    </Filter>
     <Filter Include="Editors">
       <UniqueIdentifier>{98f586fd-ba92-4d71-93bb-d502c9c0d73d}</UniqueIdentifier>
     </Filter>
@@ -51,9 +42,6 @@
     </Filter>
     <Filter Include="Editors\RayHitCheck">
       <UniqueIdentifier>{50301cab-181a-4aa2-a7f2-72b7da8e72b2}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="Editors\StageLoder">
-      <UniqueIdentifier>{faaa5261-8599-4faa-a32e-1e96080a46b0}</UniqueIdentifier>
     </Filter>
     <Filter Include="Editors\SelectStage">
       <UniqueIdentifier>{16dbf81a-46b7-4bc2-96a4-6c4f47e42dbd}</UniqueIdentifier>
@@ -139,6 +127,24 @@
     <Filter Include="Objects\Tourou">
       <UniqueIdentifier>{54573708-bbf9-441f-86d8-0d25cdf04c6f}</UniqueIdentifier>
     </Filter>
+    <Filter Include="Editors\StageLoader">
+      <UniqueIdentifier>{faaa5261-8599-4faa-a32e-1e96080a46b0}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Managers">
+      <UniqueIdentifier>{419ba9f5-fcc0-41ae-9ce0-05e17bf17731}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Managers\WayPointManager">
+      <UniqueIdentifier>{89f13c50-a569-415e-96f6-dccf27ec7dc7}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Objects\Cameras">
+      <UniqueIdentifier>{cf4726c5-d121-4cd6-a8cc-ceb892440a6c}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Objects\Cameras\MainCamera">
+      <UniqueIdentifier>{e48bde9a-3a3f-4de6-8910-6248aefd8216}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Objects\Cameras\EditorCamera">
+      <UniqueIdentifier>{18ad6a9e-8265-4c8d-9d4c-0988a6c37915}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="$(MSBuildThisFileDirectory)PNTDXModelDraw.h">
@@ -184,7 +190,7 @@
       <Filter>Objects\DefaultObject</Filter>
     </ClInclude>
     <ClInclude Include="$(MSBuildThisFileDirectory)EditorCamera.h">
-      <Filter>Objects\Camera\EditorCamera</Filter>
+      <Filter>Objects\Cameras\EditorCamera</Filter>
     </ClInclude>
     <ClInclude Include="$(MSBuildThisFileDirectory)Arrow.h">
       <Filter>Editors\Arrow</Filter>
@@ -196,7 +202,7 @@
       <Filter>Editors\RayHitCheck</Filter>
     </ClInclude>
     <ClInclude Include="$(MSBuildThisFileDirectory)MainCamera.h">
-      <Filter>Objects\Camera\MainCamera</Filter>
+      <Filter>Objects\Cameras\MainCamera</Filter>
     </ClInclude>
     <ClInclude Include="$(MSBuildThisFileDirectory)Ground.h">
       <Filter>Objects\Ground</Filter>
@@ -208,7 +214,7 @@
       <Filter>Editors\GameObjectForEdit</Filter>
     </ClInclude>
     <ClInclude Include="$(MSBuildThisFileDirectory)StageLoader.h">
-      <Filter>Editors\StageLoder</Filter>
+      <Filter>Editors\StageLoader</Filter>
     </ClInclude>
     <ClInclude Include="$(MSBuildThisFileDirectory)SelectStage.h">
       <Filter>Editors\SelectStage</Filter>
@@ -233,9 +239,6 @@
     </ClInclude>
     <ClInclude Include="$(MSBuildThisFileDirectory)Enemy.h">
       <Filter>Objects\Enemy</Filter>
-    </ClInclude>
-    <ClInclude Include="$(MSBuildThisFileDirectory)WayPoint.h">
-      <Filter>Objects\WayPoint</Filter>
     </ClInclude>
     <ClInclude Include="$(MSBuildThisFileDirectory)ActionCamera.h">
       <Filter>Action\ActionCamera</Filter>
@@ -269,6 +272,12 @@
     </ClInclude>
     <ClInclude Include="$(MSBuildThisFileDirectory)Tourou.h">
       <Filter>Objects\Tourou</Filter>
+    </ClInclude>
+    <ClInclude Include="$(MSBuildThisFileDirectory)WayPointManager.h">
+      <Filter>Managers\WayPointManager</Filter>
+    </ClInclude>
+    <ClInclude Include="$(MSBuildThisFileDirectory)WayPoint.h">
+      <Filter>Objects\WayPoint</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
@@ -312,7 +321,7 @@
       <Filter>Objects\DefaultObject</Filter>
     </ClCompile>
     <ClCompile Include="$(MSBuildThisFileDirectory)EditorCamera.cpp">
-      <Filter>Objects\Camera\EditorCamera</Filter>
+      <Filter>Objects\Cameras\EditorCamera</Filter>
     </ClCompile>
     <ClCompile Include="$(MSBuildThisFileDirectory)Arrow.cpp">
       <Filter>Editors\Arrow</Filter>
@@ -324,7 +333,7 @@
       <Filter>Editors\RayHitCheck</Filter>
     </ClCompile>
     <ClCompile Include="$(MSBuildThisFileDirectory)MainCamera.cpp">
-      <Filter>Objects\Camera\MainCamera</Filter>
+      <Filter>Objects\Cameras\MainCamera</Filter>
     </ClCompile>
     <ClCompile Include="$(MSBuildThisFileDirectory)Ground.cpp">
       <Filter>Objects\Ground</Filter>
@@ -336,7 +345,7 @@
       <Filter>Editors\GameObjectForEdit</Filter>
     </ClCompile>
     <ClCompile Include="$(MSBuildThisFileDirectory)StageLoader.cpp">
-      <Filter>Editors\StageLoder</Filter>
+      <Filter>Editors\StageLoader</Filter>
     </ClCompile>
     <ClCompile Include="$(MSBuildThisFileDirectory)SelectStage.cpp">
       <Filter>Editors\SelectStage</Filter>
@@ -361,9 +370,6 @@
     </ClCompile>
     <ClCompile Include="$(MSBuildThisFileDirectory)Enemy.cpp">
       <Filter>Objects\Enemy</Filter>
-    </ClCompile>
-    <ClCompile Include="$(MSBuildThisFileDirectory)WayPoint.cpp">
-      <Filter>Objects\WayPoint</Filter>
     </ClCompile>
     <ClCompile Include="$(MSBuildThisFileDirectory)ActionCamera.cpp">
       <Filter>Action\ActionCamera</Filter>
@@ -397,6 +403,12 @@
     </ClCompile>
     <ClCompile Include="$(MSBuildThisFileDirectory)Tourou.cpp">
       <Filter>Objects\Tourou</Filter>
+    </ClCompile>
+    <ClCompile Include="$(MSBuildThisFileDirectory)WayPointManager.cpp">
+      <Filter>Managers\WayPointManager</Filter>
+    </ClCompile>
+    <ClCompile Include="$(MSBuildThisFileDirectory)WayPoint.cpp">
+      <Filter>Objects\WayPoint</Filter>
     </ClCompile>
   </ItemGroup>
 </Project>

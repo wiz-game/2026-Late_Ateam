@@ -57,6 +57,7 @@
     <ClInclude Include="$(MSBuildThisFileDirectory)Tourou.h" />
     <ClInclude Include="$(MSBuildThisFileDirectory)Wall.h" />
     <ClInclude Include="$(MSBuildThisFileDirectory)WayPoint.h" />
+    <ClInclude Include="$(MSBuildThisFileDirectory)WayPointManager.h" />
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="$(MSBuildThisFileDirectory)ActionCamera.cpp" />
@@ -103,6 +104,7 @@
     <ClCompile Include="$(MSBuildThisFileDirectory)Tourou.cpp" />
     <ClCompile Include="$(MSBuildThisFileDirectory)Wall.cpp" />
     <ClCompile Include="$(MSBuildThisFileDirectory)WayPoint.cpp" />
+    <ClCompile Include="$(MSBuildThisFileDirectory)WayPointManager.cpp" />
     <ClCompile Include="$(MSBuildThisFileDirectory)WinMain.cpp" />
   </ItemGroup>
 </Project>
