@@ -18,20 +18,21 @@ namespace basecross {
 		Vec3 m_pos;
 		Vec3 m_roomCenter;
 		Vec3 m_cameraOffset;
+		Vec3 m_scale;
 
 		float m_radius;
 
 	public :
 		ActionCamPos(
 			const shared_ptr<Stage>& stage,
-			const Vec3 postion,
-			float radius,
-			const Vec3& roomCenter
+			const Vec3& Scale,
+			const Vec3& Rotation,
+			const Vec3& Position
 		) :
 			GameObjectForEdit(stage),
-			m_pos(postion),
-			m_radius(radius),
-			m_roomCenter(roomCenter)
+			m_pos(Position),
+			m_scale(Scale),
+			m_roomCenter(Rotation)
 		{
 		}
 
