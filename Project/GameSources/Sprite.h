@@ -27,8 +27,18 @@ namespace basecross {
 		{}
 
 		virtual void OnCreate() override; // 初期化
-		//virtual void OnUpdate() override; // 更新
+		virtual void OnUpdate() override; // 更新
 		//virtual void OnDraw() override; // 描画
+		float m_TotalTime;
+		bool m_Selected;
+		bool IsSelect() const {
+			return m_Selected;
+		}
+		void SetSelect(bool b) {
+			m_Selected = b;
+			m_TotalTime = 0.0f;
+		}
+
 	};
 
 }
