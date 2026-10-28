@@ -16,15 +16,24 @@ namespace basecross {
 
 	void ActionCamera::OnUpdate()
 	{
-		auto& player = m_Player.lock();
-		if (!player) {
+		SetEye(m_cameraPosition);
+		SetAt(m_cameraPosition + m_forward * 100.0f);
+	}
+
+	void ActionCamera::ApplyTrigger(ActionCamPos* trigger)
+	{
+		if (!trigger)
+		{
 			return;
 		}
 
-		auto& playerPos = player->GetComponent<Transform>()->GetWorldPosition();
+		SetCameraPosition(
+			trigger->GetCameraPosition()
+		);
 
-		SetEye(m_roomCenter + m_TopOffset);
-		SetAt(m_roomCenter);
+		SetForward(
+			trigger->GetCameraForward()
+		);
 	}
 }
 //end basecross

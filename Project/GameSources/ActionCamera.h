@@ -7,7 +7,7 @@
 #include "stdafx.h"
 
 namespace basecross {
-
+	class ActionCamPos;
 
 	//--------------------------------------------------------------------------------------
 	//	class GenericSprite : public GameObject;
@@ -18,6 +18,9 @@ namespace basecross {
 		weak_ptr<Player> m_Player;
 
 		Vec3 m_TopOffset = Vec3(10.0f, 10.0f, -15.0f);
+
+		Vec3 m_cameraPosition;
+		Vec3 m_forward;
 
 	public:
 
@@ -30,6 +33,18 @@ namespace basecross {
 		{
 			m_roomCenter = center;
 		}
+
+		void SetCameraPosition(const Vec3& pos)
+		{
+			m_cameraPosition = pos;
+		}
+
+		void SetForward(const Vec3& forward)
+		{
+			m_forward = forward;
+		}
+
+		void ApplyTrigger(ActionCamPos* trigger);
 
 	private:
 		Vec3 m_roomCenter;
