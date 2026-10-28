@@ -147,7 +147,7 @@ int MainLoop(HINSTANCE hInstance, HWND hWnd, bool isFullScreen, int iClientWidth
 		vector<DWORD> UseKeyVec = {
 			VK_PRIOR,VK_NEXT,VK_UP, VK_DOWN, VK_LEFT, VK_RIGHT,VK_SPACE,VK_LSHIFT,VK_RETURN,
 			VK_LBUTTON, VK_RBUTTON, VK_MBUTTON, VK_DELETE, VK_CONTROL, VK_MENU,VK_BACK,
-			'W','A','S','D','X','B','L','Q','E','R','T','O',
+			'W','A','S','D','X','B','L','Q','E','R','T','F','O',
 			'1','2','3','4','5','6','7','8','9','0',
 		};
 		while (WM_QUIT != msg.message) {
