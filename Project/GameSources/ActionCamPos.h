@@ -23,7 +23,7 @@ namespace basecross {
 		float m_radius;
 	private :
 		static constexpr float ACTION_RADIUS = 1.5f;
-		static constexpr float TOPADD_POSITION = 20.0f;
+		static constexpr float TOPADD_POSITION = 50.0f;
 	public :
 		ActionCamPos(
 			const shared_ptr<Stage>& stage,

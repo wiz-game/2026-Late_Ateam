@@ -21,7 +21,7 @@ namespace basecross{
 		//--------------------------------------------------------------------------------------
 	private:
 		int m_StageNum; // ステージの番号
-		int m_loadStageNumber; // 読み込むステージの番号
+		int m_loadStageNumber = 1; // 読み込むステージの番号
 		bool m_isStartFirst;
 		Vec3 m_checkpointPos;
 
