@@ -23,7 +23,7 @@ namespace basecross {
 		float m_radius;
 	private :
 		static constexpr float ACTION_RADIUS = 1.5f;
-		static constexpr float TopAdd = 20.0f;
+		static constexpr float TOPADD_POSITION = 20.0f;
 	public :
 		ActionCamPos(
 			const shared_ptr<Stage>& stage,
@@ -47,7 +47,8 @@ namespace basecross {
 			return m_roomCenter;
 		}
 
-		Vec3 GatCameraPosition() const;
+		Vec3 GetCameraPosition() const;
+		Vec3 GetCameraForward() const;
 
 	};
 

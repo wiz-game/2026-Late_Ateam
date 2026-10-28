@@ -29,13 +29,32 @@ namespace basecross {
 		return diff.length() <=  ACTION_RADIUS;
 	}
 
-	Vec3 ActionCamPos::GatCameraPosition() const
+	Vec3 ActionCamPos::GetCameraPosition() const
 	{
-		auto pos = GetComponent<Transform>()->GetPosition();
+		auto trans = GetComponent<Transform>();
 
-		pos.y += TopAdd;
+		if (!trans)
+		{
+			return Vec3();
+		}
+
+		auto pos = trans->GetPosition();
+
+		pos.y += TOPADD_POSITION;
 
 		return pos;
+	}
+
+	Vec3 ActionCamPos::GetCameraForward() const
+	{
+		auto trans = GetComponent<Transform>();
+		
+		if (!trans)
+		{
+			return Vec3();
+		}
+
+		return trans->GetForward();
 	}
 }
 //end basecross
