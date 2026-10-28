@@ -120,7 +120,6 @@ namespace basecross {
 		if (!playMove)
 		{
 			return;
-
 		}
 
 		ActionCamPos* currentTrigger = nullptr;
@@ -131,14 +130,20 @@ namespace basecross {
 		for (auto& obj : objList)
 		{
 			auto trigger = std::dynamic_pointer_cast<ActionCamPos>(obj);
+			
 			if (!trigger)
+			{
+				continue;
+			}
+
+			auto trans = trigger->GetComponent<Transform>();
+			if (!trans)
 			{
 				continue;
 			}
 
 			if (trigger->IsInRange(playMove->GetComponent<Transform>()->GetPosition()))
 			{
-				OutputDebugString(L"In Range!\n");
 				currentTrigger = trigger.get();
 				canUseActionCamera = true;
 				break;
@@ -161,13 +166,12 @@ namespace basecross {
 
 			if (currentTrigger)
 			{
-				m_actionCamera->SetRoomCrnter(currentTrigger->GetRoomCenter());
+				m_actionCamera->ApplyTrigger(currentTrigger);
 			}
 
 			if (isActionCamera)
 			{
 				playMove->SetPlayerUpdateActive(false);
-				OutputDebugString(L"Action Camera\n");
 				m_view->SetCamera(m_actionCamera);
 			}
 			else
