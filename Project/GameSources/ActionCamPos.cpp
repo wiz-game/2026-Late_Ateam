@@ -22,7 +22,7 @@ namespace basecross {
 		
 	}
 
-	}
+	
 
 	bool ActionCamPos::IsInRange(const Vec3& playerPos)
 	{
