@@ -1,4 +1,4 @@
-/*!
+﻿/*!
 @file StaticUI.cpp
 @brief 静的なUI実体
 */

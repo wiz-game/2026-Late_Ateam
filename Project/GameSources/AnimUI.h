@@ -1,4 +1,4 @@
-/*!
+﻿/*!
 @file 動的UI.h
 @brief 動的なUI
 */

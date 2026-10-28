@@ -1,4 +1,4 @@
-/*!
+﻿/*!
 @file StaticUI.h
 @brief 静的なUI
 */

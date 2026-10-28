@@ -1,4 +1,4 @@
-/*!
+﻿/*!
 @file AnimUI.cpp
 @brief 動的なUI実体
 */
