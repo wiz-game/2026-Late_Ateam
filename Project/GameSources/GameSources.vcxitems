@@ -18,6 +18,7 @@
     <ClInclude Include="$(MSBuildThisFileDirectory)ActionCamPos.h" />
     <ClInclude Include="$(MSBuildThisFileDirectory)ActionCamPosData.h" />
     <ClInclude Include="$(MSBuildThisFileDirectory)Andon.h" />
+    <ClInclude Include="$(MSBuildThisFileDirectory)AnimUI.h" />
     <ClInclude Include="$(MSBuildThisFileDirectory)Arrow.h" />
     <ClInclude Include="$(MSBuildThisFileDirectory)CameraState.h" />
     <ClInclude Include="$(MSBuildThisFileDirectory)Character.h" />
@@ -53,6 +54,7 @@
     <ClInclude Include="$(MSBuildThisFileDirectory)SkyBox.h" />
     <ClInclude Include="$(MSBuildThisFileDirectory)Sprite.h" />
     <ClInclude Include="$(MSBuildThisFileDirectory)StageLoader.h" />
+    <ClInclude Include="$(MSBuildThisFileDirectory)StaticUI.h" />
     <ClInclude Include="$(MSBuildThisFileDirectory)TitleStage.h" />
     <ClInclude Include="$(MSBuildThisFileDirectory)Tourou.h" />
     <ClInclude Include="$(MSBuildThisFileDirectory)Wall.h" />
@@ -64,6 +66,7 @@
     <ClCompile Include="$(MSBuildThisFileDirectory)ActionCamPos.cpp" />
     <ClCompile Include="$(MSBuildThisFileDirectory)ActionCamPosData.cpp" />
     <ClCompile Include="$(MSBuildThisFileDirectory)Andon.cpp" />
+    <ClCompile Include="$(MSBuildThisFileDirectory)AnimUI.cpp" />
     <ClCompile Include="$(MSBuildThisFileDirectory)Arrow.cpp" />
     <ClCompile Include="$(MSBuildThisFileDirectory)CameraState.cpp" />
     <ClCompile Include="$(MSBuildThisFileDirectory)Character.cpp" />
@@ -100,6 +103,7 @@
     <ClCompile Include="$(MSBuildThisFileDirectory)SkyBox.cpp" />
     <ClCompile Include="$(MSBuildThisFileDirectory)Sprite.cpp" />
     <ClCompile Include="$(MSBuildThisFileDirectory)StageLoader.cpp" />
+    <ClCompile Include="$(MSBuildThisFileDirectory)StaticUI.cpp" />
     <ClCompile Include="$(MSBuildThisFileDirectory)TitleStage.cpp" />
     <ClCompile Include="$(MSBuildThisFileDirectory)Tourou.cpp" />
     <ClCompile Include="$(MSBuildThisFileDirectory)Wall.cpp" />
