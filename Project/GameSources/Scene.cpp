@@ -21,14 +21,21 @@ namespace basecross{
 		loadMedia.RegisterMediaFiles(App::GetApp()->GetDataDirWString());
 
 		// エディターにオブジェクトを登録
-		REGISTER(Ground, 1, L"Ground");
-		REGISTER(Wall, 2, L"Wall");
-		REGISTER(Floor, 3, L"Floor");
-		REGISTER(InvisibleWall, 4, L"InvisibleWall");
-		REGISTER(Koban, 10, L"Koban");
-		REGISTER(Enemy, 11, L"Enemy");
-		REGISTER(ClearObject, 12, L"ClearObject");
-		REGISTER(ActionCamPos, 13, L"ActionCamPos");
+		// 地形・背景オブジェクト
+		REGISTER(Ground, 1, L"地面");
+		REGISTER(Wall, 2, L"壁");
+		REGISTER(Floor, 3, L"床");
+		REGISTER(Shouji, 4, L"障子");
+		REGISTER(Andon, 5, L"行燈");
+		REGISTER(Tourou, 6, L"灯籠");
+		REGISTER(InvisibleWall, 10, L"見えない壁");
+
+		// ギミック系オブジェクト
+		REGISTER(Koban, 11, L"小判");
+		REGISTER(ClearObject, 12, L"ゴール");
+		REGISTER(ActionCamPos, 13, L"俯瞰視点カメラ");
+		REGISTER(Enemy, 14, L"敵");
+		REGISTER(WayPoint, 15, L"エネミー巡回地点");
 	}
 
 	void Scene::OnCreate(){

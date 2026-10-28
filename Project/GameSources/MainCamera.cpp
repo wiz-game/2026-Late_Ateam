@@ -51,15 +51,12 @@ namespace basecross {
 		auto targetPos = trans->GetPosition();
 		auto point = device.GetKeyState().m_MouseClientPoint;
 
-		if (isEditor)
+		if (device.GetKeyState().m_bPushKeyTbl[VK_RBUTTON])
 		{
-			if (device.GetKeyState().m_bPushKeyTbl[VK_RBUTTON])
-			{
-				m_angleY -= XMConvertToRadians(point.x - m_pastPoint.x) / 6.0f;
-				m_angleX -= XMConvertToRadians(point.y - m_pastPoint.y) / 9.0f;
-			}
-			m_pastPoint = point;
+			m_angleY -= XMConvertToRadians(point.x - m_pastPoint.x) / 6.0f;
+			m_angleX -= XMConvertToRadians(point.y - m_pastPoint.y) / 9.0f;
 		}
+		m_pastPoint = point;
 
 		m_angleY -= XMConvertToRadians(135.0f) * delta * pad.fThumbRX;
 		m_angleX += XMConvertToRadians(90.0f) * delta * pad.fThumbRY;
@@ -75,7 +72,7 @@ namespace basecross {
 		Vec3 upperVec = Vec3(0.0f, 0.0f, 0.0f);
 		auto gaze = targetPos - eye;
 		auto cross = Vec3(gaze.y * upperVec.z - gaze.z * upperVec.y, gaze.z * upperVec.x - gaze.x * upperVec.z, gaze.x * upperVec.y - gaze.y * upperVec.x) * -0.1f;
-		auto adjustVec = Vec3(0.0f, 0.0f, 0.0f);
+		auto adjustVec = Vec3(0.0f, 1.0f, 0.0f);
 		eye += adjustVec + cross;
 		auto at = targetPos + adjustVec + cross;
 		//eyeとatが重なってしまった時に使う調整用のベクトル

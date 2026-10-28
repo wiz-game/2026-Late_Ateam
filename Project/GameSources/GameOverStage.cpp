@@ -34,6 +34,10 @@ namespace basecross {
 			CreateViewLight();
 			CreateGameOverSprite();
 
+			auto PtrScene = App::GetApp()->GetScene<Scene>();
+			PtrScene->SetStageNum(1);
+
+
 		}
 		catch (...) {
 			throw;
@@ -42,26 +46,126 @@ namespace basecross {
 
 	void GameOverStage::OnUpdate()
 	{
-		auto& app = App::GetApp();
-		auto scene = app->GetScene<Scene>();
+		auto PtrScene = App::GetApp()->GetScene<Scene>();
+		int StageNum = PtrScene->GetStageNum();
 
-		auto pad = app->GetInputDevice().GetControlerVec()[0];
+		bool isDecide = false; // 決定フラグ
+		bool isUp = false;     // 上移動フラグ
+		bool isDown = false;   // 下移動フラグ
 
-
-		if (pad.wPressedButtons & XINPUT_GAMEPAD_A || App::GetApp()->GetInputDevice().GetKeyState().m_bPressedKeyTbl[VK_SPACE])
-		{
-			PostEvent(0.0f, GetThis<GameOverStage>(), scene, L"ToTitleStage");
+		//---------------------------------------------------------
+		// 1. コントローラの入力チェック
+		//---------------------------------------------------------
+		auto CntlVec = App::GetApp()->GetInputDevice().GetControlerVec();
+		if (!CntlVec.empty() && CntlVec[0].bConnected) {
+			if (CntlVec[0].wPressedButtons & XINPUT_GAMEPAD_A) {
+				isDecide = true;
+			}
+			if (!m_CntrolLock) {
+				if (CntlVec[0].fThumbLY >= 0.8f) {
+					isUp = true;
+				}
+				else if (CntlVec[0].fThumbLY <= -0.8f) {
+					isDown = true;
+				}
+			}
 		}
 
+		//---------------------------------------------------------
+		// 2. キーボードの入力チェック
+		//---------------------------------------------------------
+		// 決定 (SPACEキー)
+		if (GetAsyncKeyState(VK_SPACE) & 0x8000) {
+			isDecide = true;
+		}
+
+		// 選択切り替え (Wキーで上、Sキーで下)
+		if (!m_CntrolLock) {
+			if (GetAsyncKeyState('W') & 0x8000) {
+				isUp = true;
+			}
+			else if (GetAsyncKeyState('S') & 0x8000) {
+				isDown = true;
+			}
+		}
+
+		//---------------------------------------------------------
+		// 3. コントロールロックの解除判定
+		//---------------------------------------------------------
+		if (m_CntrolLock) {
+			bool isStickReleased = CntlVec.empty() || !CntlVec[0].bConnected || (CntlVec[0].fThumbLY == 0.0f);
+			bool isKeyReleased = !(GetAsyncKeyState('W') & 0x8000) && !(GetAsyncKeyState('S') & 0x8000);
+
+			if (isStickReleased && isKeyReleased) {
+				m_CntrolLock = false;
+			}
+		}
+
+		//---------------------------------------------------------
+		// 4. 入力結果の反映とステージ遷移処理
+		//---------------------------------------------------------
+		if (isDecide) {
+			// ゲームステージへ / タイトルへ
+			switch (PtrScene->GetStageNum()) {
+			case 1:
+				PtrScene->SetIsFirstStart(false);
+				//CSVファイルの確定
+				PostEvent(0.0f, GetThis<GameOverStage>(), PtrScene, L"ToGameStage");
+				break;
+			case 2:
+				PtrScene->SetIsFirstStart(true);
+				PtrScene->SetCheckpointPos(Vec3(0));
+				//CSVファイルの確定
+				PostEvent(0.0f, GetThis<GameOverStage>(), PtrScene, L"ToTitleStage");
+				break;
+			}
+		}
+
+		if (isUp) {
+			StageNum--;
+			if (StageNum < 1) {
+				StageNum = 2;
+			}
+			m_CntrolLock = true;
+			PtrScene->SetStageNum(StageNum);
+			ChangeSelect(StageNum);
+		}
+		else if (isDown) {
+			StageNum++;
+			if (StageNum > 2) {
+				StageNum = 1;
+			}
+			m_CntrolLock = true;
+			PtrScene->SetStageNum(StageNum);
+			ChangeSelect(StageNum);
+		}
 	}
+
 	void GameOverStage::CreateGameOverSprite() {
 		AddGameObject<Sprite>(L"GameOver", false,
-			Vec2(900, 350), Vec2(0.0f, 150.0f));
+			Vec2(900, 350), Vec2(0.0f, 250.0f));
 
-		AddGameObject<Sprite>(L"TitleBack1", false,
-			Vec2(500, 150), Vec2(0.0f, -200.0f));
+		auto PtrSp = AddGameObject<Sprite>(L"Retry", true,
+			Vec2(400.0f, 150.0f), Vec2(0.0f, -100.0f));
+		PtrSp->SetSelect(true);
+		m_SpVec[0] = PtrSp;
+		PtrSp = AddGameObject<Sprite>(L"TitleBack1", true,
+			Vec2(400.0f, 150.0f), Vec2(0.0f, -300.0f));
+		m_SpVec[1] = PtrSp;
+	}
 
-		//auto Score = Player::DrawStrings();
+	void GameOverStage::ChangeSelect(int num) {
+		for (int i = 0; i < 2; i++) {
+			shared_ptr<Sprite> shptr = m_SpVec[i].lock();
+			if (shptr) {
+				if ((i + 1) == num) {
+					shptr->SetSelect(true);
+				}
+				else {
+					shptr->SetSelect(false);
+				}
+			}
+		}
 	}
 
 }

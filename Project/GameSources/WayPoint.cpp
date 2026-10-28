@@ -11,13 +11,25 @@ namespace basecross {
 	//初期化
 	void WayPoint::OnCreate()
 	{
-		auto ptrTransform = GetComponent<Transform>();
-		ptrTransform->SetScale(m_Scale);
-		ptrTransform->SetRotation(m_Rotation);
-		ptrTransform->SetPosition(m_Position);
+		m_transComp = GetComponent<Transform>();
+		m_transComp->SetScale(m_Scale);
+		m_transComp->SetRotation(m_Rotation);
+		m_transComp->SetPosition(m_Position);
 
 		auto ptrDraw = AddComponent<PNTStaticDraw>();
 		ptrDraw->SetMeshResource(L"DEFAULT_CUBE");
+
+		m_drawComp = GetComponent<PNTStaticDraw>();
+		m_drawComp->SetDrawActive(false);
+
+		// アルファ値を有効にする
+		m_drawComp->SetBlendState(BlendState::AlphaBlend);
+		SetAlphaActive(true);
+	}
+
+	void WayPoint::OnUpdate()
+	{
+
 	}
 
 }

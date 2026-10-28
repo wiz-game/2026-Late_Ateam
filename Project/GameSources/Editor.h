@@ -7,6 +7,7 @@
 #include "stdafx.h"
 
 namespace basecross {
+    class WayPointManager;
 
     class Editor : public GameObject
     {
@@ -74,6 +75,15 @@ namespace basecross {
 
         // オブジェクトID判定（Wall / Floor）
         int CheckObjectID(const shared_ptr<GameObject> obj);
+
+        // WayPointManagerの読み込み
+        shared_ptr<WayPointManager> GetWayPointManager();
+
+        // EnemyとWayPointの紐付け用のID取得
+        int  GetPickGroupId(); 
+
+        // 選択中のグループにWayPointを追加する
+        void AddWayPoint();
 
     public:
         Editor(const shared_ptr<Stage>& stage)
