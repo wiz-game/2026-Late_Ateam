@@ -54,7 +54,11 @@
 #include "ActionCamera.h"
 #include "ActionCamPos.h"
 #include "ActionCamPosData.h"
+
+// UI
 #include "Sprite.h"
+#include "StaticUI.h"
+#include "AnimUI.h"
 
 // ‚»‚Ì‘¼
 #include "LoadMedia.h"

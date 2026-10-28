@@ -145,6 +145,15 @@
     <Filter Include="Objects\Cameras\EditorCamera">
       <UniqueIdentifier>{18ad6a9e-8265-4c8d-9d4c-0988a6c37915}</UniqueIdentifier>
     </Filter>
+    <Filter Include="UI\Sprite">
+      <UniqueIdentifier>{f378106c-c7f4-4eaa-a563-b89457e9f8e1}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="UI\StaticUI">
+      <UniqueIdentifier>{1bb118aa-13a5-4def-906d-829497362fe0}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="UI\AnimUI">
+      <UniqueIdentifier>{168cc72a-cbae-4f6c-aa05-8fa9d267b428}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="$(MSBuildThisFileDirectory)PNTDXModelDraw.h">
@@ -228,9 +237,6 @@
     <ClInclude Include="$(MSBuildThisFileDirectory)Koban.h">
       <Filter>Objects\Koban</Filter>
     </ClInclude>
-    <ClInclude Include="$(MSBuildThisFileDirectory)Sprite.h">
-      <Filter>UI</Filter>
-    </ClInclude>
     <ClInclude Include="$(MSBuildThisFileDirectory)GameOverStage.h">
       <Filter>Stages\GameOverStage</Filter>
     </ClInclude>
@@ -278,6 +284,15 @@
     </ClInclude>
     <ClInclude Include="$(MSBuildThisFileDirectory)WayPoint.h">
       <Filter>Objects\WayPoint</Filter>
+    </ClInclude>
+    <ClInclude Include="$(MSBuildThisFileDirectory)Sprite.h">
+      <Filter>UI\Sprite</Filter>
+    </ClInclude>
+    <ClInclude Include="$(MSBuildThisFileDirectory)StaticUI.h">
+      <Filter>UI\StaticUI</Filter>
+    </ClInclude>
+    <ClInclude Include="$(MSBuildThisFileDirectory)AnimUI.h">
+      <Filter>UI\AnimUI</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
@@ -359,9 +374,6 @@
     <ClCompile Include="$(MSBuildThisFileDirectory)Koban.cpp">
       <Filter>Objects\Koban</Filter>
     </ClCompile>
-    <ClCompile Include="$(MSBuildThisFileDirectory)Sprite.cpp">
-      <Filter>UI</Filter>
-    </ClCompile>
     <ClCompile Include="$(MSBuildThisFileDirectory)GameOverStage.cpp">
       <Filter>Stages\GameOverStage</Filter>
     </ClCompile>
@@ -409,6 +421,15 @@
     </ClCompile>
     <ClCompile Include="$(MSBuildThisFileDirectory)WayPoint.cpp">
       <Filter>Objects\WayPoint</Filter>
+    </ClCompile>
+    <ClCompile Include="$(MSBuildThisFileDirectory)Sprite.cpp">
+      <Filter>UI\Sprite</Filter>
+    </ClCompile>
+    <ClCompile Include="$(MSBuildThisFileDirectory)StaticUI.cpp">
+      <Filter>UI\StaticUI</Filter>
+    </ClCompile>
+    <ClCompile Include="$(MSBuildThisFileDirectory)AnimUI.cpp">
+      <Filter>UI\AnimUI</Filter>
     </ClCompile>
   </ItemGroup>
 </Project>

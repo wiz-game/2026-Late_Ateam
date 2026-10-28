@@ -10,6 +10,15 @@
 
 namespace basecross {
 
+	void WayPointManager::OnUpdate()
+	{
+		if (m_dirty) 
+		{ 
+			Rebuild();
+			m_dirty = false;
+		}
+	}
+
 	void WayPointManager::Rebuild()
 	{
 		map<int, vector<pair<int, Vec3>>> tmp;
@@ -61,15 +70,37 @@ namespace basecross {
 	//groupIdごとに表示非表示できるようにする関数
 	void WayPointManager::ShowOnlyGroup(int groupId)
 	{
+		vector<shared_ptr<WayPoint>> group;   // 表示するグループのWayPoint
 		for (auto& obj : GetStage()->GetGameObjectVec())
 		{
-			if (auto wp = dynamic_pointer_cast<WayPoint>(obj))
+			auto wp = dynamic_pointer_cast<WayPoint>(obj);
+			if (!wp)
 			{
-				wp->SetDrawActive(groupId >= 0 && wp->GetID() == groupId);
+				continue;
+			}
+
+			bool isShow = (groupId >= 0 && wp->GetID() == groupId);
+			wp->SetDrawActive(isShow);
+			if (isShow)
+			{
+				group.push_back(wp);
 			}
 		}
-	}
 
+		//orderの小さい順に並べる
+		stable_sort(group.begin(), group.end(),
+			[](const shared_ptr<WayPoint>& a, const shared_ptr<WayPoint>& b)
+			{
+				return a->GetOrder() < b->GetOrder();
+			});
+
+		//1番目は不透明、後ろの番号ほど薄くする
+		const size_t count = group.size();
+		for (size_t i = 0; i < count; i++)
+		{
+			group[i]->SetAlpha((float)(count - i) / (float)count);
+		}
+	}
 	//Enemyに空いているgroupIDの最小値を返す（Enemyが使用中のIDは除外）
 	int WayPointManager::FindFreeGroupId() const
 	{

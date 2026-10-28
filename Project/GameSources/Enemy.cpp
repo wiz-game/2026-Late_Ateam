@@ -32,6 +32,10 @@ namespace basecross {
 		//各コンポーネントの初期化
 		InitDrawComp();
 		InitTransComp();
+
+		// 初期位置の初期化
+		m_spawnPos = m_pos;
+
 		auto ptrColl = AddComponent<CollisionObb>();
 		ptrColl->SetDrawActive(true);
 
@@ -278,4 +282,22 @@ namespace basecross {
 		TurnPlayer(playerPos, delta);
 	}
 
+	void Enemy::ResetToSpawn()
+	{
+		m_pos = m_spawnPos;
+		m_transComp->SetPosition(m_pos);
+
+		Vec3 rot = GetMemberRotation();     // エディターで設定した向き
+		m_transComp->SetRotation(rot);
+		m_forward = Vec3(sinf(rot.y), 0.0f, cosf(rot.y));   // ApplyRotation と同じ向きの定義
+
+		m_currentIndex = 0;
+		m_state = EnemyState::Patol;
+	}
+
+	void Enemy::ResetToSpawnTransform()
+	{
+		m_spawnPos = m_transComp->GetPosition();
+		ResetToSpawn();
+	}
 }
