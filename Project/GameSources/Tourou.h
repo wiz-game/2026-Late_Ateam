@@ -1,4 +1,4 @@
-/*!
+﻿/*!
 @file Tourou.h
 @brief 灯籠など
 */

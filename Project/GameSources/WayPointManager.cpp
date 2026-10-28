@@ -1,4 +1,4 @@
-/*!
+﻿/*!
 @file WayPointManager.cpp
 @brief WayPointManagerの実体
 */

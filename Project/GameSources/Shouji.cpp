@@ -1,4 +1,4 @@
-/*!
+﻿/*!
 @file Shouji.cpp
 @brief 障子など実体
 */
