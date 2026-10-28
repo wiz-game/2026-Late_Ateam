@@ -737,6 +737,25 @@ namespace basecross {
 					ResetPickUpObject();
 					auto copyObj = dynamic_pointer_cast<GameObjectForEdit>(copy);
 					if (!copyObj)return;
+
+					
+					if (auto mgr = GetWayPointManager())
+					{
+						if (auto enemy = dynamic_pointer_cast<Enemy>(copyObj))
+						{
+							enemy->SetGroupID(mgr->FindFreeGroupId());   // WayPoint は複製しない
+						}
+						else if (auto wp = dynamic_pointer_cast<WayPoint>(copyObj))
+						{
+							auto src = dynamic_pointer_cast<WayPoint>(obj);   // 複製元
+							if (src)
+							{
+								wp->SetID(src->GetID());
+								wp->SetOrder(mgr->GetNextOrder(src->GetID()));
+							}
+							wp->SetDrawActive(true);
+						}
+					}
 					// 選択されたオブジェクトの色の変更、座標などの保存、マウスの保存、XYZの矢印の描画のONにする
 					SetObjectEmissive(copyObj, Col4(1.0f, 1.0f, 0.0f, 1.0f), true);
 					m_objPos = copyObj->GetComponent<Transform>()->GetPosition();
@@ -747,6 +766,12 @@ namespace basecross {
 					arrow->SetDrawActive(true);
 					arrow->SetArrowPosition(m_objPos);
 					m_pickObj = copyObj;
+
+					// WayPointの表示/非表示
+					if (auto mgr = GetWayPointManager())
+					{
+						mgr->ShowOnlyGroup(GetPickGroupId());
+					}
 				}
 
 			}
@@ -774,5 +799,38 @@ namespace basecross {
 		auto info = EditObjectRegistry::Get().FindByObject(obj);
 		return info ? info->id : 0;
 	}
+
+	shared_ptr<WayPointManager> Editor::GetWayPointManager()
+	{
+		return GetStage()->GetSharedGameObject<WayPointManager>(L"WayPointManager", false);
+	}
+
+	int Editor::GetPickGroupId()
+	{
+		auto obj = m_pickObj.lock();
+		if (auto enemy = dynamic_pointer_cast<Enemy>(obj)) return enemy->GetGroupID();
+		if (auto wp = dynamic_pointer_cast<WayPoint>(obj)) return wp->GetID();
+		return -1;
+	}
+
+	void Editor::AddWayPoint()
+	{
+		int groupId = GetPickGroupId();
+		auto mgr = GetWayPointManager();
+		if (groupId < 0 || !mgr) return;   // Enemy か WayPoint を選択していないと追加しない
+
+		auto camera = GetStage()->GetView()->GetTargetCamera();
+		auto at = camera->GetAt();
+		at.x = (float)((int)at.x);
+		at.y = (float)((int)at.y);
+		at.z = (float)((int)at.z);
+
+		auto wp = GetStage()->AddGameObject<WayPoint>(Vec3(1.0f), Vec3(0.0f), at);
+		wp->SetID(groupId);
+		wp->SetOrder(mgr->GetNextOrder(groupId));
+		wp->SetUpdateActive(false);
+		wp->SetDrawActive(true);
+	}
+
 }
 //end basecross
