@@ -18,6 +18,10 @@ namespace basecross {
 		m_draw = AddComponent<PNTStaticDraw>();
 		m_draw->SetMeshResource(L"DEFAULT_SQUARE");
 		m_draw->SetEmissive(Col4(1.0f));
+		m_draw->SetRasterizerState(RasterizerState::CullNone);
+		
+	}
+
 	}
 
 	bool ActionCamPos::IsInRange(const Vec3& playerPos)
