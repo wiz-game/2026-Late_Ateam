@@ -75,17 +75,6 @@ namespace basecross {
 			// ビューとライトの作成
 			CreateViewLight();
 
-			//データから地点を生成
-			//auto cameraDatta = ActionCamInfo::Create();
-			//for (const auto& data : cameraDatta)
-			//{
-			//	m_acPostionList.emplace_back(
-			//		data.ActionPos,
-			//		data.Radius,
-			//		data.RoomCenter
-			//	);
-			//}
-
 //----<Editor>------------------------------------------------------------------------------
 			CreatePlayer();			// プレイヤーの作成	
 			auto mgr = AddGameObject<WayPointManager>();
@@ -94,7 +83,6 @@ namespace basecross {
 			AddGameObject<Editor>();// エディターの作成	
 //------------------------------------------------------------------------------------------
 
-			mgr->Rebuild();
 		}
 		catch (...) {
 			throw;

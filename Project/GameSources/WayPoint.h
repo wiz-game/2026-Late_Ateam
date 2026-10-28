@@ -44,11 +44,6 @@ namespace basecross {
 		virtual void OnUpdate() override; // 更新
 		//virtual void OnDraw() override; // 描画
 
-		// WayPointが表示中かどうかを判定
-		bool IsShown() const
-		{
-			return m_drawComp && m_drawComp->IsDrawActive();
-		}
 
 		//ゲッター関数
 		int GetID() const
@@ -63,6 +58,11 @@ namespace basecross {
 		{
 			return m_transComp;
 		}
+		// WayPointが表示中かどうかを判定
+		bool GetIsShown() const
+		{
+			return m_drawComp && m_drawComp->IsDrawActive();
+		}
 
 		//セッター関数
 		void SetID(int Id)
@@ -76,6 +76,12 @@ namespace basecross {
 		void SetDrawActive(bool draw)
 		{
 			m_drawComp->SetDrawActive(draw);
+		}
+		void SetAlpha(float alpha)
+		{
+			auto color = m_drawComp->GetDiffuse();
+			color.w = alpha;
+			m_drawComp->SetDiffuse(color);
 		}
 	};
 
