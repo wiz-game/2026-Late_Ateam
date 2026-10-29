@@ -32,6 +32,9 @@
 #include "Andon.h"
 #include "Tourou.h"
 
+// 物理エンジン
+#include "JoltStatic.h"
+
 // ステージ関係
 #include "GameStage.h"
 #include "SelectStage.h"

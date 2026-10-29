@@ -154,6 +154,12 @@
     <Filter Include="UI\AnimUI">
       <UniqueIdentifier>{168cc72a-cbae-4f6c-aa05-8fa9d267b428}</UniqueIdentifier>
     </Filter>
+    <Filter Include="BaseCrossComponent\JoltPhysics\JoltBase">
+      <UniqueIdentifier>{71455ac0-c453-4c5d-b302-45052d89afba}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="BaseCrossComponent\JoltPhysics\JoltStatic">
+      <UniqueIdentifier>{49de216e-275b-43b2-bf8d-2961df35b078}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="$(MSBuildThisFileDirectory)PNTDXModelDraw.h">
@@ -164,18 +170,6 @@
     </ClInclude>
     <ClInclude Include="$(MSBuildThisFileDirectory)DXModelResource.h">
       <Filter>BaseCrossComponent\DXModel</Filter>
-    </ClInclude>
-    <ClInclude Include="$(MSBuildThisFileDirectory)JoltLayers.h">
-      <Filter>BaseCrossComponent\JoltPhysics</Filter>
-    </ClInclude>
-    <ClInclude Include="$(MSBuildThisFileDirectory)JoltManager.h">
-      <Filter>BaseCrossComponent\JoltPhysics</Filter>
-    </ClInclude>
-    <ClInclude Include="$(MSBuildThisFileDirectory)JoltRigidBody.h">
-      <Filter>BaseCrossComponent\JoltPhysics</Filter>
-    </ClInclude>
-    <ClInclude Include="$(MSBuildThisFileDirectory)CharacterController.h">
-      <Filter>BaseCrossComponent\JoltPhysics</Filter>
     </ClInclude>
     <ClInclude Include="$(MSBuildThisFileDirectory)Player.h">
       <Filter>Objects\Player</Filter>
@@ -294,6 +288,21 @@
     <ClInclude Include="$(MSBuildThisFileDirectory)AnimUI.h">
       <Filter>UI\AnimUI</Filter>
     </ClInclude>
+    <ClInclude Include="$(MSBuildThisFileDirectory)CharacterController.h">
+      <Filter>BaseCrossComponent\JoltPhysics\JoltBase</Filter>
+    </ClInclude>
+    <ClInclude Include="$(MSBuildThisFileDirectory)JoltLayers.h">
+      <Filter>BaseCrossComponent\JoltPhysics\JoltBase</Filter>
+    </ClInclude>
+    <ClInclude Include="$(MSBuildThisFileDirectory)JoltManager.h">
+      <Filter>BaseCrossComponent\JoltPhysics\JoltBase</Filter>
+    </ClInclude>
+    <ClInclude Include="$(MSBuildThisFileDirectory)JoltRigidBody.h">
+      <Filter>BaseCrossComponent\JoltPhysics\JoltBase</Filter>
+    </ClInclude>
+    <ClInclude Include="$(MSBuildThisFileDirectory)JoltStatic.h">
+      <Filter>BaseCrossComponent\JoltPhysics\JoltStatic</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="$(MSBuildThisFileDirectory)PNTDXModelDraw.cpp">
@@ -304,15 +313,6 @@
     </ClCompile>
     <ClCompile Include="$(MSBuildThisFileDirectory)DXModelResource.cpp">
       <Filter>BaseCrossComponent\DXModel</Filter>
-    </ClCompile>
-    <ClCompile Include="$(MSBuildThisFileDirectory)JoltManager.cpp">
-      <Filter>BaseCrossComponent\JoltPhysics</Filter>
-    </ClCompile>
-    <ClCompile Include="$(MSBuildThisFileDirectory)JoltRigidBody.cpp">
-      <Filter>BaseCrossComponent\JoltPhysics</Filter>
-    </ClCompile>
-    <ClCompile Include="$(MSBuildThisFileDirectory)CharacterController.cpp">
-      <Filter>BaseCrossComponent\JoltPhysics</Filter>
     </ClCompile>
     <ClCompile Include="$(MSBuildThisFileDirectory)Player.cpp">
       <Filter>Objects\Player</Filter>
@@ -430,6 +430,18 @@
     </ClCompile>
     <ClCompile Include="$(MSBuildThisFileDirectory)AnimUI.cpp">
       <Filter>UI\AnimUI</Filter>
+    </ClCompile>
+    <ClCompile Include="$(MSBuildThisFileDirectory)CharacterController.cpp">
+      <Filter>BaseCrossComponent\JoltPhysics\JoltBase</Filter>
+    </ClCompile>
+    <ClCompile Include="$(MSBuildThisFileDirectory)JoltManager.cpp">
+      <Filter>BaseCrossComponent\JoltPhysics\JoltBase</Filter>
+    </ClCompile>
+    <ClCompile Include="$(MSBuildThisFileDirectory)JoltRigidBody.cpp">
+      <Filter>BaseCrossComponent\JoltPhysics\JoltBase</Filter>
+    </ClCompile>
+    <ClCompile Include="$(MSBuildThisFileDirectory)JoltStatic.cpp">
+      <Filter>BaseCrossComponent\JoltPhysics\JoltStatic</Filter>
     </ClCompile>
   </ItemGroup>
 </Project>

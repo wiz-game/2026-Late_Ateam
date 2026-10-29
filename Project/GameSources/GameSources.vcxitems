@@ -40,6 +40,7 @@
     <ClInclude Include="$(MSBuildThisFileDirectory)JoltLayers.h" />
     <ClInclude Include="$(MSBuildThisFileDirectory)JoltManager.h" />
     <ClInclude Include="$(MSBuildThisFileDirectory)JoltRigidBody.h" />
+    <ClInclude Include="$(MSBuildThisFileDirectory)JoltStatic.h" />
     <ClInclude Include="$(MSBuildThisFileDirectory)Koban.h" />
     <ClInclude Include="$(MSBuildThisFileDirectory)LoadMedia.h" />
     <ClInclude Include="$(MSBuildThisFileDirectory)MainCamera.h" />
@@ -90,6 +91,7 @@
     <ClCompile Include="$(MSBuildThisFileDirectory)InvisibleWall.cpp" />
     <ClCompile Include="$(MSBuildThisFileDirectory)JoltManager.cpp" />
     <ClCompile Include="$(MSBuildThisFileDirectory)JoltRigidBody.cpp" />
+    <ClCompile Include="$(MSBuildThisFileDirectory)JoltStatic.cpp" />
     <ClCompile Include="$(MSBuildThisFileDirectory)Koban.cpp" />
     <ClCompile Include="$(MSBuildThisFileDirectory)LoadMedia.cpp" />
     <ClCompile Include="$(MSBuildThisFileDirectory)MainCamera.cpp" />

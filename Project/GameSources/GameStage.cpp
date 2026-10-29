@@ -65,6 +65,11 @@ namespace basecross {
 		loader->LoadStageFile(path + L"Stages\\stage_" + to_wstring(loadNum) + L".stg");
 	}
 
+	void GameStage::RebuildStatic()
+	{
+		m_static.Rebuild(GetGameObjectVec(), m_jphManger.GetSystem());
+	}
+
 	void GameStage::OnCreate() {
 		try {
 			auto& app = App::GetApp();
@@ -74,6 +79,9 @@ namespace basecross {
 
 			// ビューとライトの作成
 			CreateViewLight();
+
+			// スタティックオブジェクトの判定作成
+			RebuildStatic();
 
 //----<Editor>------------------------------------------------------------------------------
 			CreatePlayer();			// プレイヤーの作成	
