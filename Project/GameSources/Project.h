@@ -28,6 +28,9 @@
 #include "ClearObject.h"
 #include "SkyBox.h"
 #include "InvisibleWall.h"
+#include "Shouji.h"
+#include "Andon.h"
+#include "Tourou.h"
 
 // ステージ関係
 #include "GameStage.h"
@@ -35,7 +38,6 @@
 #include "TitleStage.h"
 #include "GameOverStage.h"
 #include "ClearStage.h"
-
 
 // エディター関係
 #include "Editor.h"
@@ -52,7 +54,11 @@
 #include "ActionCamera.h"
 #include "ActionCamPos.h"
 #include "ActionCamPosData.h"
+
+// UI
 #include "Sprite.h"
+#include "StaticUI.h"
+#include "AnimUI.h"
 
 // その他
 #include "LoadMedia.h"

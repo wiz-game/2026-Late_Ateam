@@ -26,8 +26,35 @@ namespace basecross {
 
 		Vec3 diff = playerPos - pos;
 
-		return diff.length() <= m_radius;
-		OutputDebugString(L"IsInRange\n");
+		return diff.length() <=  ACTION_RADIUS;
+	}
+
+	Vec3 ActionCamPos::GetCameraPosition() const
+	{
+		auto trans = GetComponent<Transform>();
+
+		if (!trans)
+		{
+			return Vec3();
+		}
+
+		auto pos = trans->GetPosition();
+
+		pos.y += TOPADD_POSITION;
+
+		return pos;
+	}
+
+	Vec3 ActionCamPos::GetCameraForward() const
+	{
+		auto trans = GetComponent<Transform>();
+		
+		if (!trans)
+		{
+			return Vec3();
+		}
+
+		return trans->GetForward();
 	}
 }
 //end basecross

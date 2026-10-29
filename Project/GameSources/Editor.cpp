@@ -76,6 +76,15 @@ namespace basecross {
 				mainCamera->GetStateMachine()->ChangeState(EditorCameraState::Instance());
 
 				m_stageNum = scene->GetLoadStageNumber();
+
+				// Enemyの開始地点を初期値に戻す
+				for (auto& o : objs)
+				{
+					if (auto enemy = dynamic_pointer_cast<Enemy>(o))
+					{
+						enemy->ResetToSpawn();
+					}
+				}
 			}
 			else // エディターモードなら
 			{
@@ -85,6 +94,18 @@ namespace basecross {
 				ResetPickUpObject();
 				mainCamera->SetTargetObject(player);
 				mainCamera->GetStateMachine()->ChangeState(CameraNormalMoveState::Instance());
+
+				for (auto& o : objs)
+				{
+					if (auto enemy = dynamic_pointer_cast<Enemy>(o))
+					{
+						enemy->ResetToSpawnTransform();
+					}
+				}
+				if (auto mgr = GetWayPointManager())
+				{
+					mgr->Rebuild();
+				}
 			}
 		}
 		// これ以降はエディターモードの時に動かす
@@ -160,6 +181,12 @@ namespace basecross {
 						GetMouseRay(m_pastMauseRay[0], m_pastMauseRay[1]);
 						arrow->SetDrawActive(true);
 						arrow->SetArrowPosition(m_objPos);
+
+						// 選択したグループのオブジェクトを表示する
+						if (auto mgr = GetWayPointManager())
+						{
+							mgr->ShowOnlyGroup(GetPickGroupId());
+						}
 					}
 				}
 			}
@@ -236,6 +263,12 @@ namespace basecross {
 			{ 
 				AddNewObject();
 			}
+
+			// Pで選択中のグループにWayPointを追加
+			if (keyState.m_bPressedKeyTbl['P'])
+			{
+				AddWayPoint();
+			}
 			const auto& kinds = EditObjectRegistry::Get().GetAll();
 			wstring kindName = L"None";
 			if (m_addObjNum >= 0 && m_addObjNum < (int)kinds.size())
@@ -246,6 +279,12 @@ namespace basecross {
 			ss << L"SnapSize: " << m_snapSize << endl;
 
 			scene->SetDebugString(ss.str());
+
+			// WayPoint関係
+			if (auto mgr = GetWayPointManager())
+			{
+				mgr->ShowOnlyGroup(GetPickGroupId());
+			}
 		}
 
 	}
@@ -299,10 +338,32 @@ namespace basecross {
 			ofs.write((char*)&objRot, sizeof(objRot));
 			ofs.write((char*)&objPos, sizeof(objPos));
 		}
+
+		// EnemyとWayPointのID
+		struct Extra { int32_t index, a, b; };
+		vector<Extra> extras;
+		for (uint32_t i = 0; i < (uint32_t)saveObjs.size(); i++)
+		{
+			auto& o = saveObjs[i].first;
+			if (auto enemy = dynamic_pointer_cast<Enemy>(o))
+			{
+				extras.push_back({ (int32_t)i, enemy->GetGroupID(), 0 });
+			}
+			else if (auto wp = dynamic_pointer_cast<WayPoint>(o))
+			{
+				extras.push_back({ (int32_t)i, wp->GetID(), wp->GetOrder() });
+			}
+		}
+		uint32_t extraNum = (uint32_t)extras.size();
+		ofs.write((char*)&extraNum, sizeof(extraNum));
+		for (auto& e : extras)
+		{
+			ofs.write((char*)&e, sizeof(Extra));
+		}
+
 		// 成功のメッセージを表示してファイルを閉じる
 		MessageBox(0, L"ステージ配置を保存しました", L"Binary file save succeeded", 0);
 		ofs.close();
-
 
 	}
 
@@ -335,6 +396,12 @@ namespace basecross {
 		}
 		for (auto& v : GetStage()->GetGameObjectVec())
 		{
+			// 見えていないWayPointを選択対象から除外
+			if (auto wp = dynamic_pointer_cast<WayPoint>(v))
+			{
+				if (!wp->GetIsShown()) continue;
+			}
+
 			auto player = dynamic_pointer_cast<Player>(v);
 
 			// 当たり判定の確認
@@ -524,7 +591,16 @@ namespace basecross {
 	void Editor::AddNewObject()
 	{
 		const auto& kinds = EditObjectRegistry::Get().GetAll();
-		if (m_addObjNum < 0 || m_addObjNum >= (int)kinds.size()) return;
+		if (m_addObjNum < 0 || m_addObjNum >= (int)kinds.size())
+		{
+			return;
+		}
+
+		// WayPointを選んで追加した時のグループ化の処理
+		if (kinds[m_addObjNum].type == type_index(typeid(WayPoint)))
+		{ 
+			AddWayPoint(); return;
+		}
 
 		auto camera = GetStage()->GetView()->GetTargetCamera();
 		auto at = camera->GetAt();
@@ -536,6 +612,15 @@ namespace basecross {
 		if (obj)
 		{
 			obj->SetUpdateActive(false);
+
+			// 追加したEnemyにグループIDを割り当てる
+			if (auto enemy = dynamic_pointer_cast<Enemy>(obj))
+			{
+				if (auto mgr = GetWayPointManager())
+				{
+					enemy->SetGroupID(mgr->FindFreeGroupId());
+				}
+			}
 		}
 
 	}
@@ -555,6 +640,11 @@ namespace basecross {
 			m_pickObj.reset();
 		}
 
+		// 選択解除で全部のWayPointを隠す
+		if (auto mgr = GetWayPointManager())
+		{
+			mgr->ShowOnlyGroup(-1);
+		}
 	}
 
 	void Editor::MovePickUpObject(wstringstream& ss)
@@ -570,8 +660,6 @@ namespace basecross {
 		auto device = App::GetApp()->GetInputDevice();
 		auto keyState = device.GetKeyState();
 
-
-
 		//選択状態のオブジェクトを移動
 		auto obj = m_pickObj.lock();
 		auto object = dynamic_pointer_cast<GameObjectForEdit>(obj);
@@ -582,6 +670,20 @@ namespace basecross {
 			{
 				if (!dynamic_pointer_cast<Player>(obj))
 				{
+					// Enemyの場合グループのWayPointも消す
+					if (auto enemy = dynamic_pointer_cast<Enemy>(obj))
+					{
+						int gid = enemy->GetGroupID();
+						for (auto& o : GetStage()->GetGameObjectVec())
+						{
+							auto wp = dynamic_pointer_cast<WayPoint>(o);
+							if (wp && wp->GetID() == gid)
+							{
+								GetStage()->RemoveGameObject<GameObject>(wp);
+							}
+						}
+					}
+
 					GetStage()->RemoveGameObject<GameObject>(obj);
 					arrow->SetDrawActive(false);
 					mark->SetDrawActive(false);
@@ -737,6 +839,25 @@ namespace basecross {
 					ResetPickUpObject();
 					auto copyObj = dynamic_pointer_cast<GameObjectForEdit>(copy);
 					if (!copyObj)return;
+
+					// 複製したEnemyとWayPointの特殊処理
+					if (auto mgr = GetWayPointManager())
+					{
+						if (auto enemy = dynamic_pointer_cast<Enemy>(copyObj))
+						{
+							enemy->SetGroupID(mgr->FindFreeGroupId());   // WayPoint は複製しない
+						}
+						else if (auto wp = dynamic_pointer_cast<WayPoint>(copyObj))
+						{
+							auto src = dynamic_pointer_cast<WayPoint>(obj);   // 複製元
+							if (src)
+							{
+								wp->SetID(src->GetID());
+								wp->SetOrder(mgr->GetNextOrder(src->GetID()));
+							}
+							wp->SetDrawActive(true);
+						}
+					}
 					// 選択されたオブジェクトの色の変更、座標などの保存、マウスの保存、XYZの矢印の描画のONにする
 					SetObjectEmissive(copyObj, Col4(1.0f, 1.0f, 0.0f, 1.0f), true);
 					m_objPos = copyObj->GetComponent<Transform>()->GetPosition();
@@ -747,6 +868,12 @@ namespace basecross {
 					arrow->SetDrawActive(true);
 					arrow->SetArrowPosition(m_objPos);
 					m_pickObj = copyObj;
+
+					// WayPointの表示/非表示
+					if (auto mgr = GetWayPointManager())
+					{
+						mgr->ShowOnlyGroup(GetPickGroupId());
+					}
 				}
 
 			}
@@ -774,5 +901,44 @@ namespace basecross {
 		auto info = EditObjectRegistry::Get().FindByObject(obj);
 		return info ? info->id : 0;
 	}
+
+	shared_ptr<WayPointManager> Editor::GetWayPointManager()
+	{
+		return GetStage()->GetSharedGameObject<WayPointManager>(L"WayPointManager", false);
+	}
+
+	int Editor::GetPickGroupId()
+	{
+		auto obj = m_pickObj.lock();
+		if (auto enemy = dynamic_pointer_cast<Enemy>(obj))
+		{
+			return enemy->GetGroupID();
+		}
+		if (auto wp = dynamic_pointer_cast<WayPoint>(obj)) 
+		{
+			return wp->GetID();
+		}
+		return -1;
+	}
+
+	void Editor::AddWayPoint()
+	{
+		int groupId = GetPickGroupId();
+		auto mgr = GetWayPointManager();
+		if (groupId < 0 || !mgr) return;   // Enemy か WayPoint を選択していないと追加しない
+
+		auto camera = GetStage()->GetView()->GetTargetCamera();
+		auto at = camera->GetAt();
+		at.x = (float)((int)at.x);
+		at.y = (float)((int)at.y);
+		at.z = (float)((int)at.z);
+
+		auto wp = GetStage()->AddGameObject<WayPoint>(Vec3(1.0f), Vec3(0.0f), at);
+		wp->SetID(groupId);
+		wp->SetOrder(mgr->GetNextOrder(groupId));
+		wp->SetUpdateActive(false);
+		wp->SetDrawActive(true);
+	}
+
 }
 //end basecross

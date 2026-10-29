@@ -44,6 +44,7 @@ namespace basecross {
 		virtual void OnUpdate() override; // 更新
 		//virtual void OnDraw() override; // 描画
 
+
 		//ゲッター関数
 		int GetID() const
 		{
@@ -56,6 +57,11 @@ namespace basecross {
 		std::shared_ptr<Transform> GetTrans()const
 		{
 			return m_transComp;
+		}
+		// WayPointが表示中かどうかを判定
+		bool GetIsShown() const
+		{
+			return m_drawComp && m_drawComp->IsDrawActive();
 		}
 
 		//セッター関数
@@ -70,6 +76,12 @@ namespace basecross {
 		void SetDrawActive(bool draw)
 		{
 			m_drawComp->SetDrawActive(draw);
+		}
+		void SetAlpha(float alpha)
+		{
+			auto color = m_drawComp->GetDiffuse();
+			color.w = alpha;
+			m_drawComp->SetDiffuse(color);
 		}
 	};
 

@@ -17,6 +17,8 @@
     <ClInclude Include="$(MSBuildThisFileDirectory)ActionCamera.h" />
     <ClInclude Include="$(MSBuildThisFileDirectory)ActionCamPos.h" />
     <ClInclude Include="$(MSBuildThisFileDirectory)ActionCamPosData.h" />
+    <ClInclude Include="$(MSBuildThisFileDirectory)Andon.h" />
+    <ClInclude Include="$(MSBuildThisFileDirectory)AnimUI.h" />
     <ClInclude Include="$(MSBuildThisFileDirectory)Arrow.h" />
     <ClInclude Include="$(MSBuildThisFileDirectory)CameraState.h" />
     <ClInclude Include="$(MSBuildThisFileDirectory)Character.h" />
@@ -48,10 +50,13 @@
     <ClInclude Include="$(MSBuildThisFileDirectory)RayHitCheck.h" />
     <ClInclude Include="$(MSBuildThisFileDirectory)Scene.h" />
     <ClInclude Include="$(MSBuildThisFileDirectory)SelectStage.h" />
+    <ClInclude Include="$(MSBuildThisFileDirectory)Shouji.h" />
     <ClInclude Include="$(MSBuildThisFileDirectory)SkyBox.h" />
     <ClInclude Include="$(MSBuildThisFileDirectory)Sprite.h" />
     <ClInclude Include="$(MSBuildThisFileDirectory)StageLoader.h" />
+    <ClInclude Include="$(MSBuildThisFileDirectory)StaticUI.h" />
     <ClInclude Include="$(MSBuildThisFileDirectory)TitleStage.h" />
+    <ClInclude Include="$(MSBuildThisFileDirectory)Tourou.h" />
     <ClInclude Include="$(MSBuildThisFileDirectory)Wall.h" />
     <ClInclude Include="$(MSBuildThisFileDirectory)WayPoint.h" />
     <ClInclude Include="$(MSBuildThisFileDirectory)WayPointManager.h" />
@@ -60,6 +65,8 @@
     <ClCompile Include="$(MSBuildThisFileDirectory)ActionCamera.cpp" />
     <ClCompile Include="$(MSBuildThisFileDirectory)ActionCamPos.cpp" />
     <ClCompile Include="$(MSBuildThisFileDirectory)ActionCamPosData.cpp" />
+    <ClCompile Include="$(MSBuildThisFileDirectory)Andon.cpp" />
+    <ClCompile Include="$(MSBuildThisFileDirectory)AnimUI.cpp" />
     <ClCompile Include="$(MSBuildThisFileDirectory)Arrow.cpp" />
     <ClCompile Include="$(MSBuildThisFileDirectory)CameraState.cpp" />
     <ClCompile Include="$(MSBuildThisFileDirectory)Character.cpp" />
@@ -92,10 +99,13 @@
     <ClCompile Include="$(MSBuildThisFileDirectory)RayHitCheck.cpp" />
     <ClCompile Include="$(MSBuildThisFileDirectory)Scene.cpp" />
     <ClCompile Include="$(MSBuildThisFileDirectory)SelectStage.cpp" />
+    <ClCompile Include="$(MSBuildThisFileDirectory)Shouji.cpp" />
     <ClCompile Include="$(MSBuildThisFileDirectory)SkyBox.cpp" />
     <ClCompile Include="$(MSBuildThisFileDirectory)Sprite.cpp" />
     <ClCompile Include="$(MSBuildThisFileDirectory)StageLoader.cpp" />
+    <ClCompile Include="$(MSBuildThisFileDirectory)StaticUI.cpp" />
     <ClCompile Include="$(MSBuildThisFileDirectory)TitleStage.cpp" />
+    <ClCompile Include="$(MSBuildThisFileDirectory)Tourou.cpp" />
     <ClCompile Include="$(MSBuildThisFileDirectory)Wall.cpp" />
     <ClCompile Include="$(MSBuildThisFileDirectory)WayPoint.cpp" />
     <ClCompile Include="$(MSBuildThisFileDirectory)WayPointManager.cpp" />

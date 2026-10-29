@@ -1,6 +1,6 @@
 ﻿/*!
 @file Wall.cpp
-@brief キャラクターなど実体
+@brief 壁など実体
 */
 
 #include "stdafx.h"
@@ -18,7 +18,10 @@ namespace basecross {
 
 		auto ptrDraw = AddComponent<PNTStaticDraw>();
 		ptrDraw->SetMeshResource(L"DEFAULT_CUBE");
-		ptrDraw->SetBlendState(BlendState::Additive);
+		ptrDraw->SetEmissive(Col4(0.0f));
+
+		auto ptrColl = AddComponent<CollisionObb>();
+		ptrColl->SetFixed(true);
 	}
 
 }

@@ -21,6 +21,10 @@ namespace basecross {
 
 		m_drawComp = GetComponent<PNTStaticDraw>();
 		m_drawComp->SetDrawActive(false);
+
+		// アルファ値を有効にする
+		m_drawComp->SetBlendState(BlendState::AlphaBlend);
+		SetAlphaActive(true);
 	}
 
 	void WayPoint::OnUpdate()

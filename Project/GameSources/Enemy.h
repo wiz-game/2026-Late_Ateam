@@ -21,6 +21,8 @@ namespace basecross {
 		Vec3 m_rot = Vec3(0.0f, 0.0f, 0.0f);	//回転
 		Vec3 m_forward = Vec3(0.0f, 0.0f, 1.0f);//向き
 
+		Vec3 m_spawnPos = Vec3(0.0f);   // ゲーム開始時の位置
+
 		float m_speed = 5.0f;		// 移動の速さ
 
 		float m_EyeRenge = 20.0f;	// 視野範囲
@@ -79,6 +81,10 @@ namespace basecross {
 
 		void UpdatePatol(float delta);//巡回関数
 		void UpdateChase(float delta, const Vec3& playerPos);//追跡関数
+
+		// エディター接続関係
+		void ResetToSpawn();               // 置いた位置・向きに戻す(エディターに入るとき)
+		void ResetToSpawnTransform();     // エディターで置いた位置を出発位置にする(ゲーム開始時)
 
 		//void SetEnemyPoint(const std::vector<Vec3>& points)
 		//{
