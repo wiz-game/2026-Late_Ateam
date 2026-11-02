@@ -74,7 +74,6 @@ namespace basecross {
 
 			// ビューとライトの作成
 			CreateViewLight();
-
 //----<Editor>------------------------------------------------------------------------------
 			CreatePlayer();			// プレイヤーの作成	
 			auto mgr = AddGameObject<WayPointManager>();
