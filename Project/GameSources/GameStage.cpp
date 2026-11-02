@@ -74,7 +74,6 @@ namespace basecross {
 
 			// ビューとライトの作成
 			CreateViewLight();
-
 //----<Editor>------------------------------------------------------------------------------
 			CreatePlayer();			// プレイヤーの作成	
 			auto mgr = AddGameObject<WayPointManager>();
@@ -158,7 +157,7 @@ namespace basecross {
 		}
 
 		bool xPressed =
-			(state.Gamepad.wButtons & XINPUT_GAMEPAD_X) != 0;
+			(state.Gamepad.wButtons & XINPUT_GAMEPAD_B) != 0;
 
 		if (canUseActionCamera && xPressed && !oldXState)
 		{

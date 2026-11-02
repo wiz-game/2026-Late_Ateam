@@ -1,4 +1,4 @@
-/*!
+﻿/*!
 @file Andon.cpp
 @brief 行燈など実体
 */

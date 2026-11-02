@@ -1,4 +1,4 @@
-/*!
+﻿/*!
 @file Shouji.h
 @brief 障子など
 */
