@@ -160,6 +160,9 @@
     <Filter Include="BaseCrossComponent\JoltPhysics\JoltStatic">
       <UniqueIdentifier>{49de216e-275b-43b2-bf8d-2961df35b078}</UniqueIdentifier>
     </Filter>
+    <Filter Include="Managers\SoundManager">
+      <UniqueIdentifier>{862dc3fc-20a0-4dde-961d-495e53a89327}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="$(MSBuildThisFileDirectory)PNTDXModelDraw.h">
@@ -303,6 +306,9 @@
     <ClInclude Include="$(MSBuildThisFileDirectory)JoltStatic.h">
       <Filter>BaseCrossComponent\JoltPhysics\JoltStatic</Filter>
     </ClInclude>
+    <ClInclude Include="$(MSBuildThisFileDirectory)SoundManager.h">
+      <Filter>Managers\SoundManager</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="$(MSBuildThisFileDirectory)PNTDXModelDraw.cpp">
@@ -442,6 +448,9 @@
     </ClCompile>
     <ClCompile Include="$(MSBuildThisFileDirectory)JoltStatic.cpp">
       <Filter>BaseCrossComponent\JoltPhysics\JoltStatic</Filter>
+    </ClCompile>
+    <ClCompile Include="$(MSBuildThisFileDirectory)SoundManager.cpp">
+      <Filter>Managers\SoundManager</Filter>
     </ClCompile>
   </ItemGroup>
 </Project>
