@@ -37,7 +37,13 @@ namespace basecross {
 		float m_CatchSpeed = 8.0f;	// 追跡時の速さ
 		float m_CatchRenge = 1.0f;	// 捕獲範囲
 
-		//std::vector<Vec3> m_patrolPositions; //巡回ポイント
+		//ジャンプ関係
+		bool m_isGround = false;	//地面にいるかどうか
+		float m_prevY = 0.0f;		//前フレームのY座標
+		float m_velocityY = 0.0f;		//Y方向の速度
+		bool m_wantJump = false;		//ジャンプしたいかどうか
+
+		//巡回関係
 		size_t m_currentIndex = 0;		//今向かっているポイントの番号
 		float m_arriveDistance = 0.5f;	//到着したとみなす距離
 
@@ -91,14 +97,7 @@ namespace basecross {
 		void ResetToSpawn();               // 置いた位置・向きに戻す(エディターに入るとき)
 		void ResetToSpawnTransform();     // エディターで置いた位置を出発位置にする(ゲーム開始時)
 
-		//void SetEnemyPoint(const std::vector<Vec3>& points)
-		//{
-		//	m_patrolPositions = points;
-		//	m_currentIndex = 0;
-		//	//if (!points.empty()) m_pos = points[0];
-		//	//m_transComp->SetPosition(m_pos);
-		//}
-
+		//WayPointManagerの設定
 		int GetGroupID() const
 		{
 			return m_groupId;
@@ -108,5 +107,12 @@ namespace basecross {
 		{
 			m_groupId = id;
 		}
+
+		void VelocityYUpdate(bool isJump);//Y方向の速度更新
+
+		// 当たり判定
+		void OnCollisionEnter(shared_ptr<GameObject>& Other);
+		void OnCollisionExit(shared_ptr<GameObject>& Other);
+
 	};
 }
