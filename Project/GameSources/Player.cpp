@@ -35,6 +35,7 @@ namespace basecross {
 
 		if (Other->FindTag(L"Koban"))
 		{
+			SoundManager::Instance().PlaySE(L"SE_Koban", false);
 			m_canClear = true;
 		}
 
@@ -70,7 +71,6 @@ namespace basecross {
 		auto key = app->GetInputDevice().GetKeyState();
 
 		return (pad.wPressedButtons & XINPUT_GAMEPAD_A || key.m_bPressedKeyTbl[VK_SPACE]);
-
 	}
 
 	// Drawコンポーネントの初期化
@@ -197,6 +197,7 @@ namespace basecross {
 		if (isJump && m_isGround)
 		{
 			m_velocityY = 7.5f;
+			SoundManager::Instance().PlaySE(L"SE_Jump", false);
 		}
 	}
 	

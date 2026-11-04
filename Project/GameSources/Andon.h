@@ -1,4 +1,4 @@
-/*!
+﻿/*!
 @file Andon.h
 @brief 行燈など
 */

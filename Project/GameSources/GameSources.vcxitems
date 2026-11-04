@@ -40,6 +40,7 @@
     <ClInclude Include="$(MSBuildThisFileDirectory)JoltLayers.h" />
     <ClInclude Include="$(MSBuildThisFileDirectory)JoltManager.h" />
     <ClInclude Include="$(MSBuildThisFileDirectory)JoltRigidBody.h" />
+    <ClInclude Include="$(MSBuildThisFileDirectory)JoltStatic.h" />
     <ClInclude Include="$(MSBuildThisFileDirectory)Koban.h" />
     <ClInclude Include="$(MSBuildThisFileDirectory)LoadMedia.h" />
     <ClInclude Include="$(MSBuildThisFileDirectory)MainCamera.h" />
@@ -52,6 +53,7 @@
     <ClInclude Include="$(MSBuildThisFileDirectory)SelectStage.h" />
     <ClInclude Include="$(MSBuildThisFileDirectory)Shouji.h" />
     <ClInclude Include="$(MSBuildThisFileDirectory)SkyBox.h" />
+    <ClInclude Include="$(MSBuildThisFileDirectory)SoundManager.h" />
     <ClInclude Include="$(MSBuildThisFileDirectory)Sprite.h" />
     <ClInclude Include="$(MSBuildThisFileDirectory)StageLoader.h" />
     <ClInclude Include="$(MSBuildThisFileDirectory)StaticUI.h" />
@@ -90,6 +92,7 @@
     <ClCompile Include="$(MSBuildThisFileDirectory)InvisibleWall.cpp" />
     <ClCompile Include="$(MSBuildThisFileDirectory)JoltManager.cpp" />
     <ClCompile Include="$(MSBuildThisFileDirectory)JoltRigidBody.cpp" />
+    <ClCompile Include="$(MSBuildThisFileDirectory)JoltStatic.cpp" />
     <ClCompile Include="$(MSBuildThisFileDirectory)Koban.cpp" />
     <ClCompile Include="$(MSBuildThisFileDirectory)LoadMedia.cpp" />
     <ClCompile Include="$(MSBuildThisFileDirectory)MainCamera.cpp" />
@@ -101,6 +104,7 @@
     <ClCompile Include="$(MSBuildThisFileDirectory)SelectStage.cpp" />
     <ClCompile Include="$(MSBuildThisFileDirectory)Shouji.cpp" />
     <ClCompile Include="$(MSBuildThisFileDirectory)SkyBox.cpp" />
+    <ClCompile Include="$(MSBuildThisFileDirectory)SoundManager.cpp" />
     <ClCompile Include="$(MSBuildThisFileDirectory)Sprite.cpp" />
     <ClCompile Include="$(MSBuildThisFileDirectory)StageLoader.cpp" />
     <ClCompile Include="$(MSBuildThisFileDirectory)StaticUI.cpp" />
