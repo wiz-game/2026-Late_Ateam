@@ -64,6 +64,9 @@ namespace basecross {
 		if (!player) return;
 		Vec3 playerPos = player->GetComponent<Transform>()->GetPosition();
 
+		//最新座標をm_posに反映する
+		m_pos = m_transComp->GetPosition();
+
 		switch (m_state)
 		{
 		case EnemyState::Patol:
@@ -72,12 +75,12 @@ namespace basecross {
 			//両眼視界に入っていたら捕獲モード
 			if (IsPlayerInSight(playerPos))
 			{
-				m_state = EnemyState::Patol;
+				m_state = EnemyState::Chase;
 			}
 			//単眼視界に入っていたら警戒モード
 			else if (AlertEye(playerPos))
 			{
-				m_state = EnemyState::Patol;
+				m_state = EnemyState::Alert;
 			}
 			else
 			{
@@ -198,7 +201,11 @@ namespace basecross {
 		float dot = toPlayer.dot(m_forward);//内積:1に近いほど正面 -1は真後ろ
 
 		//両眼視界：角度 < 40°⇔ dot >= cos( 40°) = 0.5
-		return dot >= m_innerCos;
+		if (dot >= m_innerCos)
+		{
+			return !IsBlockedByWall(playerPos);
+		}
+		return false;
 	}
 
 	//単眼視界（警戒）の判定
@@ -219,7 +226,12 @@ namespace basecross {
 		float dot = toPlayer.dot(m_forward);
 
 		//単眼視界：40°< 角度 <= 90°⇔ cos( 90°) <= dot < cos( 40°)
-		return dot < m_innerCos && dot >= m_outerCos;
+		if (dot < m_innerCos && dot >= m_outerCos)
+		{
+			return !IsBlockedByWall(playerPos);
+		}
+
+		return false;
 	}
 
 
@@ -277,10 +289,70 @@ namespace basecross {
 		}
 
 		toTarget.normalize();
-		m_pos += toTarget * m_CatchSpeed * delta;
+
+		Vec3 moveDir = AvoidWall(toTarget);//壁を避ける移動ベクトルを計算
+
+		//見た目も進行方向へ
+		m_pos += moveDir * m_CatchSpeed * delta;
 		m_transComp->SetPosition(m_pos);
 		TurnPlayer(playerPos, delta);
 	}
+
+	//壁に遮られているか判定
+	bool Enemy::IsBlockedByWall(const Vec3& targetPos) const
+	{
+		//床との誤判定を防ぐために、少し上にあげる
+		Vec3 start = m_pos + Vec3(0.0f, 0.5f, 0.0f);
+		Vec3 end = targetPos + Vec3(0.0f, 0.5f, 0.0f);
+
+		for (auto obj : GetStage()->GetGameObjectVec())
+		{
+			if (obj->FindTag(L"Wall"))
+			{
+				auto wallObj = obj->GetComponent<CollisionObb>(false);
+
+				if (wallObj)
+				{
+					//敵からターゲットまでの線分が壁のOBBと交差したら「遮られている(true)」
+					if (HitTest::SEGMENT_OBB(start, end, wallObj->GetObb()))
+					{
+						return true;
+					}
+				}
+			}
+		}
+
+		return false;//何もなかったら遮られていない
+	}
+
+	Vec3 Enemy::AvoidWall(const Vec3 moveDir) const
+	{
+		float feelerLength = 2.0f;//壁を検知する距離
+		Vec3 start = m_pos;
+		Vec3 endCenter = start + moveDir * feelerLength;
+
+		if (!IsBlockedByWall(endCenter))
+		{
+			return moveDir;
+		}
+
+		float angle = atan2(moveDir.x, moveDir.z);
+		float offset = XMConvertToRadians(45.0f);//30°ずつずらす
+
+		Vec3 leftDir(sinf(angle - offset), 0.0f, cosf(angle - offset));
+		Vec3 rightDir(sinf(angle + offset), 0.0f, cosf(angle + offset));
+
+
+		Vec3 endLeft = start + leftDir * feelerLength;
+		// 左右の方向で壁がないか確認
+		if (!IsBlockedByWall(endLeft))
+		{
+			return leftDir;
+		}
+
+		return rightDir;
+	}
+
 
 	void Enemy::ResetToSpawn()
 	{
