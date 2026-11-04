@@ -106,6 +106,12 @@ namespace basecross {
 				{
 					mgr->Rebuild();
 				}
+
+				// 動かない物(床・壁)のJoltボディを、編集後の配置で作り直す
+				if (auto gameStage = dynamic_pointer_cast<GameStage>(stage))
+				{
+					gameStage->RebuildStatic();
+				}
 			}
 		}
 		// これ以降はエディターモードの時に動かす

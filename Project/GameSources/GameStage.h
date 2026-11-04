@@ -6,6 +6,7 @@
 #pragma once
 #include "stdafx.h"
 #include "JoltManager.h"
+#include "JoltStatic.h"
 #include "ActionCamera.h"
 #include "ActionCamPos.h"
 
@@ -17,6 +18,7 @@ namespace basecross {
 	class GameStage : public Stage
 	{
 		JoltManager m_jphManger; // Jolt Physics マネージャー
+		JoltStatic m_static; // 動かない物(床・壁)のJoltボディ
 
 		std::shared_ptr<SingleView> m_view;
 		std::shared_ptr<MainCamera> m_camera; // カメラの取得
@@ -37,6 +39,9 @@ namespace basecross {
 		virtual void OnDraw()override; //描画
 
 		void TopActionCamera();
+
+		// 動かない物のJoltボディを、いまのステージ上のオブジェクトから作り直す
+		void RebuildStatic();
 	};
 }
 //end basecross

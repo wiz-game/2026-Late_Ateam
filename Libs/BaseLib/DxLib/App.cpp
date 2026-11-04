@@ -164,7 +164,12 @@ namespace basecross {
 		Item.m_AudioResource = SoundRes;
 		auto Ptr = pImpl->ChkAndPushBackItem(Item);
 		XAUDIO2_BUFFER buffer = { 0 };
-		buffer.AudioBytes = (UINT32)SoundRes->GetSoundData().size();
+
+		// サイズが奇数のファイルは読み取れないので偶数にする
+		UINT32 safeBytes = (UINT32)SoundRes->GetSoundData().size();
+		safeBytes &= ~1;
+
+		buffer.AudioBytes = safeBytes;
 		buffer.LoopCount = (UINT32)LoopCount;
 		buffer.pAudioData = &SoundRes->GetSoundData().front();
 		buffer.Flags = XAUDIO2_END_OF_STREAM;
