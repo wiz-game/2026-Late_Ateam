@@ -82,6 +82,11 @@ namespace basecross {
 		void UpdatePatol(float delta);//巡回関数
 		void UpdateChase(float delta, const Vec3& playerPos);//追跡関数
 
+		//壁に遮られているか判定
+		bool IsBlockedByWall(const Vec3& targetPos) const;
+		//壁を避ける移動ベクトルを計算
+		Vec3 AvoidWall(const Vec3 moveDir) const;
+
 		// エディター接続関係
 		void ResetToSpawn();               // 置いた位置・向きに戻す(エディターに入るとき)
 		void ResetToSpawnTransform();     // エディターで置いた位置を出発位置にする(ゲーム開始時)
