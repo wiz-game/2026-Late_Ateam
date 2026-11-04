@@ -1,4 +1,4 @@
-/*!
+﻿/*!
 @file Tourou.cpp
 @brief 灯籠など実体
 */

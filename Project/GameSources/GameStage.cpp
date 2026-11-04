@@ -166,7 +166,7 @@ namespace basecross {
 		}
 
 		bool xPressed =
-			(state.Gamepad.wButtons & XINPUT_GAMEPAD_X) != 0;
+			(state.Gamepad.wButtons & XINPUT_GAMEPAD_B) != 0;
 
 		if (canUseActionCamera && xPressed && !oldXState)
 		{

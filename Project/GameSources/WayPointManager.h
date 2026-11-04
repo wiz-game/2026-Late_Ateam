@@ -1,4 +1,4 @@
-/*!
+﻿/*!
 @file WayPointManager.h
 @brief WayPointをまとめるクラスなど
 */
