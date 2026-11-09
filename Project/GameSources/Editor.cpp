@@ -61,8 +61,13 @@ namespace basecross {
 			for (auto& obj : objs)
 			{
 				obj->SetUpdateActive(m_isEditorMode);
-			}
-			// 更新フラグの変更時の影響を戻す
+
+				// ゲーム用のUIは、エディターに入るときに隠し、戻るときに再表示する
+				if (obj->FindTag(L"UI"))
+				{
+					obj->SetDrawActive(m_isEditorMode);
+				}
+			}			// 更新フラグの変更時の影響を戻す
 			SetUpdateActive(true);
 			stage->GetSharedObject(L"DebugString")->SetUpdateActive(true);
 			stage->GetSharedObject(L"DebugString")->SetDrawLayer(5);
