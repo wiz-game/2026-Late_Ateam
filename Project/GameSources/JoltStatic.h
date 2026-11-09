@@ -32,6 +32,9 @@ namespace basecross {
 			return m_bodyIDs.size();
 		}
 
+		// 点startから向きdirへ半径radiusの球を飛ばし、壁・床にぶつかるまでに進める距離を返す
+		static float GetSphereCastDistance(const Vec3& start, const Vec3& dir, float maxDistance, float radius);
+
 	private:
 		std::vector<JPH::BodyID> m_bodyIDs;
 	};
