@@ -1,4 +1,4 @@
-/*!
+﻿/*!
 @file GameStage.cpp
 @brief ゲームステージ実体
 */
