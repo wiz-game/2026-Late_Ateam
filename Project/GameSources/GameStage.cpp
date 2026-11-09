@@ -75,6 +75,7 @@ namespace basecross {
 			// ビューとライトの作成
 			CreateViewLight();
 			AddGameObject<StaticUI>(L"ButtanGuide", true, Vec2(300.0f, 150.0f), Vec2(500.0f, -300.0f));
+			AddGameObject<AnimUI>(L"MissionList", true, Vec2(100.0f, 35.0f), Vec2(-500.0f, 300.0f));
 //----<Editor>------------------------------------------------------------------------------
 			CreatePlayer();			// プレイヤーの作成	
 			auto mgr = AddGameObject<WayPointManager>();
