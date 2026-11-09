@@ -74,6 +74,7 @@ namespace basecross {
 
 			// ビューとライトの作成
 			CreateViewLight();
+			AddGameObject<StaticUI>(L"ButtanGuide", true, Vec2(300.0f, 150.0f), Vec2(500.0f, -300.0f));
 //----<Editor>------------------------------------------------------------------------------
 			CreatePlayer();			// プレイヤーの作成	
 			auto mgr = AddGameObject<WayPointManager>();
@@ -176,7 +177,6 @@ namespace basecross {
 			else
 			{
 				playMove->SetPlayerUpdateActive(true);
-				OutputDebugString(L"Normal Camera\n");
 				m_view->SetCamera(m_camera);
 			}
 		}
