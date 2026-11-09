@@ -151,17 +151,12 @@ namespace basecross {
 			}
 		}
 
-		XINPUT_STATE state{};
+		auto pad = App::GetApp()->GetInputDevice().GetControlerVec()[0];
+			
+		bool actionPressed = 
+			(pad.wPressedButtons & XINPUT_GAMEPAD_B) != 0 || App::GetApp()->GetInputDevice().GetKeyState().m_bPressedKeyTbl[VK_RETURN];
 
-		if (XInputGetState(0, &state) != ERROR_SUCCESS)
-		{
-			return;
-		}
-
-		bool xPressed =
-			(state.Gamepad.wButtons & XINPUT_GAMEPAD_B) != 0;
-
-		if (canUseActionCamera && xPressed && !oldXState)
+		if (canUseActionCamera && actionPressed)
 		{
 			isActionCamera = !isActionCamera;
 
@@ -182,7 +177,6 @@ namespace basecross {
 			}
 		}
 
-		oldXState = xPressed;
 	}
 }
 //end basecross
