@@ -18,6 +18,12 @@ namespace basecross {
 		ptrColl->SetMakedRadius(COLL_RADIUS);
 		ptrColl->SetMakedHeight(COLL_LENGTH);
 		ptrColl->SetDrawActive(false);
+
+		// 壁・床の押し戻しはJolt側で行うので、BaseCross側の判定は「当たった」という通知にだけ使う
+		ptrColl->SetAfterCollision(AfterCollision::None);
+
+		// Jolt側のキャラクターコントローラー
+		InitController();
 	}
 
 	void Player::OnUpdate()
@@ -35,6 +41,7 @@ namespace basecross {
 
 		if (Other->FindTag(L"Koban"))
 		{
+			SoundManager::Instance().PlaySE(L"SE_Koban", false);
 			m_canClear = true;
 		}
 
@@ -70,7 +77,6 @@ namespace basecross {
 		auto key = app->GetInputDevice().GetKeyState();
 
 		return (pad.wPressedButtons & XINPUT_GAMEPAD_A || key.m_bPressedKeyTbl[VK_SPACE]);
-
 	}
 
 	// Drawコンポーネントの初期化
@@ -101,12 +107,28 @@ namespace basecross {
 		Vec3 pos = Vec3(0.0f, 0.0f, 0.0f);
 		Vec3 rot(XM_PIDIV2, 0.0f, 0.0f);
 
-		m_prevY = pos.y;
-
 		m_transComp = GetComponent<Transform>();
 		m_transComp->SetPosition(pos);
 		m_transComp->SetScale(Vec3(m_scale));
 		m_transComp->SetRotation(rot);
+	}
+
+	void Player::InitController()
+	{
+		CharacterController::Settings settings;
+		settings.radius = COLL_RADIUS * m_scale;                         // 半径(0.3)
+		settings.length = (COLL_LENGTH + COLL_RADIUS * 2.0f) * m_scale;  // 全長(1.2)。両端の丸い部分を含む
+		settings.isLying = true;                                         // 見た目に合わせて横に寝かせる
+
+		m_controller = AddComponent<CharacterController>();
+		if (!m_controller->Initialize(settings))
+		{
+			throw BaseException(
+				L"JoltのPhysicsSystemがありません。GameStageでJoltManager::Initializeを先に呼んでください",
+				L"m_controller->Initialize()",
+				L"Player::InitController()"
+			);
+		}
 	}
 
 	//入力された移動操作のベクトルを返す関数
@@ -197,6 +219,7 @@ namespace basecross {
 		if (isJump && m_isGround)
 		{
 			m_velocityY = 7.5f;
+			SoundManager::Instance().PlaySE(L"SE_Jump", false);
 		}
 	}
 	
@@ -213,25 +236,39 @@ namespace basecross {
 			m_cameraAngleY = atan2f(-camForward.x, camForward.z);
 		}
 
-		Vec3 pos = m_transComp->GetPosition();
+		// エディターなどでTransformが直接動かされていたら、Joltのキャラクターもそこへ移す
+		if (m_controller->SyncFromTransform())
+		{
+			m_velocityXZ = Vec3(0.0f);
+			m_velocityY = 0.0f;
+		}
 
-		m_isGround = (m_velocityY <= 0.0f) && (pos.y - m_prevY > 0.00001f);
+		// 接地しているか(前フレームの移動結果をJoltに聞く)
+		m_isGround = m_controller->GetIsOnGround();
 
 		//移動の処理
 		auto inputVec = InputVec();
 		VelocityXZUpdate(inputVec);
 		VelocityYUpdate(IsJampPressed());
 
-		pos.x += m_velocityXZ.x * delta;
-		pos.z += m_velocityXZ.z * delta;
-		pos.y += m_velocityY * delta;
-
-		m_transComp->SetPosition(pos);
-		m_prevY = pos.y;
-
 		// プレイヤーの方向
 		if (inputVec.length() > 0.1f)
+		{
 			m_angleY = atan2f(-(inputVec.x * sinf(m_cameraAngleY) + inputVec.z * cosf(m_cameraAngleY)), (inputVec.x * cosf(m_cameraAngleY) - inputVec.z * sinf(m_cameraAngleY))) - XM_PIDIV2;
+		}
+
+		// Jolt側で壁・床にぶつかりながら動かす(結果の位置はTransformに入る)
+		Vec3 prevPos = m_transComp->GetPosition();
+		m_controller->SetLinearVelocity(Vec3(m_velocityXZ.x, m_velocityY, m_velocityXZ.z));
+		m_controller->SetAngleY(m_angleY);
+		m_controller->Move(delta);
+
+		// 頭を天井にぶつけたら上昇をやめる(止めないと天井に張り付いたまま上昇速度が残る)
+		Vec3 movedPos = m_transComp->GetPosition();
+		if (m_velocityY > 0.0f && (movedPos.y - prevPos.y) < m_velocityY * delta * 0.5f)
+		{
+			m_velocityY = 0.0f;
+		}
 
 		//プレイヤーの向きを変更(先に90°倒し、そのあとY回転)
 		m_transComp->SetRotation(Vec3(XM_PIDIV2, m_angleY, 0.0f));

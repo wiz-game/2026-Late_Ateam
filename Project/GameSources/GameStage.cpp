@@ -1,6 +1,6 @@
 /*!
 @file GameStage.cpp
-@brief ƒQ[ƒ€ƒXƒe[ƒWÀ‘Ì
+@brief ã‚²ãƒ¼ãƒ ã‚¹ãƒ†ãƒ¼ã‚¸å®Ÿä½“
 */
 
 #include "stdafx.h"
@@ -9,12 +9,12 @@
 namespace basecross {
 
 	//--------------------------------------------------------------------------------------
-	//	ƒQ[ƒ€ƒXƒe[ƒWƒNƒ‰ƒXÀ‘Ì
+	//	ã‚²ãƒ¼ãƒ ã‚¹ãƒ†ãƒ¼ã‚¸ã‚¯ãƒ©ã‚¹å®Ÿä½“
 	//--------------------------------------------------------------------------------------
 
-	//ƒrƒ…[‚Æƒ‰ƒCƒg‚Ìì¬
+	//ãƒ“ãƒ¥ãƒ¼ã¨ãƒ©ã‚¤ãƒˆã®ä½œæˆ
 	void GameStage::CreateViewLight() {
-		// ƒJƒƒ‰‚Ìİ’è
+		// ã‚«ãƒ¡ãƒ©ã®è¨­å®š
 		auto camera = ObjectFactory::Create<MainCamera>();
 		camera->SetEye(Vec3(0.0f, 0.0f, -5.0f));
 		camera->SetAt(Vec3(0.0f, 0.0f, 0.0f));
@@ -23,65 +23,71 @@ namespace basecross {
 		auto actionCamera = ObjectFactory::Create<ActionCamera>();
 		m_actionCamera = actionCamera;
 
-		// ƒrƒ…[‚ÉƒJƒƒ‰‚ğİ’è
+		// ãƒ“ãƒ¥ãƒ¼ã«ã‚«ãƒ¡ãƒ©ã‚’è¨­å®š
 		m_view = CreateView<SingleView>();
 		m_view->SetCamera(camera);
 
-		//ƒ}ƒ‹ƒ`ƒ‰ƒCƒg‚Ìì¬
+		//ãƒãƒ«ãƒãƒ©ã‚¤ãƒˆã®ä½œæˆ
 		auto light = CreateLight<MultiLight>();
-		light->SetDefaultLighting(); //ƒfƒtƒHƒ‹ƒg‚Ìƒ‰ƒCƒeƒBƒ“ƒO‚ğw’è
+		light->SetDefaultLighting(); //ãƒ‡ãƒ•ã‚©ãƒ«ãƒˆã®ãƒ©ã‚¤ãƒ†ã‚£ãƒ³ã‚°ã‚’æŒ‡å®š
 
-		// ƒXƒJƒCƒ{ƒbƒNƒX‚Ìì¬
+		// ã‚¹ã‚«ã‚¤ãƒœãƒƒã‚¯ã‚¹ã®ä½œæˆ
 		AddGameObject<SkyBox>();
 
 	}
 
 	void GameStage::CreatePlayer() 
 	{
-		// ƒvƒŒƒCƒ„[‚Ìì¬
+		// ãƒ—ãƒ¬ã‚¤ãƒ¤ãƒ¼ã®ä½œæˆ
 		auto player = AddGameObject<Player>();
 
-		// ƒJƒƒ‰‚ğƒvƒŒƒCƒ„[‚É•R‚Ã‚¯
+		// ã‚«ãƒ¡ãƒ©ã‚’ãƒ—ãƒ¬ã‚¤ãƒ¤ãƒ¼ã«ç´ã¥ã‘
 		m_camera->SetTargetObject(player);
 
 		m_actionCamera->SetPleyer(player);
 
-		// ƒvƒŒƒCƒ„[‚ğİ’è
+		// ãƒ—ãƒ¬ã‚¤ãƒ¤ãƒ¼ã‚’è¨­å®š
 		SetSharedGameObject(L"Player", player);
 	}
 
 	void GameStage::LoadStage()
 	{
-		// ƒoƒCƒiƒŠƒtƒ@ƒCƒ‹‚Ìæ“¾
+		// ãƒã‚¤ãƒŠãƒªãƒ•ã‚¡ã‚¤ãƒ«ã®å–å¾—
 		auto path = App::GetApp()->GetDataDirWString();
 
-		// ƒXƒe[ƒWƒ[ƒ_[‚Ìì¬
+		// ã‚¹ãƒ†ãƒ¼ã‚¸ãƒ­ãƒ¼ãƒ€ãƒ¼ã®ä½œæˆ
 		auto loader = AddGameObject<StageLoader>();
 
-		// ƒXƒe[ƒW‚Ì”Ô†‚ğæ“¾
+		// ã‚¹ãƒ†ãƒ¼ã‚¸ã®ç•ªå·ã‚’å–å¾—
 		int loadNum = App::GetApp()->GetScene<Scene>()->GetLoadStageNumber();
 		
-		// ƒXƒe[ƒW‚Ìƒ[ƒh
+		// ã‚¹ãƒ†ãƒ¼ã‚¸ã®ãƒ­ãƒ¼ãƒ‰
 		loader->LoadStageFile(path + L"Stages\\stage_" + to_wstring(loadNum) + L".stg");
+	}
+
+	void GameStage::RebuildStatic()
+	{
+		m_static.Rebuild(GetGameObjectVec(), m_jphManger.GetSystem());
 	}
 
 	void GameStage::OnCreate() {
 		try {
 			auto& app = App::GetApp();
 
-			// JoltPhysics‚ğ‰Šú‰»‚·‚é
+			// JoltPhysicsã‚’åˆæœŸåŒ–ã™ã‚‹
 			m_jphManger.Initialize();
 
-			// ƒrƒ…[‚Æƒ‰ƒCƒg‚Ìì¬
+			// ãƒ“ãƒ¥ãƒ¼ã¨ãƒ©ã‚¤ãƒˆã®ä½œæˆ
 			CreateViewLight();
 			AddGameObject<StaticUI>(L"ButtanGuide", true, Vec2(300.0f, 150.0f), Vec2(500.0f, -300.0f));
 			AddGameObject<AnimUI>(L"MissionList", true, Vec2(100.0f, 35.0f), Vec2(-500.0f, 300.0f));
 //----<Editor>------------------------------------------------------------------------------
-			CreatePlayer();			// ƒvƒŒƒCƒ„[‚Ìì¬	
+			CreatePlayer();			// ãƒ—ãƒ¬ã‚¤ãƒ¤ãƒ¼ã®ä½œæˆ	
 			auto mgr = AddGameObject<WayPointManager>();
 			SetSharedGameObject(L"WayPointManager", mgr);
-			LoadStage();			// ƒXƒe[ƒW‚Ìƒ[ƒh	
-			AddGameObject<Editor>();// ƒGƒfƒBƒ^[‚Ìì¬	
+			LoadStage();			// ã‚¹ãƒ†ãƒ¼ã‚¸ã®ãƒ­ãƒ¼ãƒ‰	
+			RebuildStatic();		// ã‚¹ã‚¿ãƒ†ã‚£ãƒƒã‚¯ã‚ªãƒ–ã‚¸ã‚§ã‚¯ãƒˆã®åˆ¤å®šä½œæˆ
+			AddGameObject<Editor>();// ã‚¨ãƒ‡ã‚£ã‚¿ãƒ¼ã®ä½œæˆ	
 //------------------------------------------------------------------------------------------
 
 		}
@@ -92,7 +98,7 @@ namespace basecross {
 
 	void GameStage::OnUpdate()
 	{
-		// ƒAƒvƒŠƒP[ƒVƒ‡ƒ“ƒIƒuƒWƒFƒNƒg‚ğæ“¾
+		// ã‚¢ãƒ—ãƒªã‚±ãƒ¼ã‚·ãƒ§ãƒ³ã‚ªãƒ–ã‚¸ã‚§ã‚¯ãƒˆã‚’å–å¾—
 		auto& app = App::GetApp();
 
 		TopActionCamera();
@@ -108,7 +114,7 @@ namespace basecross {
 	{
 	}
 
-//----------------------------<ƒAƒNƒVƒ‡ƒ“ƒJƒƒ‰ŠÖŒW>----------------------------------------------
+//----------------------------<ã‚¢ã‚¯ã‚·ãƒ§ãƒ³ã‚«ãƒ¡ãƒ©é–¢ä¿‚>----------------------------------------------
 
 	void GameStage::TopActionCamera()
 	{

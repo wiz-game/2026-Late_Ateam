@@ -24,13 +24,16 @@
 #include "Koban.h"
 #include "Enemy.h"
 #include "WayPoint.h"
-#include "WayPointManager.h"
 #include "ClearObject.h"
 #include "SkyBox.h"
 #include "InvisibleWall.h"
 #include "Shouji.h"
 #include "Andon.h"
 #include "Tourou.h"
+
+// 物理エンジン
+#include "JoltStatic.h"
+#include "CharacterController.h"
 
 // ステージ関係
 #include "GameStage.h"
@@ -46,6 +49,10 @@
 #include "RayHitCheck.h"
 #include "StageLoader.h"
 #include "EditObjectRegistry.h"
+
+// マネージャー
+#include "WayPointManager.h"
+#include "SoundManager.h"
 
 // ステートマシン関係
 #include "CameraState.h"

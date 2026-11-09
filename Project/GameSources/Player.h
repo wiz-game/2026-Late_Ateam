@@ -8,18 +8,21 @@
 #include "PNTDXModelDraw.h"
 
 namespace basecross {
+
+	class CharacterController; 
+
 	class Player : public GameObjectForEdit
 	{
 		std::shared_ptr<Transform> m_transComp; // トランスフォームはよく使うのでメンバにしておく
 		std::shared_ptr<PNTStaticDraw> m_drawComp; // ドローコンポーネント
 		//std::shared_ptr<PNTDXModelDraw> m_drawComp; // ドローコンポーネント
+		std::shared_ptr<CharacterController> m_controller; // Joltで床・壁にぶつかりながら動かす
 
 		float m_speed; // 移動の速さ
 		float m_scale = 0.5f; // プレイヤーのスケール
 
 		bool m_isGround = false;
 		bool m_canClear = false;
-		float m_prevY = 0.0f;
 		bool IsJampPressed();
 
 		float m_airControl = 0.1f;
@@ -30,6 +33,7 @@ namespace basecross {
 
 		void InitDrawComp(); // Drawコンポーネントの初期化
 		void InitTransComp(); // Transformコンポーネントの初期化
+		void InitController(); // Jolt側のキャラクターコントローラーの初期化
 
 	//----基本動作(WASD)-------------------------------------------------------
 
@@ -65,6 +69,8 @@ namespace basecross {
 		void OnCollisionExit(shared_ptr<GameObject>& Other);
 
 		bool GetCanClear() const { return m_canClear; }
+
+		float GetPlayerSpeed() const { return m_velocityXZ.length(); }
 
 		void SetPlayerUpdateActive(bool isActive);
 

@@ -19,6 +19,7 @@ namespace basecross {
 
 	void Enemy::InitTransComp()
 	{
+		m_prevY = m_pos.y;//前フレームのY座標を初期化
 		m_transComp = AddComponent<Transform>();
 		m_transComp->SetPosition(m_pos);
 		m_transComp->SetScale(m_scale);
@@ -64,6 +65,13 @@ namespace basecross {
 		if (!player) return;
 		Vec3 playerPos = player->GetComponent<Transform>()->GetPosition();
 
+		//最新座標をm_posに反映する
+		m_pos = m_transComp->GetPosition();
+
+		//地面にいるかどうかの判定
+		m_isGround = (m_velocityY <= 0.0f) && (m_pos.y - m_prevY > 0.00001f);
+		m_wantJump = false;	//ジャンプしたいかどうかのフラグをリセット
+
 		switch (m_state)
 		{
 		case EnemyState::Patol:
@@ -72,12 +80,12 @@ namespace basecross {
 			//両眼視界に入っていたら捕獲モード
 			if (IsPlayerInSight(playerPos))
 			{
-				m_state = EnemyState::Patol;
+				m_state = EnemyState::Chase;
 			}
 			//単眼視界に入っていたら警戒モード
 			else if (AlertEye(playerPos))
 			{
-				m_state = EnemyState::Patol;
+				m_state = EnemyState::Alert;
 			}
 			else
 			{
@@ -129,7 +137,13 @@ namespace basecross {
 			break;
 		}
 
+		//重力とジャンプの処理
+		VelocityYUpdate(m_wantJump);
+		m_pos.y += m_velocityY * delta;
 		
+		m_transComp->SetPosition(m_pos);
+		m_prevY = m_pos.y;//前フレームのY座標を更新
+
 		app->GetScene<Scene>()->SetDebugString(wss.str());
 	}
 
@@ -185,11 +199,12 @@ namespace basecross {
 	{
 		//距離
 		Vec3 toPlayer = playerPos - m_pos;
-		toPlayer.y = 0.0f;	//高さは無視
-		float dist = toPlayer.length();
-
+		float dist = toPlayer.length();//Yを０にする前に距離を計算する
+		
 		//Playerが視界範囲より遠いなら、見えていない（移行の処理はしない）
 		if (dist > m_EyeRenge) return false;
+
+		toPlayer.y = 0.0f;//向きの計算のために平行にする
 
 		//ほぼ同じ位置にいるなら見えている
 		if (dist < 0.01f) return true;
@@ -198,7 +213,11 @@ namespace basecross {
 		float dot = toPlayer.dot(m_forward);//内積:1に近いほど正面 -1は真後ろ
 
 		//両眼視界：角度 < 40°⇔ dot >= cos( 40°) = 0.5
-		return dot >= m_innerCos;
+		if (dot >= m_innerCos)
+		{
+			return !IsBlockedByWall(playerPos);
+		}
+		return false;
 	}
 
 	//単眼視界（警戒）の判定
@@ -206,11 +225,12 @@ namespace basecross {
 	{
 		//距離
 		Vec3 toPlayer = playerPos - m_pos;
-		toPlayer.y = 0.0f;	//高さは無視
 		float dist = toPlayer.length();
 
 		//Playerが視界範囲より遠いなら、見えていない（移行の処理はしない）
 		if (dist > m_EyeRenge) return false;
+
+		toPlayer.y = 0.0f;//向きの計算のために平行にする
 
 		//ほぼ同じ位置にいるなら見えている
 		if (dist < 0.01f) return true;
@@ -219,7 +239,31 @@ namespace basecross {
 		float dot = toPlayer.dot(m_forward);
 
 		//単眼視界：40°< 角度 <= 90°⇔ cos( 90°) <= dot < cos( 40°)
-		return dot < m_innerCos && dot >= m_outerCos;
+		if (dot < m_innerCos && dot >= m_outerCos)
+		{
+			return !IsBlockedByWall(playerPos);
+		}
+
+		return false;
+	}
+
+	//Y方向の速度更新
+	void Enemy::VelocityYUpdate(bool isJump)
+	{
+		auto delta = App::GetApp()->GetElapsedTime();
+		if (m_isGround)
+		{
+			m_velocityY = 0.0f;
+		}
+		else
+		{
+			m_velocityY -= 9.8f * delta;
+		}
+
+		if (isJump && m_isGround)
+		{
+			m_velocityY = 7.5f;
+		}
 	}
 
 
@@ -242,23 +286,34 @@ namespace basecross {
 
 		Vec3 pos = m_transComp->GetPosition();
 		Vec3 toTarget = mgr->GetPoint(m_groupId,m_currentIndex) - pos;//現在の位置から目的地まで
+		
+		float heightDiff = toTarget.y;	//目的地のWaiPointの高さと現在の高さの差
 		toTarget.y = 0.0f;				//水平方向だけで判定
 		float dist = toTarget.length();
 
 		//ある程度目的地に到着したら次のポイントへ
-		if (dist < m_arriveDistance)
+		if (dist < m_arriveDistance && abs(heightDiff) < 1.0f)
 		{
 			//最後まで行ったら最初のWayPointに戻る
 			m_currentIndex = (m_currentIndex + 1) % count;
 			return;
 		}
 
-		//目的地に向かって移動
-		toTarget.normalize();
-		m_forward = toTarget;	//向きを更新
-		m_pos = pos + toTarget * m_speed * delta;
-		m_transComp->SetPosition(m_pos);
+		//次のWayPointが高い位置にある場合、かつ水平距離が近い場合ジャンプする
+		if (heightDiff > 1.0f && dist < 3.0f)
+		{
+			m_wantJump = true;
+		}
 
+		//目的地に向かって移動
+		if (dist > 0.01f)
+		{
+			toTarget.normalize();
+			m_forward = toTarget;	//向きを更新
+			m_pos.x = pos.x + toTarget.x * m_speed * delta;
+			m_pos.z = pos.z + toTarget.z * m_speed * delta;
+			m_transComp->SetPosition(m_pos);
+		}
 		//見た目も進行方向へ
 		ApplyRotation();
 	}
@@ -267,20 +322,91 @@ namespace basecross {
 	void Enemy::UpdateChase(float delta, const Vec3& playerPos)
 	{
 		Vec3 toTarget =  playerPos - m_pos;
-		toTarget.y = 0.0f;
-		float dist = toTarget.length();
 
-		if (dist < m_CatchRenge)
+		if (toTarget.length() < m_CatchRenge)
 		{
 			m_state = EnemyState::Catch;
 			return;
 		}
 
-		toTarget.normalize();
-		m_pos += toTarget * m_CatchSpeed * delta;
-		m_transComp->SetPosition(m_pos);
+		float heightDiff = toTarget.y;	//目的地のWaiPointの高さと現在の高さの差
+		toTarget.y = 0.0f;
+		float horizDist = toTarget.length();
+
+		if (heightDiff > 1.0f && horizDist < 3.5f)
+		{
+			m_wantJump = true;
+		}
+
+		if (horizDist > 0.01f)
+		{
+			toTarget.normalize();
+			Vec3 moveDir = AvoidWall(toTarget);//壁を避ける移動ベクトルを計算
+
+			//見た目も進行方向へ
+			m_pos.x += moveDir.x * m_CatchSpeed * delta;
+			m_pos.z += moveDir.z * m_CatchSpeed * delta;
+
+			m_transComp->SetPosition(m_pos);
+		}
 		TurnPlayer(playerPos, delta);
 	}
+
+	//壁に遮られているか判定
+	bool Enemy::IsBlockedByWall(const Vec3& targetPos) const
+	{
+		//床との誤判定を防ぐために、少し上にあげる
+		Vec3 start = m_pos + Vec3(0.0f, 0.5f, 0.0f);
+		Vec3 end = targetPos + Vec3(0.0f, 0.5f, 0.0f);
+
+		for (auto obj : GetStage()->GetGameObjectVec())
+		{
+			if (obj->FindTag(L"Wall"))
+			{
+				auto wallObj = obj->GetComponent<CollisionObb>(false);
+
+				if (wallObj)
+				{
+					//敵からターゲットまでの線分が壁のOBBと交差したら「遮られている(true)」
+					if (HitTest::SEGMENT_OBB(start, end, wallObj->GetObb()))
+					{
+						return true;
+					}
+				}
+			}
+		}
+
+		return false;//何もなかったら遮られていない
+	}
+
+	Vec3 Enemy::AvoidWall(const Vec3 moveDir) const
+	{
+		float feelerLength = 2.0f;//壁を検知する距離
+		Vec3 start = m_pos;
+		Vec3 endCenter = start + moveDir * feelerLength;
+
+		if (!IsBlockedByWall(endCenter))
+		{
+			return moveDir;
+		}
+
+		float angle = atan2(moveDir.x, moveDir.z);
+		float offset = XMConvertToRadians(45.0f);//30°ずつずらす
+
+		Vec3 leftDir(sinf(angle - offset), 0.0f, cosf(angle - offset));
+		Vec3 rightDir(sinf(angle + offset), 0.0f, cosf(angle + offset));
+
+
+		Vec3 endLeft = start + leftDir * feelerLength;
+		// 左右の方向で壁がないか確認
+		if (!IsBlockedByWall(endLeft))
+		{
+			return leftDir;
+		}
+
+		return rightDir;
+	}
+
 
 	void Enemy::ResetToSpawn()
 	{
@@ -300,4 +426,22 @@ namespace basecross {
 		m_spawnPos = m_transComp->GetPosition();
 		ResetToSpawn();
 	}
+
+	// 当たり判定
+	void Enemy::OnCollisionEnter(shared_ptr<GameObject>& Other)
+	{
+		if (Other->FindTag(L"Floor"))
+		{
+			m_isGround = true;
+		}
+	}
+
+	void Enemy::OnCollisionExit(shared_ptr<GameObject>& Other)
+	{
+		if (Other->FindTag(L"Floor"))
+		{
+			m_isGround = false;
+		}
+	}
+
 }
