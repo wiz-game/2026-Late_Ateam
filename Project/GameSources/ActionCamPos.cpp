@@ -16,7 +16,7 @@ namespace basecross {
 		ptrTransform->SetRotation(m_roomCenter);
 
 		m_draw = AddComponent<PNTStaticDraw>();
-		m_draw->SetMeshResource(L"DEFAULT_SQUARE");
+		m_draw->SetMeshResource(L"DEFAULT_CUBE");
 		m_draw->SetEmissive(Col4(1.0f));
 		m_draw->SetRasterizerState(RasterizerState::CullNone);
 		
