@@ -70,6 +70,8 @@ namespace basecross {
 
 		bool GetCanClear() const { return m_canClear; }
 
+		float GetPlayerSpeed() const { return m_velocityXZ.length(); }
+
 		void SetPlayerUpdateActive(bool isActive);
 
 		// ƒvƒŒƒCƒ„[‚Ì“®‚«
