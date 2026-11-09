@@ -9,6 +9,12 @@
 
 #include <Jolt/Physics/Body/BodyCreationSettings.h>
 #include <Jolt/Physics/Collision/Shape/BoxShape.h>
+#include <Jolt/Physics/Collision/Shape/SphereShape.h>
+#include <Jolt/Physics/Collision/ShapeCast.h>
+#include <Jolt/Physics/Collision/CollisionCollectorImpl.h>
+#include <Jolt/Physics/Body/Body.h>
+#include <Jolt/Physics/Body/BodyFilter.h>
+#include "JoltManager.h"
 
 namespace basecross {
 
@@ -29,6 +35,16 @@ namespace basecross {
 			}
 			return false;
 		}
+
+		// 見えない壁(Invisible)だけを無視するボディフィルター(カメラなどが見えない壁を通り抜けるため)
+		class IgnoreInvisibleBodyFilter : public JPH::BodyFilter
+		{
+		public:
+			virtual bool ShouldCollideLocked(const JPH::Body& inBody) const override
+			{
+				return inBody.GetUserData() != (uint64_t)JoltStatic::Invisible;
+			}
+		};
 	}
 
 	// 登録済みのボディを全部消して、objsの中の床・壁から作り直す
@@ -95,6 +111,42 @@ namespace basecross {
 		bodyInterface.RemoveBodies(m_bodyIDs.data(), (int)m_bodyIDs.size());
 		bodyInterface.DestroyBodies(m_bodyIDs.data(), (int)m_bodyIDs.size());
 		m_bodyIDs.clear();
+	}
+
+	// 点startから向きdirへ半径radiusの球を飛ばし、壁・床にぶつかるまでに進める距離を返す
+	// (maxDistanceまで何にも当たらなければmaxDistanceを返す。dirは長さ1にしておくこと。見えない壁は無視する)
+	float JoltStatic::GetSphereCastDistance(const Vec3& start, const Vec3& dir, float maxDistance, float radius)
+	{
+		JPH::PhysicsSystem* system = JoltManager::GetActiveSystem();
+		if (!system || maxDistance <= 0.0f)
+		{
+			return maxDistance;
+		}
+
+		JPH::RefConst<JPH::Shape> sphere = new JPH::SphereShape(radius);
+		JPH::RShapeCast shapeCast = JPH::RShapeCast::sFromWorldTransform(
+			sphere,
+			JPH::Vec3::sReplicate(1.0f),
+			JPH::RMat44::sTranslation(JPH::RVec3(start.x, start.y, start.z)),
+			JPH::Vec3(dir.x, dir.y, dir.z) * maxDistance
+		);
+
+		JPH::ShapeCastSettings settings;
+
+		// 動くもの(Layers::MOVING)が当たる相手、という条件で調べる
+		JPH::DefaultBroadPhaseLayerFilter broadPhaseFilter(system->GetObjectVsBroadPhaseLayerFilter(), Layers::MOVING);
+		JPH::DefaultObjectLayerFilter objectFilter(system->GetObjectLayerPairFilter(), Layers::MOVING);
+		IgnoreInvisibleBodyFilter bodyFilter;
+
+		// いちばん近くでぶつかった結果だけ受け取る
+		JPH::ClosestHitCollisionCollector<JPH::CastShapeCollector> collector;
+		system->GetNarrowPhaseQuery().CastShape(shapeCast, settings, JPH::RVec3::sZero(), collector, broadPhaseFilter, objectFilter, bodyFilter);
+
+		if (!collector.HadHit())
+		{
+			return maxDistance;
+		}
+		return collector.mHit.mFraction * maxDistance;
 	}
 
 }

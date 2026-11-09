@@ -22,10 +22,15 @@ namespace basecross {
 		float m_lowerLimit; // カメラの下方向の制限
 		float m_closerdelta; // 近づくまでの猶予時間
 		float m_leavedelta; // 遠ざかる時の移動に使う変数
+		float m_curDis; // いまの実際のカメラ距離(壁で引かれているとm_distanceより小さい)
+		float m_collisionRadius; // 壁との判定に使う球の半径(カメラと壁の間の余白)
+		float m_returnSpeed; // 壁から離れたときに元の距離へ戻る速さ(m/秒)
 
 		Point2D<int> m_pastPoint = { 0,0 };
 
 		std::unique_ptr<StateMachine<MainCamera>> m_stateMachine; // カメラのステート
+
+		void AvoidCollision(Vec3& eye, const Vec3& at, float delta); // 壁にめり込まないようeyeを手前に引く
 
 	public:
 		MainCamera():
@@ -38,7 +43,10 @@ namespace basecross {
 			m_upperLimit(XM_PI / 10.0f),
 			m_lowerLimit(XM_PI / 6.0f),
 			m_closerdelta(0.0f),
-			m_leavedelta(10.0f)
+			m_leavedelta(10.0f),
+			m_curDis(6),
+			m_collisionRadius(0.25f),
+			m_returnSpeed(5.0f)
 		{}
 
 		virtual ~MainCamera()
