@@ -33,6 +33,7 @@
 
 // 物理エンジン
 #include "JoltStatic.h"
+#include "CharacterController.h"
 
 // ステージ関係
 #include "GameStage.h"

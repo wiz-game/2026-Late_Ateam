@@ -80,14 +80,13 @@ namespace basecross {
 			// ビューとライトの作成
 			CreateViewLight();
 
-			// スタティックオブジェクトの判定作成
-			RebuildStatic();
 
 //----<Editor>------------------------------------------------------------------------------
 			CreatePlayer();			// プレイヤーの作成	
 			auto mgr = AddGameObject<WayPointManager>();
 			SetSharedGameObject(L"WayPointManager", mgr);
 			LoadStage();			// ステージのロード	
+			RebuildStatic();		// スタティックオブジェクトの判定作成
 			AddGameObject<Editor>();// エディターの作成	
 //------------------------------------------------------------------------------------------
 
