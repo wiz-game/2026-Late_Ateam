@@ -76,6 +76,7 @@ namespace basecross {
 		{
 		case EnemyState::Patol:
 			UpdatePatol(delta);//巡回
+
 			wss << L"Patl";
 			//両眼視界に入っていたら捕獲モード
 			if (IsPlayerInSight(playerPos))
@@ -86,6 +87,13 @@ namespace basecross {
 			else if (AlertEye(playerPos))
 			{
 				m_state = EnemyState::Alert;
+			}
+			else if (HearPlayer(playerPos))//聴覚でPlayerを見つけたら捜索モードに移行
+			{
+				m_state = EnemyState::Search;
+				m_searchTime = 10.0f;
+				m_searchChangeTime = 2.0f;
+				m_wanderTarget = playerPos;//最初の目的地は「最後に見た位置」に設定
 			}
 			else
 			{
@@ -150,8 +158,17 @@ namespace basecross {
 			break;
 
 		case EnemyState::Search:
+			//聴覚でPlayerを見つけたら捜索モードに移行
+			if (HearPlayer(playerPos))
+			{
+				m_state = EnemyState::Search;
+				m_searchTime = 10.0f;
+				m_searchChangeTime = 2.0f;
+				m_wanderTarget = playerPos;//最初の目的地は「最後に見た位置」に設定
+			}
+
 			UpdateSearch(delta);
-			wss << L"Search";
+			wss << L"Search:" << m_searchTime;
 
 			//両眼視界に入っていたら捕獲モード
 			if (IsPlayerInSight(playerPos))
@@ -421,8 +438,8 @@ namespace basecross {
 				{
 					toReturn.normalize();
 					Vec3 moveDir = AvoidWall(toReturn);//壁を避ける移動ベクトルを計算
-					m_pos.x += moveDir.x * m_speed * delta;
-					m_pos.z += moveDir.z * m_speed * delta;
+					m_pos.x += moveDir.x * m_speed * m_speedRate * delta;
+					m_pos.z += moveDir.z * m_speed * m_speedRate * delta;
 					m_transComp->SetPosition(m_pos);
 					TurnPlayer(m_pos + moveDir, delta);
 				}
@@ -440,30 +457,35 @@ namespace basecross {
 		if (dist < m_arriveDistance || m_searchChangeTime <= 0.0f || IsBlockedByWall(m_wanderTarget))
 		{
 			m_searchChangeTime = 2.0f;//２秒ごとに目的地を変更する
+			bool found = false;
 
 			for (int tryCount = 0; tryCount < 5; tryCount++)
 			{
-				//ランダムな方向と距離を生成
+				//最後に見失った位を中心に、半径4.0fの範囲でランダムな目的地を設定する
 				float randAngle = (float)(rand() % 360) * XM_PI / 180.0f;
 				float randDist = (float)(rand() % 4) + 1.0f; // 1.0f～4.0fの範囲でランダムな距離
+				
 				//ランダムに目的地を設定
 				Vec3 newTarget = m_lastPlayerPos + Vec3(sinf(randAngle), 0.0f, cosf(randAngle)) * randDist;
-				
+
 				//壁に遮られていないか確認
 				if (!IsBlockedByWall(newTarget))
 				{
 					m_wanderTarget = newTarget;
+					found = true;
 					break;
 				}
 			}
 
-			//最後に見失った位を中心に、半径4.0fの範囲でランダムな目的地を設定する
-			float randAngle = (float)(rand() % 360) * XM_PI / 180.0f;
-			float randDist = (float)(rand() % 4) + 1.0f; // 0.0f～4.0fの範囲でランダムな距離
+			//もし5回試しても壁に遮られている場合は、目的地を真後ろの設定
+			if(!found)
+			{
+				m_wanderTarget = m_pos - m_forward * 1.5f;
+			}
 
-			//ランダムに目的地を設定
-			m_wanderTarget = m_lastPlayerPos + Vec3(sinf(randAngle), 0.0f, cosf(randAngle)) * randDist;
-			return;
+			toTarget = m_wanderTarget - m_pos;
+			toTarget.y = 0.0f;
+			dist = toTarget.length();
 		}
 
 		//仮の目的地に向かってゆっくり移動
@@ -473,13 +495,32 @@ namespace basecross {
 			Vec3 moveDir = AvoidWall(toTarget);//壁を避ける移動ベクトルを計算
 
 			//巡回よりゆっくり移動する
-			m_pos.x += moveDir.x * m_speed * 0.8f * delta;
-			m_pos.z += moveDir.z * m_speed * 0.8f * delta;
+			m_pos.x += moveDir.x * m_speed * m_speedRate * delta;
+			m_pos.z += moveDir.z * m_speed * m_speedRate * delta;
 			m_transComp->SetPosition(m_pos);
 
 			//見た目も進行方向へ
 			TurnPlayer(m_pos + moveDir, delta);
 		}
+	}
+
+	//聴覚の判定
+	bool Enemy::HearPlayer(const Vec3& playerPos)
+	{
+		float dist = (m_pos - playerPos).length();
+		if (dist < m_hearRenge)
+		{
+			float playerSpeed = m_player.lock()->GetPlayerSpeed();
+
+			//Playerが走っている場合は、Enemyの向きをPlayer方向にする
+			if (playerSpeed > 15.0f)
+			{
+				TurnPlayer(playerPos, App::GetApp()->GetElapsedTime());
+				m_lastPlayerPos = playerPos;//Playerを見失ったときの座標を更新
+				return true;
+			}
+		}
+		return false;
 	}
 
 	//壁に遮られているか判定
