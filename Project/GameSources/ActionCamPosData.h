@@ -1,30 +1,46 @@
 ﻿/*!
-@file ActionCamPosData.h
+@file ActionCamPosMark.h
 @brief
 */
 
 #pragma once
 #include "stdafx.h"
+#include "ActionCamPos.h"
 
 namespace basecross {
 
 	//--------------------------------------------------------------------------------------
-	//	class ActionCamPosData 
+	//	class ActionCamPosMark 
 	//--------------------------------------------------------------------------------------
-
-	struct ActionCamPosData
+	class ActionCamPosMark : public GameObject
 	{
-		Vec3 ActionPos;
-		float Radius;
+		std::shared_ptr<PNTStaticDraw> m_drawComp;
+		std::shared_ptr<Transform> m_transComp;
 
-		Vec3 RoomCenter;
-	};
+	private:
+		std::weak_ptr<ActionCamPos> m_awner;
 
-	class ActionCamInfo
-	{
 	public:
-		static std::vector<ActionCamPosData> Create();
+		ActionCamPosMark(const shared_ptr<Stage>& stage):
+			GameObject(stage)
+		{}
 
+		void SetOwner(const std::shared_ptr<ActionCamPos>& awner)
+		{
+			m_awner = awner;
+		}
+
+		virtual void OnCreate() override; // 初期化
+		virtual void OnUpdate() override; // 更新
+		//virtual void OnDraw() override; // 描画
+
+		void SetDrawActive(bool active)
+		{
+			if (m_drawComp)
+			{
+				m_drawComp->SetDrawActive(active);
+			}
+		}
 	};
 }
 //end basecross
