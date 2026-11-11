@@ -25,6 +25,8 @@ namespace basecross {
 	//初期化
 	void StaticUI::OnCreate()
 	{
+		AddTag(L"UI");
+
 		vector<VertexPositionColorTexture> vertices =
 		{
 			{

@@ -25,6 +25,8 @@ namespace basecross {
 	//初期化
 	void AnimUI::OnCreate()
 	{
+		AddTag(L"UI");
+
 		vector<VertexPositionColorTexture> vertices =
 		{
 			{

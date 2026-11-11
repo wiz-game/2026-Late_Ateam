@@ -20,10 +20,13 @@ namespace basecross {
 
 		float m_speed; // 移動の速さ
 		float m_scale = 0.5f; // プレイヤーのスケール
+		float m_dashRate = 2.0f; // ダッシュ時の速度倍率
+		bool m_isDash = false;   // ダッシュ中か(空中では離陸したときの状態を保つ)
 
 		bool m_isGround = false;
 		bool m_canClear = false;
 		bool IsJampPressed();
+		bool GetIsDashPressed();
 
 		float m_airControl = 0.1f;
 
