@@ -1,5 +1,5 @@
 ﻿/*!
-@file ActionCamPosData.cpp
+@file ActionCamPosMark.cpp
 @brief
 */
 
@@ -8,19 +8,32 @@
 
 namespace basecross {
 
-	std::vector<ActionCamPosData>ActionCamInfo::Create()
+	void ActionCamPosMark::OnCreate()
 	{
-		std::vector<ActionCamPosData> postion;
+		m_drawComp = AddComponent<PNTStaticDraw>();
+		m_drawComp->SetMeshResource(L"DEFAULT_SQUARE");
+		m_drawComp->SetEmissive(Col4(1.0f, 0.0f, 0.0f, 1.0f));
+		m_drawComp->SetRasterizerState(RasterizerState::CullNone);
 
-		postion.push_back(
-			{
-				Vec3(25.0f, 0.0f,-25.0f),
-				10.0f,
-				Vec3(10.0f,0.0f,10.0f)
-			}
-		);
+		m_transComp = GetComponent<Transform>();
+		m_transComp->SetPosition(Vec3(0.0f, 1.0f, 0.0f));
+	}
 
-		return postion;
+	void ActionCamPosMark::OnUpdate()
+	{
+		auto awner = m_awner.lock();
+		if (!awner) return;
+
+		auto ownerTrans = awner->GetComponent<Transform>();
+
+		if (!ownerTrans)
+		{
+			return;
+		}
+
+		auto pos = ownerTrans->GetPosition();
+
+		m_transComp->SetPosition(pos + Vec3(0.0f, 1.0f, 0.0f));
 	}
 }
 //end basecross

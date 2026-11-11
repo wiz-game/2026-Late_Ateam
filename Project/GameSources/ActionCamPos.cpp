@@ -20,9 +20,12 @@ namespace basecross {
 		m_draw->SetEmissive(Col4(1.0f));
 		m_draw->SetRasterizerState(RasterizerState::CullNone);
 		
+		m_mark = GetStage()->AddGameObject<ActionCamPosMark>();
+		m_mark->SetOwner(GetThis<ActionCamPos>());
+
+		m_draw->SetDrawActive(false);
 	}
 
-	
 
 	bool ActionCamPos::IsInRange(const Vec3& playerPos)
 	{
@@ -59,6 +62,27 @@ namespace basecross {
 		}
 
 		return trans->GetForward();
+	}
+
+	void ActionCamPos::SetEditorMode(bool isEditorMode)
+	{
+		if (!m_mark)
+		{
+			return;
+		}
+
+		if (isEditorMode)
+		{
+			// エディタ中
+			m_draw->SetDrawActive(true);
+			m_mark->SetDrawActive(false);
+		}
+		else
+		{
+			// ゲーム中
+			m_draw->SetDrawActive(false);
+			m_mark->SetDrawActive(true);
+		}
 	}
 }
 //end basecross
