@@ -103,11 +103,16 @@ namespace basecross {
 			{
 				//単眼視界に入っていたらEnemyの向きをPlayer方向にする
 				TurnPlayer(playerPos, delta);
+				m_lastPlayerPos = playerPos;//Playerを見失ったときの座標を更新
 			}
 			else
 			{
-				//何もなければ巡回に戻る
-				m_state = EnemyState::Patol;
+				//-SetNextWayPoint();//一番近いウェイポイントを探して設定する
+				//見失ったら捜索モードに移行
+				m_state = EnemyState::Search;
+				m_searchTime = 10.0f;
+				m_searchChangeTime = 0.0f;
+				m_wanderTarget = m_lastPlayerPos;//最初の目的地は「最後に見た位置」に設定
 			}
 			break;
 
@@ -115,6 +120,14 @@ namespace basecross {
 		case EnemyState::Chase:
 			UpdateChase(delta, playerPos);
 			wss << L"Chase";
+
+			//追跡中の座標履歴を記録
+			m_breadcrumbTime -= delta;
+			if (m_breadcrumbTime <= 0.0f)
+			{
+				m_breadcrumbTime = 1.0f;//1.0fごとに履歴を記録
+				m_breadcrumb.push_back(m_pos);
+			}
 
 			//両眼視界に入っていたら捕獲モード
 			if (IsPlayerInSight(playerPos))
@@ -128,9 +141,39 @@ namespace basecross {
 			}
 			else
 			{
-				m_state = EnemyState::Patol;
+				//見失ったら捜索モードに移行
+				m_state = EnemyState::Search;
+				m_searchTime = 10.0f;
+				m_searchChangeTime = 0.0f;
+				m_wanderTarget = m_lastPlayerPos;//最初の目的地は「最後に見た位置」に設定
 			}
+			break;
 
+		case EnemyState::Search:
+			UpdateSearch(delta);
+			wss << L"Search";
+
+			//両眼視界に入っていたら捕獲モード
+			if (IsPlayerInSight(playerPos))
+			{
+				m_state = EnemyState::Chase;
+			}
+			//単眼視界に入っていたら警戒モード
+			else if (AlertEye(playerPos))
+			{
+				m_state = EnemyState::Alert;
+			}
+			else if (m_searchTime <= 0.0f)
+			{
+				//一番近いウェイポイントを探して設定する
+				if (SetNextWayPoint() || m_breadcrumb.empty())
+				{
+					//直接見えるWayPointが見つかったら足跡を消す
+					m_breadcrumb.clear();
+					//捜索時間がなくなったら巡回モードに戻る
+					m_state = EnemyState::Patol;
+				}
+			}
 			break;
 
 		case EnemyState::Catch:
@@ -267,7 +310,7 @@ namespace basecross {
 	}
 
 
-	//巡回関数
+	//巡回モード関数
 	void Enemy::UpdatePatol(float delta)
 	{
 		auto mgr = m_wpManager.lock();
@@ -309,16 +352,18 @@ namespace basecross {
 		if (dist > 0.01f)
 		{
 			toTarget.normalize();
-			m_forward = toTarget;	//向きを更新
-			m_pos.x = pos.x + toTarget.x * m_speed * delta;
-			m_pos.z = pos.z + toTarget.z * m_speed * delta;
+			Vec3 moveDir = AvoidWall(toTarget);//壁を避ける移動ベクトルを計算
+
+			m_forward = moveDir;	//向きを更新
+			m_pos.x = pos.x + moveDir.x * m_speed * delta;
+			m_pos.z = pos.z + moveDir.z * m_speed * delta;
 			m_transComp->SetPosition(m_pos);
 		}
 		//見た目も進行方向へ
 		ApplyRotation();
 	}
 
-	//追跡関数
+	//追跡モード関数
 	void Enemy::UpdateChase(float delta, const Vec3& playerPos)
 	{
 		Vec3 toTarget =  playerPos - m_pos;
@@ -350,6 +395,91 @@ namespace basecross {
 			m_transComp->SetPosition(m_pos);
 		}
 		TurnPlayer(playerPos, delta);
+
+		m_lastPlayerPos = playerPos;//Playerを見失ったときの座標を更新
+	}
+
+	//捜索モード関数
+	void Enemy::UpdateSearch(float delta)
+	{
+		m_searchTime -= delta;
+
+		if (m_searchTime <= 0.0f)
+		{
+			if (!m_breadcrumb.empty())
+			{
+				Vec3 returnPos = m_breadcrumb.back();
+				Vec3 toReturn = returnPos - m_pos;
+				toReturn.y = 0.0f;
+
+				if (toReturn.length() < m_arriveDistance)
+				{
+					//足跡の座標に到着したら、履歴を消す
+					m_breadcrumb.pop_back();
+				}
+				else
+				{
+					toReturn.normalize();
+					Vec3 moveDir = AvoidWall(toReturn);//壁を避ける移動ベクトルを計算
+					m_pos.x += moveDir.x * m_speed * delta;
+					m_pos.z += moveDir.z * m_speed * delta;
+					m_transComp->SetPosition(m_pos);
+					TurnPlayer(m_pos + moveDir, delta);
+				}
+			}
+			return;
+		}
+
+		m_searchChangeTime -= delta;
+
+		Vec3 toTarget = m_wanderTarget - m_pos;
+		toTarget.y = 0.0f;
+		float dist = toTarget.length();
+
+		//仮の目的地に到着した、または目的地変更時間が来たら新しい目的地を設定
+		if (dist < m_arriveDistance || m_searchChangeTime <= 0.0f || IsBlockedByWall(m_wanderTarget))
+		{
+			m_searchChangeTime = 2.0f;//２秒ごとに目的地を変更する
+
+			for (int tryCount = 0; tryCount < 5; tryCount++)
+			{
+				//ランダムな方向と距離を生成
+				float randAngle = (float)(rand() % 360) * XM_PI / 180.0f;
+				float randDist = (float)(rand() % 4) + 1.0f; // 1.0f～4.0fの範囲でランダムな距離
+				//ランダムに目的地を設定
+				Vec3 newTarget = m_lastPlayerPos + Vec3(sinf(randAngle), 0.0f, cosf(randAngle)) * randDist;
+				
+				//壁に遮られていないか確認
+				if (!IsBlockedByWall(newTarget))
+				{
+					m_wanderTarget = newTarget;
+					break;
+				}
+			}
+
+			//最後に見失った位を中心に、半径4.0fの範囲でランダムな目的地を設定する
+			float randAngle = (float)(rand() % 360) * XM_PI / 180.0f;
+			float randDist = (float)(rand() % 4) + 1.0f; // 0.0f～4.0fの範囲でランダムな距離
+
+			//ランダムに目的地を設定
+			m_wanderTarget = m_lastPlayerPos + Vec3(sinf(randAngle), 0.0f, cosf(randAngle)) * randDist;
+			return;
+		}
+
+		//仮の目的地に向かってゆっくり移動
+		if (dist > 0.01f)
+		{
+			toTarget.normalize();
+			Vec3 moveDir = AvoidWall(toTarget);//壁を避ける移動ベクトルを計算
+
+			//巡回よりゆっくり移動する
+			m_pos.x += moveDir.x * m_speed * 0.8f * delta;
+			m_pos.z += moveDir.z * m_speed * 0.8f * delta;
+			m_transComp->SetPosition(m_pos);
+
+			//見た目も進行方向へ
+			TurnPlayer(m_pos + moveDir, delta);
+		}
 	}
 
 	//壁に遮られているか判定
@@ -407,7 +537,6 @@ namespace basecross {
 		return rightDir;
 	}
 
-
 	void Enemy::ResetToSpawn()
 	{
 		m_pos = m_spawnPos;
@@ -425,6 +554,48 @@ namespace basecross {
 	{
 		m_spawnPos = m_transComp->GetPosition();
 		ResetToSpawn();
+	}
+
+	//一番近いウェイポイントを探して設定する
+	bool Enemy::SetNextWayPoint()
+	{
+		auto mgr = m_wpManager.lock();
+		if (!mgr)
+		{
+			//m_wpManagerが空だったら再取得する
+			mgr = GetStage()->GetSharedGameObject<WayPointManager>(L"WayPointManager", false);
+			m_wpManager = mgr;
+			if (!mgr)return false;
+		}
+
+		size_t count = mgr->GetCount(m_groupId);
+		if (count == 0) return false;
+
+		float minDist = FLT_MAX;
+		bool found = false;	//ウェイポイントが見つかったかどうかのフラグ
+
+		for (size_t i = 0; i < count; i++)
+		{
+			Vec3 wpPos = mgr->GetPoint(m_groupId, i);
+			if (wpPos.y - m_pos.y > 2.0f) continue; // 高すぎるウェイポイントは無視する
+			
+			// 壁に遮られている場合は無視する
+			if (IsBlockedByWall(wpPos)) continue; 
+
+			float dist = (wpPos - m_pos).length();
+
+			//壁に遮られていないウェイポイントを探す
+			if (dist < minDist)
+			{
+				//直接見えるWayPointが見つかったら足跡を消す
+				minDist = dist;
+				m_currentIndex = i;
+				found = true;
+			}
+		}
+
+		//見つかった場合はm_currentIndexが更新される
+		return found;
 	}
 
 	// 当たり判定

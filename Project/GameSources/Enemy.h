@@ -47,6 +47,17 @@ namespace basecross {
 		size_t m_currentIndex = 0;		//今向かっているポイントの番号
 		float m_arriveDistance = 0.5f;	//到着したとみなす距離
 
+		//追跡関係
+		std::vector<Vec3> m_breadcrumb;	//追跡中に通った座標の履歴
+		float m_breadcrumbTime = 0.0f;	//履歴を記録する間隔タイマー
+
+
+		//見失った後の捜索関係
+		Vec3 m_lastPlayerPos = Vec3(0.0f);	//Playerを見失ったときの座標
+		Vec3 m_wanderTarget = Vec3(0.0f);	//捜索時の仮の目的地
+		float m_searchTime = 0.0f;	//捜索時間
+		float m_searchChangeTime = 0.0f;	//捜索時の目的地変更時間
+
 		void InitDrawComp(); // Drawコンポーネントの初期化
 		void InitTransComp(); // Transformコンポーネントの初期化
 
@@ -57,6 +68,7 @@ namespace basecross {
 			Patol, // 巡回
 			Alert, // 警戒
 			Chase, // 追跡
+			Search, // 捜索
 			Catch, // 捕獲
 		};
 
@@ -85,13 +97,17 @@ namespace basecross {
 		void TurnPlayer(const Vec3& playerPos, float delta);//Player方向を向く関数
 		void ApplyRotation();	//m_forwardを見た目に反映
 
+		//Stateごとの更新関数
 		void UpdatePatol(float delta);//巡回関数
 		void UpdateChase(float delta, const Vec3& playerPos);//追跡関数
+		void UpdateSearch(float delta);//捜索関数
 
 		//壁に遮られているか判定
 		bool IsBlockedByWall(const Vec3& targetPos) const;
 		//壁を避ける移動ベクトルを計算
 		Vec3 AvoidWall(const Vec3 moveDir) const;
+		//次のウェイポイントを設定する
+		bool SetNextWayPoint();	//一番近いウェイポイントを探して設定する
 
 		// エディター接続関係
 		void ResetToSpawn();               // 置いた位置・向きに戻す(エディターに入るとき)
@@ -109,6 +125,7 @@ namespace basecross {
 		}
 
 		void VelocityYUpdate(bool isJump);//Y方向の速度更新
+
 
 		// 当たり判定
 		void OnCollisionEnter(shared_ptr<GameObject>& Other);
