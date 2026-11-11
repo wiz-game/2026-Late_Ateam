@@ -28,11 +28,10 @@ namespace basecross {
 
 	void Player::OnUpdate()
 	{
-
 		//プレイヤーの動き
 		NormalMove();
-
 	}
+
 
 	void Player::OnCollisionEnter(shared_ptr<GameObject>& Other)
 	{
@@ -139,6 +138,21 @@ namespace basecross {
 		auto key = app->GetInputDevice().GetKeyState();
 
 		return key.m_bPushKeyTbl[VK_LSHIFT] || (pad.wButtons & XINPUT_GAMEPAD_X) != 0;
+	}
+
+	// プレイヤーが影の中にいるか判定
+	bool Player::GetIsInShadow()
+	{
+		// 影を作るのと同じライトの向きを使う
+		Vec3 lightDir = OnGetDrawLight().m_Directional;
+		Vec3 toLight = lightDir * -1.0f; // 光の来る方向
+		toLight = toLight.normalize();
+
+		const float rayLength = 100.0f;
+		float dis = JoltStatic::GetSphereCastDistance(m_transComp->GetPosition(), toLight, rayLength, 0.05f);
+
+		// 途中で何かに当たったら影の中
+		return dis < rayLength;
 	}
 
 	//入力された移動操作のベクトルを返す関数
