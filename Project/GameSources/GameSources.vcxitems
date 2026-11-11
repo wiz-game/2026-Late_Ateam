@@ -23,6 +23,7 @@
     <ClInclude Include="$(MSBuildThisFileDirectory)CameraState.h" />
     <ClInclude Include="$(MSBuildThisFileDirectory)Character.h" />
     <ClInclude Include="$(MSBuildThisFileDirectory)CharacterController.h" />
+    <ClInclude Include="$(MSBuildThisFileDirectory)Churu.h" />
     <ClInclude Include="$(MSBuildThisFileDirectory)ClearObject.h" />
     <ClInclude Include="$(MSBuildThisFileDirectory)ClearStage.h" />
     <ClInclude Include="$(MSBuildThisFileDirectory)DXModel.h" />
@@ -73,6 +74,7 @@
     <ClCompile Include="$(MSBuildThisFileDirectory)CameraState.cpp" />
     <ClCompile Include="$(MSBuildThisFileDirectory)Character.cpp" />
     <ClCompile Include="$(MSBuildThisFileDirectory)CharacterController.cpp" />
+    <ClCompile Include="$(MSBuildThisFileDirectory)Churu.cpp" />
     <ClCompile Include="$(MSBuildThisFileDirectory)ClearObject.cpp" />
     <ClCompile Include="$(MSBuildThisFileDirectory)ClearStage.cpp" />
     <ClCompile Include="$(MSBuildThisFileDirectory)DXModel.cpp">

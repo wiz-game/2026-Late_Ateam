@@ -274,7 +274,7 @@ namespace basecross {
 			m_velocityY = 0.0f;
 		}
 
-		// 接地しているか(前フレームの移動結果をJoltに聞く)
+		// 接地しているか
 		m_isGround = m_controller->GetIsOnGround();
 		if (m_isGround)
 		{

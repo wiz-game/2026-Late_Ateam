@@ -163,6 +163,12 @@
     <Filter Include="Managers\SoundManager">
       <UniqueIdentifier>{862dc3fc-20a0-4dde-961d-495e53a89327}</UniqueIdentifier>
     </Filter>
+    <Filter Include="Objects\Item">
+      <UniqueIdentifier>{45307f35-6602-4fb4-873a-5b8ab8095e9b}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Objects\Item\Churu">
+      <UniqueIdentifier>{b42a0858-f681-4df1-b4b7-499bc21127a0}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="$(MSBuildThisFileDirectory)PNTDXModelDraw.h">
@@ -309,6 +315,9 @@
     <ClInclude Include="$(MSBuildThisFileDirectory)SoundManager.h">
       <Filter>Managers\SoundManager</Filter>
     </ClInclude>
+    <ClInclude Include="$(MSBuildThisFileDirectory)Churu.h">
+      <Filter>Objects\Item\Churu</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="$(MSBuildThisFileDirectory)PNTDXModelDraw.cpp">
@@ -451,6 +460,9 @@
     </ClCompile>
     <ClCompile Include="$(MSBuildThisFileDirectory)SoundManager.cpp">
       <Filter>Managers\SoundManager</Filter>
+    </ClCompile>
+    <ClCompile Include="$(MSBuildThisFileDirectory)Churu.cpp">
+      <Filter>Objects\Item\Churu</Filter>
     </ClCompile>
   </ItemGroup>
 </Project>

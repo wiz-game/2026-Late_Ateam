@@ -30,6 +30,7 @@
 #include "Shouji.h"
 #include "Andon.h"
 #include "Tourou.h"
+#include "Churu.h"
 
 // •¨—ƒGƒ“ƒWƒ“
 #include "JoltStatic.h"
