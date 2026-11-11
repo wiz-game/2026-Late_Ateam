@@ -27,6 +27,7 @@ namespace basecross {
 		bool m_canClear = false;
 		bool IsJampPressed();
 		bool GetIsDashPressed();
+		bool GetIsInShadow();
 
 		float m_airControl = 0.1f;
 
