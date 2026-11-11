@@ -34,6 +34,17 @@ namespace basecross {
 		auto pos = ownerTrans->GetPosition();
 
 		m_transComp->SetPosition(pos + Vec3(0.0f, 1.0f, 0.0f));
+
+		//ビルボード処理
+		auto stage = GetStage();
+		auto camera = stage->GetView()->GetTargetCamera();
+		auto viewmatrix = camera->GetViewMatrix();
+		Quat viewQuat(viewmatrix);//ビュー行列からクォータニオンを作成
+		viewQuat.x *= -1.0f;
+		viewQuat.y *= -1.0f;
+		viewQuat.z *= -1.0f;
+		m_transComp->SetQuaternion(viewQuat);
+
 	}
 }
 //end basecross
