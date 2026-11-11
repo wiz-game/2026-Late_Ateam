@@ -6,8 +6,10 @@
 #pragma once
 #include "stdafx.h"
 
+
 namespace basecross {
 
+	class ActionCamPosMark;
 	//--------------------------------------------------------------------------------------
 	//	class ActionCamPos 
 	//--------------------------------------------------------------------------------------
@@ -24,6 +26,8 @@ namespace basecross {
 	private :
 		static constexpr float ACTION_RADIUS = 1.5f;
 		static constexpr float TOPADD_POSITION = 50.0f;
+
+		std::shared_ptr<ActionCamPosMark> m_mark;
 	public :
 		ActionCamPos(
 			const shared_ptr<Stage>& stage,
@@ -50,6 +54,7 @@ namespace basecross {
 		Vec3 GetCameraPosition() const;
 		Vec3 GetCameraForward() const;
 
+		void SetEditorMode(bool isEditorMode);
 	};
 
 }

@@ -1,4 +1,4 @@
-/*!
+﻿/*!
 @file GameStage.cpp
 @brief ゲームステージ実体
 */
@@ -157,7 +157,7 @@ namespace basecross {
 			}
 		}
 
-		auto pad = App::GetApp()->GetInputDevice().GetControlerVec()[0];
+		auto &pad = App::GetApp()->GetInputDevice().GetControlerVec()[0];
 			
 		bool actionPressed = 
 			(pad.wPressedButtons & XINPUT_GAMEPAD_B) != 0 || App::GetApp()->GetInputDevice().GetKeyState().m_bPressedKeyTbl[VK_RETURN];
