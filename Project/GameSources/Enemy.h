@@ -25,17 +25,16 @@ namespace basecross {
 
 		float m_speed = 5.0f;		// 移動の速さ
 
+		//視界関係
 		float m_EyeRenge = 20.0f;	// 視野範囲
 		float m_EyeAngle = 80.0f;	// 視野角度
 		float m_AlertEyeAngle = 50.0f;	//警戒視界の角度
+		float m_hearRenge = 30.0f;	// 聴覚範囲
 
 		float m_innerCos = 0.0f;
 		float m_outerCos = 0.0f;
 
 		float m_turnSpeed = 2.0f;	//回転速度
-
-		float m_CatchSpeed = 8.0f;	// 追跡時の速さ
-		float m_CatchRenge = 1.0f;	// 捕獲範囲
 
 		//ジャンプ関係
 		bool m_isGround = false;	//地面にいるかどうか
@@ -48,6 +47,8 @@ namespace basecross {
 		float m_arriveDistance = 0.5f;	//到着したとみなす距離
 
 		//追跡関係
+		float m_CatchSpeed = 8.0f;	// 追跡時の速さ
+		float m_CatchRenge = 1.0f;	// 捕獲範囲
 		std::vector<Vec3> m_breadcrumb;	//追跡中に通った座標の履歴
 		float m_breadcrumbTime = 0.0f;	//履歴を記録する間隔タイマー
 
@@ -57,6 +58,7 @@ namespace basecross {
 		Vec3 m_wanderTarget = Vec3(0.0f);	//捜索時の仮の目的地
 		float m_searchTime = 0.0f;	//捜索時間
 		float m_searchChangeTime = 0.0f;	//捜索時の目的地変更時間
+		float m_speedRate = 0.8f;	//捜索時の速度倍率
 
 		void InitDrawComp(); // Drawコンポーネントの初期化
 		void InitTransComp(); // Transformコンポーネントの初期化
@@ -108,6 +110,9 @@ namespace basecross {
 		Vec3 AvoidWall(const Vec3 moveDir) const;
 		//次のウェイポイントを設定する
 		bool SetNextWayPoint();	//一番近いウェイポイントを探して設定する
+
+		//聴覚の判定
+		bool HearPlayer(const Vec3& playerPos);	//聴覚の判定
 
 		// エディター接続関係
 		void ResetToSpawn();               // 置いた位置・向きに戻す(エディターに入るとき)
