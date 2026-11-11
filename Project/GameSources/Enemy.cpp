@@ -69,8 +69,26 @@ namespace basecross {
 		m_pos = m_transComp->GetPosition();
 
 		//地面にいるかどうかの判定
-		m_isGround = (m_velocityY <= 0.0f) && (m_pos.y - m_prevY > 0.00001f);
+		if ((m_velocityY <= 0.0f) && (m_pos.y - m_prevY > 0.00001f))
+		{
+			m_isGround = true;
+
+		}
+		else
+		{
+			m_isGround = false;
+		}
 		m_wantJump = false;	//ジャンプしたいかどうかのフラグをリセット
+
+		bool isInShadow = m_player.lock()->GetIsInShadow();
+		if (isInShadow)
+		{
+			m_EyeRenge = 10.0f;
+		}
+		else
+		{
+			m_EyeRenge = 20.0f;
+		}
 
 		switch (m_state)
 		{
@@ -562,20 +580,29 @@ namespace basecross {
 		}
 
 		float angle = atan2(moveDir.x, moveDir.z);
-		float offset = XMConvertToRadians(45.0f);//30°ずつずらす
 
-		Vec3 leftDir(sinf(angle - offset), 0.0f, cosf(angle - offset));
-		Vec3 rightDir(sinf(angle + offset), 0.0f, cosf(angle + offset));
-
-
-		Vec3 endLeft = start + leftDir * feelerLength;
-		// 左右の方向で壁がないか確認
-		if (!IsBlockedByWall(endLeft))
+		//壁がない方向を探す
+		float angles[] = {45.0f,90.0f,135.0f};
+		for (float deg : angles)
 		{
-			return leftDir;
+			float rad = XMConvertToRadians(deg);//30°ずつずらす
+			// 左方向を計算
+			Vec3 leftDir(sinf(angle - rad), 0.0f, cosf(angle - rad));
+			if (!IsBlockedByWall(start + leftDir * feelerLength))
+			{
+				return leftDir;//左が空いていたら左に進む
+			}
+
+			// 右方向を計算
+			Vec3 rightDir(sinf(angle + rad), 0.0f, cosf(angle + rad));
+			if (!IsBlockedByWall(start + rightDir * feelerLength))
+			{
+				return rightDir;//右が空いていたら右に進む
+			}
 		}
 
-		return rightDir;
+		// どの方向も壁に遮られている場合は、後ろに下がる
+		return -moveDir;
 	}
 
 	void Enemy::ResetToSpawn()
@@ -642,9 +669,12 @@ namespace basecross {
 	// 当たり判定
 	void Enemy::OnCollisionEnter(shared_ptr<GameObject>& Other)
 	{
-		if (Other->FindTag(L"Floor"))
+		if (Other->FindTag(L"Floor") || Other->FindTag(L"Wall"))
 		{
-			m_isGround = true;
+			if(m_velocityY <= 0.0f)
+			{
+				m_isGround = true;
+			}
 		}
 	}
 
@@ -652,8 +682,11 @@ namespace basecross {
 	{
 		if (Other->FindTag(L"Floor"))
 		{
-			m_isGround = false;
+			if (m_velocityY <= 0.0f)
+			{
+				m_isGround = true;
+			}
 		}
 	}
 
-}
+};
