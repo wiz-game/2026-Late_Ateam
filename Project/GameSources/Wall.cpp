@@ -21,6 +21,9 @@ namespace basecross {
 		ptrDraw->SetMeshResource(L"DEFAULT_CUBE");
 		ptrDraw->SetEmissive(Col4(0.0f));
 
+		auto shadowComp = AddComponent<Shadowmap>();
+		shadowComp->SetMeshResource(L"DEFAULT_CUBE");
+
 		auto ptrColl = AddComponent<CollisionObb>();
 		ptrColl->SetFixed(true);
 	}

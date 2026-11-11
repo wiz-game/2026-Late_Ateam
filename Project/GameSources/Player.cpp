@@ -131,6 +131,16 @@ namespace basecross {
 		}
 	}
 
+	// ダッシュ操作がされているか
+	bool Player::GetIsDashPressed()
+	{
+		auto& app = App::GetApp();
+		auto pad = app->GetInputDevice().GetControlerVec()[0];
+		auto key = app->GetInputDevice().GetKeyState();
+
+		return key.m_bPushKeyTbl[VK_LSHIFT] || (pad.wButtons & XINPUT_GAMEPAD_X) != 0;
+	}
+
 	//入力された移動操作のベクトルを返す関数
 	Vec3 Player::InputVec()
 	{
@@ -175,6 +185,10 @@ namespace basecross {
 	void Player::VelocityXZUpdate(const Vec3& input)
 	{
 		float delta = App::GetApp()->GetElapsedTime();
+
+		// ダッシュ中は、最高速と加速を倍率ぶん上げる(最高速に達するまでの時間は変わらない)
+		float speed = m_isDash ? m_speed * m_dashRate : m_speed;
+
 		//入力がないときにVelocityを減少させる
 		if (input.length() < 0.1f)
 		{
@@ -185,23 +199,27 @@ namespace basecross {
 		}
 		else
 		{
-			float Acceleration = 10.0f;//加速度(最高速に達するまでの時間(秒)の逆数)
+			//加速度
+			float Acceleration = 10.0f;
+
 			//空中では加速度を下げる
 			if (!m_isGround)
 			{
 				Acceleration *= m_airControl;
 			}
 			//入力をもとに速度を加算
-			m_velocityXZ.x += (input.x * cosf(m_cameraAngleY) - input.z * sinf(m_cameraAngleY)) * delta * Acceleration * m_speed;
-			m_velocityXZ.z += (input.x * sinf(m_cameraAngleY) + input.z * cosf(m_cameraAngleY)) * delta * Acceleration * m_speed;
-			//最大速度の設定(地上は入力の大きさに合わせる。空中は入力が弱くても急に減速させない)
-			float maxSpeed = m_isGround ? m_speed * input.length() : m_speed;
+			m_velocityXZ.x += (input.x * cosf(m_cameraAngleY) - input.z * sinf(m_cameraAngleY)) * delta * Acceleration * speed;
+			m_velocityXZ.z += (input.x * sinf(m_cameraAngleY) + input.z * cosf(m_cameraAngleY)) * delta * Acceleration * speed;
+
+			//最大速度の設定
+			float maxSpeed = m_isGround ? speed * input.length() : speed;
 			if (m_velocityXZ.length() > maxSpeed)
 			{
 				m_velocityXZ = m_velocityXZ.normalize() * maxSpeed;
 			}
 		}
 	}
+
 	// m_velocityYの更新
 	void Player::VelocityYUpdate(bool isJump)
 	{
@@ -222,7 +240,6 @@ namespace basecross {
 			SoundManager::Instance().PlaySE(L"SE_Jump", false);
 		}
 	}
-	
 
 	bool Player::NormalMove()
 	{
@@ -245,6 +262,10 @@ namespace basecross {
 
 		// 接地しているか(前フレームの移動結果をJoltに聞く)
 		m_isGround = m_controller->GetIsOnGround();
+		if (m_isGround)
+		{
+			m_isDash = GetIsDashPressed();
+		}
 
 		//移動の処理
 		auto inputVec = InputVec();
@@ -270,7 +291,7 @@ namespace basecross {
 			m_velocityY = 0.0f;
 		}
 
-		//プレイヤーの向きを変更(先に90°倒し、そのあとY回転)
+		//プレイヤーの向きを変更
 		m_transComp->SetRotation(Vec3(XM_PIDIV2, m_angleY, 0.0f));
 		return false;
 	}
