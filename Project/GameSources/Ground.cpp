@@ -19,6 +19,9 @@ namespace basecross {
 
 		auto ptrDraw = AddComponent<PNTStaticDraw>();
 		ptrDraw->SetMeshResource(L"DEFAULT_CUBE");
+		ptrDraw->SetTextureResource(L"Floor");
+		ptrDraw->SetEmissive(Col4(0.05f));
+		//ptrDraw->SetBlendState(BlendState::Additive);
 		ptrDraw->SetEmissive(Col4(0.0f));
 		ptrDraw->SetOwnShadowActive(true);
 
