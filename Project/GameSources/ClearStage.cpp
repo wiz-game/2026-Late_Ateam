@@ -56,12 +56,7 @@ namespace basecross {
 	}
 
 	void ClearStage::CreateClearSprite() {
-		AddGameObject<Sprite>(L"Clear", false,
-			Vec2(900, 350), Vec2(0.0f, 150.0f));
-
-		AddGameObject<Sprite>(L"TitleBack", false,
-			Vec2(500, 150), Vec2(0.0f, -200.0f));
-
+		AddGameObject<StaticUI>(L"MissionSuccess", true, Vec2(800.0f, 350.0f), Vec2(0.0f, 200.0f));
 		//auto Score = Player::DrawStrings();
 	}
 

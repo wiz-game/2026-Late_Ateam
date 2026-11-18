@@ -142,8 +142,7 @@ namespace basecross {
 	}
 
 	void GameOverStage::CreateGameOverSprite() {
-		AddGameObject<Sprite>(L"GameOver", false,
-			Vec2(900, 350), Vec2(0.0f, 250.0f));
+		AddGameObject<StaticUI>(L"MissionFail", true, Vec2(800.0f, 350.0f), Vec2(0.0f, 200.0f));
 
 		auto PtrSp = AddGameObject<Sprite>(L"Retry", true,
 			Vec2(400.0f, 150.0f), Vec2(0.0f, -100.0f));
