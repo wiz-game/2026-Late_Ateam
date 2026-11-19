@@ -4,6 +4,7 @@
 */
 #include "stdafx.h"
 #include "Enemy.h"
+#include "EnemySight.h"
 
 namespace basecross {
 	void Enemy::InitDrawComp()
@@ -51,6 +52,8 @@ namespace basecross {
 		//角度をcosにする（内積を使用するため）
 		m_innerCos = cosf(XMConvertToRadians(inner));
 		m_outerCos = cosf(XMConvertToRadians(outer));
+
+		GetStage()->AddGameObject<EnemySight>(GetThis<Enemy>(), m_EyeAngle, m_AlertEyeAngle);
 	}
 
 	void Enemy::OnUpdate()
@@ -225,19 +228,6 @@ namespace basecross {
 		app->GetScene<Scene>()->SetDebugString(wss.str());
 	}
 
-	////視界の描画用計算
-	//Vec3 Enemy::RotateY(const Vec3& v, float angle)
-	//{
-	//	float c = cosf(angle);
-	//	float s = sinf(angle);
-
-	//	return Vec3(
-	//		v.x * c + v.z * s,
-	//		v.y,
-	//		-v.x * s + v.z * c
-	//	);
-	//}
-
 	//m_forwardを見た目に反映
 	void Enemy::ApplyRotation()
 	{
@@ -401,37 +391,120 @@ namespace basecross {
 	//追跡モード関数
 	void Enemy::UpdateChase(float delta, const Vec3& playerPos)
 	{
-		Vec3 toTarget =  playerPos - m_pos;
+		float distToPlayer = (playerPos - m_pos).length();
 
-		if (toTarget.length() < m_CatchRenge)
+		//ステートの切り替え
+		if (distToPlayer < m_CatchRenge)
 		{
 			m_state = EnemyState::Catch;
 			return;
 		}
 
-		float heightDiff = toTarget.y;	//目的地のWaiPointの高さと現在の高さの差
-		toTarget.y = 0.0f;
-		float horizDist = toTarget.length();
+		//Enemy同士の反発するベクトル
+		Vec3 separation(0.0f);
+		float separateRadius = 2.0f;//2.0f以内に他のEnemyがいたら離れる
+		
+		bool passedSelf = false;
+		int chaseIndex = 0;
 
-		if (heightDiff > 1.0f && horizDist < 3.5f)
+		//役割分担コード＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝
+
+		for (auto& obj : GetStage()->GetGameObjectVec())
+		{
+			if (obj.get() == this)
+			{
+				passedSelf = true;
+				continue;//自分自身はスキップ
+			}
+
+			//Playerを追いかけているEnemyを調べて番号を付ける
+			auto otherEnemy = std::dynamic_pointer_cast<Enemy>(obj);
+			if (otherEnemy)
+			{
+				//反発は「全Enemy」から受け取る
+				Vec3 diff = m_pos - otherEnemy->GetComponent<Transform>()->GetPosition();
+				diff.y = 0.0f;
+				float d = diff.length();
+
+				//自分と他のEnemyの距離が2.0fいないだったら藩閥させる
+				if (d > 0.001f && d < separateRadius)
+				{
+					diff.normalize();
+					//近いほど強く押し出す
+					separation += diff * ((separateRadius - d) / separateRadius);
+				}
+
+				//自分より前の番号のEnemyかつ「現在Chase中のEnemy」だったらカウントする
+				if (!passedSelf && otherEnemy->GetState() == EnemyState::Chase)
+				{
+					chaseIndex++;
+				}
+			}
+		}
+
+		//目的地を決定する
+		Vec3 targetPos = playerPos;
+
+		//距離が離れていて、追いかけているEnemyが1体以上いたら回り込む
+		if (distToPlayer > 3.5f && chaseIndex > 1)
+		{
+			Vec3 forward = m_player.lock()->GetComponent<Transform>()->GetForward();
+			forward.y = 0.0f;
+
+			if (forward.length() > 0.01f)
+			{
+				forward.normalize();
+			}
+
+			Vec3 right(forward.z, 0.0f, -forward.x);//進行方向に対して右向きのベクトル
+
+			//一番目は右前方、二番目は左前方、三番目はさらに大きく回り込む
+			float sideSign = (chaseIndex % 2 == 1) ? 1.0f : -1.0f;
+			float forwardOffset = 4.0f;//Playerの4.0f先を狙う
+			float sideOffset = 3.0f * ((chaseIndex + 1) / 2);//横に3.0fずつずらす
+
+			Vec3 flankPos = playerPos + forward * forwardOffset + right * (sideSign * sideOffset);
+
+			//壁にさえぎられていない時だけ先回りし、壁があるときは素直にPlayerを追う
+			if (!IsBlockedByWall(flankPos))
+			{
+				targetPos = flankPos;
+			}
+		}
+
+		//＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝
+		
+		//追跡コード
+		Vec3 toTarget = targetPos - m_pos;
+		float heightDiff = toTarget.y;	//目的地の高さと現在の高さの差
+		toTarget.y = 0.0f;
+
+		if (heightDiff > 1.0f && distToPlayer < 3.5f)
 		{
 			m_wantJump = true;
 		}
 
-		if (horizDist > 0.01f)
+		if (distToPlayer > 0.01f)
 		{
-			toTarget.normalize();
-			Vec3 moveDir = AvoidWall(toTarget);//壁を避ける移動ベクトルを計算
+			toTarget.normalize();//「目標へ向かうベクトル」を正規化
+			toTarget += separation * 0.8f;//正規化した移動方向に反発を合成
 
-			//見た目も進行方向へ
-			m_pos.x += moveDir.x * m_CatchSpeed * delta;
-			m_pos.z += moveDir.z * m_CatchSpeed * delta;
+			if (distToPlayer > 0.01f)
+			{
+				//もう一度正規化
+				toTarget.normalize();//反発が加わった瞬間に移動スピードまで早くなってしまうため
+				Vec3 moveDir = AvoidWall(toTarget);//壁を避ける移動ベクトルを計算
 
-			m_transComp->SetPosition(m_pos);
+				//見た目も進行方向へ
+				m_pos.x += moveDir.x * m_CatchSpeed * delta;
+				m_pos.z += moveDir.z * m_CatchSpeed * delta;
+
+				m_transComp->SetPosition(m_pos);
+			}
 		}
 		TurnPlayer(playerPos, delta);
-
 		m_lastPlayerPos = playerPos;//Playerを見失ったときの座標を更新
+
 	}
 
 	//捜索モード関数

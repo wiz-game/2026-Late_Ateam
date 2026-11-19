@@ -131,6 +131,15 @@ namespace basecross {
 
 		void VelocityYUpdate(bool isJump);//Y方向の速度更新
 
+		float GetEyeRange() const
+		{
+			return  m_EyeRenge;
+		}
+
+		EnemyState GetState() const
+		{
+			return m_state;
+		}
 
 		// 当たり判定
 		void OnCollisionEnter(shared_ptr<GameObject>& Other);
