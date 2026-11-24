@@ -30,6 +30,12 @@ namespace basecross {
 	{
 		//プレイヤーの動き
 		NormalMove();
+
+		// アイテムの使用
+		if (GetIsItemPressed())
+		{
+			UseItem();
+		}
 	}
 
 
@@ -138,6 +144,51 @@ namespace basecross {
 		auto key = app->GetInputDevice().GetKeyState();
 
 		return key.m_bPushKeyTbl[VK_LSHIFT] || (pad.wButtons & XINPUT_GAMEPAD_X) != 0;
+	}
+
+	// アイテム使用の操作がされたか
+	bool Player::GetIsItemPressed()
+	{
+		auto& app = App::GetApp();
+		auto pad = app->GetInputDevice().GetControlerVec()[0];
+		auto key = app->GetInputDevice().GetKeyState();
+
+		return (pad.wPressedButtons & XINPUT_GAMEPAD_Y) != 0 || key.m_bPressedKeyTbl['E'];
+	}
+
+	// 選んでいるアイテムを使う
+	void Player::UseItem()
+	{
+		switch (m_currentItem)
+		{
+		case ItemType::Churu:
+			ThrowChuru();
+			break;
+		case ItemType::None:
+		default:
+			break;
+		}
+	}
+
+	// チュールを投げる
+	void Player::ThrowChuru()
+	{
+		// プレイヤーの向き(移動する向きと同じ。m_angleYは体の軸の向きなので、前向きは符号が逆になる)
+		Vec3 forward(-sinf(m_angleY), 0.0f, -cosf(m_angleY));
+
+		const Vec3 churuScale(0.3f);
+		float churuRadius = churuScale.x * 0.5f;
+
+		// 手元(前方やや上)から投げ出す。手元までの間に壁があれば、その手前から出す(壁に埋まらないように)
+		Vec3 center = m_transComp->GetPosition();
+		Vec3 offset = forward * 0.8f + Vec3(0.0f, 0.2f, 0.0f);
+		float offsetLength = offset.length();
+		Vec3 offsetDir = offset.normalize();
+		float dis = JoltStatic::GetSphereCastDistance(center, offsetDir, offsetLength, churuRadius);
+		Vec3 spawnPos = center + offsetDir * dis;
+
+		auto churu = GetStage()->AddGameObject<Churu>(churuScale, Vec3(0.0f), spawnPos);
+		churu->Throw(forward * m_throwSpeed + Vec3(0.0f, m_throwUpSpeed, 0.0f));
 	}
 
 	// プレイヤーが影の中にいるか判定
@@ -274,7 +325,7 @@ namespace basecross {
 			m_velocityY = 0.0f;
 		}
 
-		// 接地しているか(前フレームの移動結果をJoltに聞く)
+		// 接地しているか
 		m_isGround = m_controller->GetIsOnGround();
 		if (m_isGround)
 		{
