@@ -31,6 +31,10 @@ namespace basecross {
 		//プレイヤーの動き
 		NormalMove();
 
+
+		// アイテムのクールタイムを減らす
+		m_itemCoolTime = (std::max)(m_itemCoolTime - App::GetApp()->GetElapsedTime(), 0.0f);
+
 		// アイテムの使用
 		if (GetIsItemPressed())
 		{
@@ -159,20 +163,48 @@ namespace basecross {
 	// 選んでいるアイテムを使う
 	void Player::UseItem()
 	{
+		// クールタイム中は使えない
+		if (m_itemCoolTime > 0.0f)
+		{
+			return;
+		}
+
+		bool isUsed = false;
 		switch (m_currentItem)
 		{
 		case ItemType::Churu:
-			ThrowChuru();
+			isUsed = ThrowChuru();
 			break;
 		case ItemType::None:
 		default:
 			break;
 		}
-	}
 
+		// 実際に使えたときだけ、クールタイムを始める
+		if (isUsed)
+		{
+			m_itemCoolTime = ITEM_COOL_TIME;
+		}
+	}
 	// チュールを投げる
-	void Player::ThrowChuru()
+	bool Player::ThrowChuru()
 	{
+		// 世界から無くなったチュール(床の外に落ちて消えたものなど)を、記録から外す
+		m_thrownChurus.erase(
+			std::remove_if(m_thrownChurus.begin(), m_thrownChurus.end(),
+				[](const std::weak_ptr<Churu>& churu) { return churu.expired(); }),
+			m_thrownChurus.end());
+
+		// 上限に達していたら、いちばん古いチュールを消して場所を空ける
+		while ((int)m_thrownChurus.size() >= MAX_CHURU)
+		{
+			if (auto oldest = m_thrownChurus.front().lock())
+			{
+				GetStage()->RemoveGameObject<Churu>(oldest);
+			}
+			m_thrownChurus.pop_front();
+		}
+
 		// プレイヤーの向き(移動する向きと同じ。m_angleYは体の軸の向きなので、前向きは符号が逆になる)
 		Vec3 forward(-sinf(m_angleY), 0.0f, -cosf(m_angleY));
 
@@ -189,6 +221,10 @@ namespace basecross {
 
 		auto churu = GetStage()->AddGameObject<Churu>(churuScale, Vec3(0.0f), spawnPos);
 		churu->Throw(forward * m_throwSpeed + Vec3(0.0f, m_throwUpSpeed, 0.0f));
+
+		m_thrownChurus.push_back(churu);
+
+		return true;
 	}
 
 	// プレイヤーが影の中にいるか判定

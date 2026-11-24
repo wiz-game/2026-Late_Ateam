@@ -115,6 +115,7 @@ namespace basecross {
 	{
 		m_velocity = velocity;
 		m_isFlying = true;
+		m_isThrown = true;
 	}
 
 }
