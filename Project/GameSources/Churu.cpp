@@ -1,4 +1,4 @@
-/*!
+﻿/*!
 @file Churu.cpp
 @brief チュールなど実体
 */
