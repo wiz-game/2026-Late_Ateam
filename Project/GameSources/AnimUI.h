@@ -40,6 +40,8 @@ namespace basecross {
 		float m_UVMin = 0.0f; // UVの最小値
 		float m_UVMax = 1.0f; // UVの最大値
 		Col4 m_Color = Col4(1.0f); // 色の情報
+
+		void SetFlashColor(const Col4& color); // フラッシュカラーを設定
 	};
 
 }
