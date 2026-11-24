@@ -11,6 +11,13 @@ namespace basecross {
 
 	class CharacterController; 
 
+	// 使えるアイテムの種類
+	enum class ItemType
+	{
+		None,   // 何も持っていない
+		Churu,  // チュール
+	};
+
 	class Player : public GameObjectForEdit
 	{
 		std::shared_ptr<Transform> m_transComp; // トランスフォームはよく使うのでメンバにしておく
@@ -27,6 +34,14 @@ namespace basecross {
 		bool m_canClear = false;
 		bool IsJampPressed();
 		bool GetIsDashPressed();
+
+		void UseItem();
+		bool GetIsItemPressed();   // アイテム使用の操作がされたか
+		void ThrowChuru();         // チュールを投げる
+
+		ItemType m_currentItem = ItemType::Churu; // いま選んでいるアイテム(今はチュールだけ)
+		float m_throwSpeed = 8.0f;    // チュールを投げる水平方向の速さ
+		float m_throwUpSpeed = 5.0f;  // チュールを投げ上げる速さ
 
 		float m_airControl = 0.1f;
 
@@ -76,6 +91,12 @@ namespace basecross {
 		float GetPlayerSpeed() const { return m_velocityXZ.length(); }
 
 		void SetPlayerUpdateActive(bool isActive);
+
+		bool GetIsInShadow();
+
+		// 選んでいるアイテムの切り替えと取得
+		void SetCurrentItem(ItemType item) { m_currentItem = item; }
+		ItemType GetCurrentItem() const { return m_currentItem; }
 
 		// プレイヤーの動き
 		bool NormalMove();

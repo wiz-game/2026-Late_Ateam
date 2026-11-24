@@ -11,6 +11,7 @@ namespace basecross {
 	//初期化
 	void Floor::OnCreate()
 	{
+		AddTag(L"Floor");
 		auto ptrTransform = GetComponent<Transform>();
 		ptrTransform->SetScale(m_Scale);
 		ptrTransform->SetRotation(m_Rotation);

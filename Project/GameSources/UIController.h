@@ -1,4 +1,4 @@
-﻿/*!
+/*!
 @file Contorler.h
 @brief UIのコントローラ
 */
