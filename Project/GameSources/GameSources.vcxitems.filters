@@ -318,6 +318,9 @@
     <ClInclude Include="$(MSBuildThisFileDirectory)Churu.h">
       <Filter>Objects\Item\Churu</Filter>
     </ClInclude>
+    <ClInclude Include="$(MSBuildThisFileDirectory)EnemySight.h">
+      <Filter>Objects\Enemy</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="$(MSBuildThisFileDirectory)PNTDXModelDraw.cpp">
@@ -463,6 +466,9 @@
     </ClCompile>
     <ClCompile Include="$(MSBuildThisFileDirectory)Churu.cpp">
       <Filter>Objects\Item\Churu</Filter>
+    </ClCompile>
+    <ClCompile Include="$(MSBuildThisFileDirectory)EnemySight.cpp">
+      <Filter>Objects\Enemy</Filter>
     </ClCompile>
   </ItemGroup>
 </Project>
