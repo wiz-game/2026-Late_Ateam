@@ -1,4 +1,4 @@
-/*!
+﻿/*!
 @file Churu.h
 @brief チュールなど
 */

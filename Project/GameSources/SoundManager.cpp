@@ -1,4 +1,4 @@
-/*!
+﻿/*!
 @file SoundManager.cpp
 @brief BGMとSEを管理するクラス
 */
