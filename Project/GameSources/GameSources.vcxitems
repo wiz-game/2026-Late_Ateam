@@ -55,7 +55,7 @@
     <ClInclude Include="$(MSBuildThisFileDirectory)Shouji.h" />
     <ClInclude Include="$(MSBuildThisFileDirectory)SkyBox.h" />
     <ClInclude Include="$(MSBuildThisFileDirectory)SoundManager.h" />
-    <ClInclude Include="$(MSBuildThisFileDirectory)Sprite.h" />
+    <ClInclude Include="$(MSBuildThisFileDirectory)UIController.h" />
     <ClInclude Include="$(MSBuildThisFileDirectory)StageLoader.h" />
     <ClInclude Include="$(MSBuildThisFileDirectory)StaticUI.h" />
     <ClInclude Include="$(MSBuildThisFileDirectory)TitleStage.h" />
@@ -107,7 +107,7 @@
     <ClCompile Include="$(MSBuildThisFileDirectory)Shouji.cpp" />
     <ClCompile Include="$(MSBuildThisFileDirectory)SkyBox.cpp" />
     <ClCompile Include="$(MSBuildThisFileDirectory)SoundManager.cpp" />
-    <ClCompile Include="$(MSBuildThisFileDirectory)Sprite.cpp" />
+    <ClCompile Include="$(MSBuildThisFileDirectory)UIController.cpp" />
     <ClCompile Include="$(MSBuildThisFileDirectory)StageLoader.cpp" />
     <ClCompile Include="$(MSBuildThisFileDirectory)StaticUI.cpp" />
     <ClCompile Include="$(MSBuildThisFileDirectory)TitleStage.cpp" />

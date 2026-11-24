@@ -64,7 +64,7 @@
 #include "ActionCamPosData.h"
 
 // UI
-#include "Sprite.h"
+#include "UIController.h"
 #include "StaticUI.h"
 #include "AnimUI.h"
 

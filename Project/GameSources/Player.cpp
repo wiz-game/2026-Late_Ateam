@@ -146,7 +146,7 @@ namespace basecross {
 		return key.m_bPushKeyTbl[VK_LSHIFT] || (pad.wButtons & XINPUT_GAMEPAD_X) != 0;
 	}
 
-	// アイテム使用の操作がされたか(キーボード:E / パッド:Y)
+	// アイテム使用の操作がされたか
 	bool Player::GetIsItemPressed()
 	{
 		auto& app = App::GetApp();
@@ -190,6 +190,7 @@ namespace basecross {
 		auto churu = GetStage()->AddGameObject<Churu>(churuScale, Vec3(0.0f), spawnPos);
 		churu->Throw(forward * m_throwSpeed + Vec3(0.0f, m_throwUpSpeed, 0.0f));
 	}
+
 	// プレイヤーが影の中にいるか判定
 	bool Player::GetIsInShadow()
 	{
