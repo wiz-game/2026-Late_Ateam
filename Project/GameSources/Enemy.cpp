@@ -45,6 +45,7 @@ namespace basecross {
 		m_player = GetStage()->GetSharedGameObject<Player>(L"Player");
 		m_wpManager = GetStage()->GetSharedGameObject<WayPointManager>(L"WayPointManager");
 
+
 		//角度は変わらないためOnCreateで実装
 		float inner = m_EyeAngle * 0.5f; //両眼の端
 		float outer = (std::min)(inner + m_AlertEyeAngle, 180.0f);//単眼の外端
@@ -104,6 +105,11 @@ namespace basecross {
 			{
 				m_state = EnemyState::Chase;
 			}
+			//チュールを見つけたらチュールへ向かう
+			else if (FindChuru())
+			{
+				m_state = EnemyState::Churu;
+			}
 			//単眼視界に入っていたら警戒モード
 			else if (AlertEye(playerPos))
 			{
@@ -128,6 +134,11 @@ namespace basecross {
 			{
 				m_state = EnemyState::Chase;
 			}
+			//警戒中でもチュールがあれば釣られる
+			else if (FindChuru())
+			{
+				m_state = EnemyState::Churu;
+			}
 			else if (AlertEye(playerPos))
 			{
 				//単眼視界に入っていたらEnemyの向きをPlayer方向にする
@@ -140,7 +151,7 @@ namespace basecross {
 				//見失ったら捜索モードに移行
 				m_state = EnemyState::Search;
 				m_searchTime = 10.0f;
-				m_searchChangeTime = 0.0f;
+				m_searchChangeTime = 2.0f;
 				m_wanderTarget = m_lastPlayerPos;//最初の目的地は「最後に見た位置」に設定
 			}
 			break;
@@ -173,7 +184,7 @@ namespace basecross {
 				//見失ったら捜索モードに移行
 				m_state = EnemyState::Search;
 				m_searchTime = 10.0f;
-				m_searchChangeTime = 0.0f;
+				m_searchChangeTime = 2.0f;
 				m_wanderTarget = m_lastPlayerPos;//最初の目的地は「最後に見た位置」に設定
 			}
 			break;
@@ -196,6 +207,11 @@ namespace basecross {
 			{
 				m_state = EnemyState::Chase;
 			}
+			//探索中にチュールを見つけたらチュールへ向かう
+			else if (FindChuru())
+			{
+				m_state = EnemyState::Churu;
+			}
 			//単眼視界に入っていたら警戒モード
 			else if (AlertEye(playerPos))
 			{
@@ -212,6 +228,26 @@ namespace basecross {
 					m_state = EnemyState::Patol;
 				}
 			}
+			break;
+		case EnemyState::Churu:
+			UpdateChuru(delta);
+			wss << L"Churu:";
+
+			//両眼視界に入っていたら捕獲モード
+			if (IsPlayerInSight(playerPos))
+			{
+				m_GetChuru = false;
+				m_churuWaitTime = 0.0f;
+				m_state = EnemyState::Chase;
+			}
+			//単眼視界に入っていたら警戒モード
+			else if (AlertEye(playerPos))
+			{
+				m_GetChuru = false;
+				m_churuWaitTime = 0.0f;
+				m_state = EnemyState::Alert;
+			}
+
 			break;
 
 		case EnemyState::Catch:
@@ -283,7 +319,7 @@ namespace basecross {
 		//両眼視界：角度 < 40°⇔ dot >= cos( 40°) = 0.5
 		if (dot >= m_innerCos)
 		{
-			return !IsBlockedByWall(playerPos);
+			return !IsBlockedByWall(m_pos, playerPos);
 		}
 		return false;
 	}
@@ -309,7 +345,7 @@ namespace basecross {
 		//単眼視界：40°< 角度 <= 90°⇔ cos( 90°) <= dot < cos( 40°)
 		if (dot < m_innerCos && dot >= m_outerCos)
 		{
-			return !IsBlockedByWall(playerPos);
+			return !IsBlockedByWall(m_pos, playerPos);
 		}
 
 		return false;
@@ -466,7 +502,7 @@ namespace basecross {
 			Vec3 flankPos = playerPos + forward * forwardOffset + right * (sideSign * sideOffset);
 
 			//壁にさえぎられていない時だけ先回りし、壁があるときは素直にPlayerを追う
-			if (!IsBlockedByWall(flankPos))
+			if (!IsBlockedByWall(m_pos, flankPos))
 			{
 				targetPos = flankPos;
 			}
@@ -545,9 +581,9 @@ namespace basecross {
 		float dist = toTarget.length();
 
 		//仮の目的地に到着した、または目的地変更時間が来たら新しい目的地を設定
-		if (dist < m_arriveDistance || m_searchChangeTime <= 0.0f || IsBlockedByWall(m_wanderTarget))
+		if (dist < m_arriveDistance || m_searchChangeTime <= 0.0f || IsBlockedByWall(m_pos, m_wanderTarget))
 		{
-			m_searchChangeTime = 2.0f;//２秒ごとに目的地を変更する
+			m_searchChangeTime = 3.0f;//２秒ごとに目的地を変更する
 			bool found = false;
 
 			for (int tryCount = 0; tryCount < 5; tryCount++)
@@ -560,7 +596,7 @@ namespace basecross {
 				Vec3 newTarget = m_lastPlayerPos + Vec3(sinf(randAngle), 0.0f, cosf(randAngle)) * randDist;
 
 				//壁に遮られていないか確認
-				if (!IsBlockedByWall(newTarget))
+				if (!IsBlockedByWall(m_pos, newTarget))
 				{
 					m_wanderTarget = newTarget;
 					found = true;
@@ -614,11 +650,101 @@ namespace basecross {
 		return false;
 	}
 
+	//範囲内のチュールを探す
+	bool Enemy::FindChuru()
+	{
+		for (auto obj : GetStage()->GetGameObjectVec())
+		{
+			if (obj->FindTag(L"Churu"))
+			{
+				Vec3 churuPos = obj->GetComponent<Transform>()->GetPosition();
+				Vec3 toTarget = churuPos - m_pos;
+				float dist = toTarget.length();
+
+				if (dist < m_churuRange)
+				{
+					m_churuObj = obj;
+					return true;
+				}
+			}
+		}
+
+		return false;
+	}
+
+	//チュールへ向かう関数
+	void Enemy::UpdateChuru(float delta)
+	{
+		//到着して待機中の処理
+		if (m_GetChuru)
+		{
+			m_churuWaitTime -= delta;
+			if (m_churuWaitTime <= 0.0f)
+			{
+				m_GetChuru = false;
+
+				SetNextWayPoint();
+				m_state = EnemyState::Patol;
+			}
+			return;
+		}
+
+		//--------チュールに向かって移動中の処理----------
+
+		auto Churu = m_churuObj.lock();
+		if (!Churu)
+		{
+			//チュールが消えていたら巡回に戻る
+			SetNextWayPoint();
+			m_state = EnemyState::Patol;
+			return;
+		}
+
+		Vec3 churuPos = Churu->GetComponent<Transform>()->GetPosition();
+		Vec3 toTarget = churuPos - m_pos;
+		float heighDiff = toTarget.y;
+		toTarget.y = 0.0;
+		float dist = toTarget.length();
+
+		//チュールが一定の高さまでの場所に合ったらジャンプする
+		if (heighDiff > 1.0f && heighDiff < 3.0f)
+		{
+			m_wantJump = true;
+		}
+
+		//到着するまでチュールに向かって移動する
+		if (dist > m_arriveDistance)
+		{
+			toTarget.normalize();
+
+			//チュールが目の前（壁にさえぎられていない＆2.5f以内）なら、奥の壁を避けずに直進
+			Vec3 moveDir = (!IsBlockedByWall(m_pos, churuPos) && dist < 2.5f) 
+				? toTarget : AvoidWall(toTarget);
+
+			m_pos.x += moveDir.x * m_speed * delta;
+			m_pos.z += moveDir.z * m_speed * delta;
+			TurnPlayer(m_pos + moveDir, delta);
+		}
+		else
+		{
+			//到着したらチュールの方向を向く
+			TurnPlayer(churuPos, delta);
+			GetStage()->RemoveGameObject<GameObject>(Churu);
+			m_churuObj.reset();
+
+			//消去フラグと停止タイマーをセット
+			m_GetChuru = true;
+			m_churuWaitTime = 3.0f;
+		}
+
+	}
+
+
 	//壁に遮られているか判定
-	bool Enemy::IsBlockedByWall(const Vec3& targetPos) const
+	bool Enemy::IsBlockedByWall(const Vec3& startPos, const Vec3& targetPos) const
 	{
 		//床との誤判定を防ぐために、少し上にあげる
-		Vec3 start = m_pos + Vec3(0.0f, 0.5f, 0.0f);
+		Vec3 start = startPos + Vec3(0.0f, 0.5f, 0.0f);
 		Vec3 end = targetPos + Vec3(0.0f, 0.5f, 0.0f);
 
 		for (auto obj : GetStage()->GetGameObjectVec())
@@ -647,28 +773,36 @@ namespace basecross {
 		Vec3 start = m_pos;
 		Vec3 endCenter = start + moveDir * feelerLength;
 
-		if (!IsBlockedByWall(endCenter))
+		float bodyRadius = 0.5f;//体の幅（半分）
+	
+		//正面のチェック（中央 ＋ 左右の肩幅ぶん）
+		Vec3 rightVec(moveDir.z, 0.0f, -moveDir.x);
+		bool hitCenter = IsBlockedByWall(m_pos, m_pos + moveDir * feelerLength);
+		bool hitLeftShoulder = IsBlockedByWall(m_pos - rightVec * bodyRadius, m_pos + moveDir * feelerLength);
+		bool hitRightShoulder = IsBlockedByWall(m_pos + rightVec * bodyRadius, m_pos + moveDir * feelerLength);
+
+		//三本とも壁に当たらなければそのまま直進
+		if (!hitCenter && !hitLeftShoulder && !hitRightShoulder)
 		{
 			return moveDir;
 		}
 
-		float angle = atan2(moveDir.x, moveDir.z);
-
 		//壁がない方向を探す
+		float angle = atan2(moveDir.x, moveDir.z);
 		float angles[] = {45.0f,90.0f,135.0f};
 		for (float deg : angles)
 		{
 			float rad = XMConvertToRadians(deg);//30°ずつずらす
 			// 左方向を計算
 			Vec3 leftDir(sinf(angle - rad), 0.0f, cosf(angle - rad));
-			if (!IsBlockedByWall(start + leftDir * feelerLength))
+			if (!IsBlockedByWall(m_pos + leftDir * 0.55f, start + leftDir * feelerLength))
 			{
 				return leftDir;//左が空いていたら左に進む
 			}
 
 			// 右方向を計算
 			Vec3 rightDir(sinf(angle + rad), 0.0f, cosf(angle + rad));
-			if (!IsBlockedByWall(start + rightDir * feelerLength))
+			if (!IsBlockedByWall(m_pos + rightDir * 0.55f, start + rightDir * feelerLength))
 			{
 				return rightDir;//右が空いていたら右に進む
 			}
@@ -721,7 +855,7 @@ namespace basecross {
 			if (wpPos.y - m_pos.y > 2.0f) continue; // 高すぎるウェイポイントは無視する
 			
 			// 壁に遮られている場合は無視する
-			if (IsBlockedByWall(wpPos)) continue; 
+			if (IsBlockedByWall(m_pos, wpPos)) continue; 
 
 			float dist = (wpPos - m_pos).length();
 

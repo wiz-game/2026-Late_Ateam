@@ -65,12 +65,21 @@ namespace basecross {
 
 		int m_groupId = 0;	//どのウェイポイントか判定するID
 
+		//チュール関係
+		std::weak_ptr<GameObject> m_churuObj;	//チュールオブジェクト
+		float m_churuRange = 20.0f;				//チュールに気づく範囲
+		bool m_GetChuru = false;
+		float m_churuWaitTime = 0.0f;
+
+		//発見ゲージ関係
+
 		enum class EnemyState
 		{
 			Patol, // 巡回
 			Alert, // 警戒
 			Chase, // 追跡
 			Search, // 捜索
+			Churu,	//チュールにつられている状態
 			Catch, // 捕獲
 		};
 
@@ -105,7 +114,7 @@ namespace basecross {
 		void UpdateSearch(float delta);//捜索関数
 
 		//壁に遮られているか判定
-		bool IsBlockedByWall(const Vec3& targetPos) const;
+		bool IsBlockedByWall(const Vec3& startPos, const Vec3& targetPos) const;
 		//壁を避ける移動ベクトルを計算
 		Vec3 AvoidWall(const Vec3 moveDir) const;
 		//次のウェイポイントを設定する
@@ -113,6 +122,11 @@ namespace basecross {
 
 		//聴覚の判定
 		bool HearPlayer(const Vec3& playerPos);	//聴覚の判定
+
+		//チュール関係の関数
+		bool FindChuru();				//範囲内のチュールを探す
+		void UpdateChuru(float delta);	//チュールへ向かう更新処理
+
 
 		// エディター接続関係
 		void ResetToSpawn();               // 置いた位置・向きに戻す(エディターに入るとき)
@@ -139,6 +153,11 @@ namespace basecross {
 		EnemyState GetState() const
 		{
 			return m_state;
+		}
+
+		bool GetChuru()const
+		{
+			return m_GetChuru;
 		}
 
 		// 当たり判定
