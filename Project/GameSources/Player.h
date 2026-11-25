@@ -23,13 +23,13 @@ namespace basecross {
 	class Player : public GameObjectForEdit
 	{
 		std::shared_ptr<Transform> m_transComp; // トランスフォームはよく使うのでメンバにしておく
-		std::shared_ptr<PNTStaticDraw> m_drawComp; // ドローコンポーネント
+		//std::shared_ptr<PNTStaticDraw> m_drawComp; // ドローコンポーネント
 		//std::shared_ptr<PNTDXModelDraw> m_drawComp; // ドローコンポーネント
 		std::shared_ptr<CharacterController> m_controller; // Joltで床・壁にぶつかりながら動かす
 
 		float m_speed; // 移動の速さ
 		float m_scale = 0.5f; // プレイヤーのスケール
-		float m_dashRate = 2.0f; // ダッシュ時の速度倍率
+		float m_dashRate = 1.3f; // ダッシュ時の速度倍率
 		bool m_isDash = false;   // ダッシュ中か(空中では離陸したときの状態を保つ)
 
 		bool m_isGround = false;
@@ -39,10 +39,10 @@ namespace basecross {
 
 		void UseItem();
 		bool GetIsItemPressed();   // アイテム使用の操作がされたか
-		bool ThrowChuru();         // チュールを投げる(投げられたらtrue。数の上限などで投げられなければfalse)
+		bool ThrowChuru();         // チュールを投げる
 		std::deque<std::weak_ptr<Churu>> m_thrownChurus; // 投げたチュールを、古い順に覚えておく
 
-		ItemType m_currentItem = ItemType::Churu; // いま選んでいるアイテム(今はチュールだけ)
+		ItemType m_currentItem = ItemType::Churu; // いま選んでいるアイテム
 		float m_throwSpeed = 8.0f;    // チュールを投げる水平方向の速さ
 		float m_throwUpSpeed = 5.0f;  // チュールを投げ上げる速さ
 
@@ -75,7 +75,7 @@ namespace basecross {
 		// ステージを引数にしたコンストラクタ
 		Player(const std::shared_ptr<Stage>& stage) :
 			GameObjectForEdit(stage),
-			m_speed(10.0f),
+			m_speed(7.5f),
 			m_velocityXZ(Vec3(0.0f)),
 			m_velocityY(0.0f),
 			m_cameraAngleY(0.0f)

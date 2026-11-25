@@ -337,7 +337,7 @@ namespace basecross {
 		//ƒWƒƒƒ“ƒv‚ÍÚ’n’†‚¾‚¯
 		if (isJump && m_isGround)
 		{
-			m_velocityY = 7.5f;
+			m_velocityY = 10.0f;// 7.5f;
 			SoundManager::Instance().PlaySE(L"SE_Jump", false);
 		}
 	}
