@@ -47,8 +47,8 @@ namespace basecross {
 		float m_arriveDistance = 0.5f;	//到着したとみなす距離
 
 		//追跡関係
-		float m_CatchSpeed = 8.0f;	// 追跡時の速さ
-		float m_CatchRenge = 1.0f;	// 捕獲範囲
+		float m_CatchSpeed = 10.0f;	// 追跡時の速さ
+		float m_CatchRenge = 0.1f;	// 捕獲範囲
 		std::vector<Vec3> m_breadcrumb;	//追跡中に通った座標の履歴
 		float m_breadcrumbTime = 0.0f;	//履歴を記録する間隔タイマー
 
