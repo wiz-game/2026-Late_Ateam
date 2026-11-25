@@ -20,6 +20,7 @@ namespace basecross {
 		Vec3 m_Position;
 
 		bool m_isFlying = false;       // 空中にあるかどうか
+		bool m_isThrown = false;       // 投げられたかどうか
 		Vec3 m_velocity = Vec3(0.0f);  // 飛んでいる間の速度
 
 		static constexpr float KILL_HEIGHT = -30.0f; // これより下に落ちたら消す
@@ -50,6 +51,9 @@ namespace basecross {
 
 		// 飛んでいる最中か
 		bool GetIsFlying() const { return m_isFlying; }
+
+		// プレイヤーに投げられたチュールか(数の上限を数えるのに使う)
+		bool GetIsThrown() const { return m_isThrown; }
 	};
 
 }

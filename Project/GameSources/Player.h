@@ -5,11 +5,13 @@
 
 #pragma once
 #include "stdafx.h"
+#include <deque>
 #include "PNTDXModelDraw.h"
 
 namespace basecross {
 
 	class CharacterController; 
+	class Churu;
 
 	// 使えるアイテムの種類
 	enum class ItemType
@@ -21,13 +23,13 @@ namespace basecross {
 	class Player : public GameObjectForEdit
 	{
 		std::shared_ptr<Transform> m_transComp; // トランスフォームはよく使うのでメンバにしておく
-		std::shared_ptr<PNTStaticDraw> m_drawComp; // ドローコンポーネント
+		//std::shared_ptr<PNTStaticDraw> m_drawComp; // ドローコンポーネント
 		//std::shared_ptr<PNTDXModelDraw> m_drawComp; // ドローコンポーネント
 		std::shared_ptr<CharacterController> m_controller; // Joltで床・壁にぶつかりながら動かす
 
 		float m_speed; // 移動の速さ
 		float m_scale = 0.5f; // プレイヤーのスケール
-		float m_dashRate = 2.0f; // ダッシュ時の速度倍率
+		float m_dashRate = 1.3f; // ダッシュ時の速度倍率
 		bool m_isDash = false;   // ダッシュ中か(空中では離陸したときの状態を保つ)
 
 		bool m_isGround = false;
@@ -37,11 +39,16 @@ namespace basecross {
 
 		void UseItem();
 		bool GetIsItemPressed();   // アイテム使用の操作がされたか
-		void ThrowChuru();         // チュールを投げる
+		bool ThrowChuru();         // チュールを投げる
+		std::deque<std::weak_ptr<Churu>> m_thrownChurus; // 投げたチュールを、古い順に覚えておく
 
-		ItemType m_currentItem = ItemType::Churu; // いま選んでいるアイテム(今はチュールだけ)
+		ItemType m_currentItem = ItemType::Churu; // いま選んでいるアイテム
 		float m_throwSpeed = 8.0f;    // チュールを投げる水平方向の速さ
 		float m_throwUpSpeed = 5.0f;  // チュールを投げ上げる速さ
+
+		static constexpr int MAX_CHURU = 5;            // 世界に同時に存在できる、投げたチュールの数
+		static constexpr float ITEM_COOL_TIME = 2.0f;  // アイテムを使ったあとのクールタイム(秒)
+		float m_itemCoolTime = 0.0f;                   // クールタイムの残り(秒)。0なら使える
 
 		float m_airControl = 0.1f;
 
@@ -68,7 +75,7 @@ namespace basecross {
 		// ステージを引数にしたコンストラクタ
 		Player(const std::shared_ptr<Stage>& stage) :
 			GameObjectForEdit(stage),
-			m_speed(10.0f),
+			m_speed(7.5f),
 			m_velocityXZ(Vec3(0.0f)),
 			m_velocityY(0.0f),
 			m_cameraAngleY(0.0f)
@@ -97,6 +104,9 @@ namespace basecross {
 		// 選んでいるアイテムの切り替えと取得
 		void SetCurrentItem(ItemType item) { m_currentItem = item; }
 		ItemType GetCurrentItem() const { return m_currentItem; }
+
+		// クールタイムの残り(秒)
+		float GetItemCoolTime() const { return m_itemCoolTime; }
 
 		// プレイヤーの動き
 		bool NormalMove();
