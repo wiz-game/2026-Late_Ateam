@@ -145,9 +145,6 @@
     <Filter Include="Objects\Cameras\EditorCamera">
       <UniqueIdentifier>{18ad6a9e-8265-4c8d-9d4c-0988a6c37915}</UniqueIdentifier>
     </Filter>
-    <Filter Include="UI\Sprite">
-      <UniqueIdentifier>{f378106c-c7f4-4eaa-a563-b89457e9f8e1}</UniqueIdentifier>
-    </Filter>
     <Filter Include="UI\StaticUI">
       <UniqueIdentifier>{1bb118aa-13a5-4def-906d-829497362fe0}</UniqueIdentifier>
     </Filter>
@@ -162,6 +159,15 @@
     </Filter>
     <Filter Include="Managers\SoundManager">
       <UniqueIdentifier>{862dc3fc-20a0-4dde-961d-495e53a89327}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Objects\Item">
+      <UniqueIdentifier>{45307f35-6602-4fb4-873a-5b8ab8095e9b}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Objects\Item\Churu">
+      <UniqueIdentifier>{b42a0858-f681-4df1-b4b7-499bc21127a0}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="UI\UIController">
+      <UniqueIdentifier>{f378106c-c7f4-4eaa-a563-b89457e9f8e1}</UniqueIdentifier>
     </Filter>
   </ItemGroup>
   <ItemGroup>
@@ -282,8 +288,8 @@
     <ClInclude Include="$(MSBuildThisFileDirectory)WayPoint.h">
       <Filter>Objects\WayPoint</Filter>
     </ClInclude>
-    <ClInclude Include="$(MSBuildThisFileDirectory)Sprite.h">
-      <Filter>UI\Sprite</Filter>
+    <ClInclude Include="$(MSBuildThisFileDirectory)UIController.h">
+      <Filter>UI\UIController</Filter>
     </ClInclude>
     <ClInclude Include="$(MSBuildThisFileDirectory)StaticUI.h">
       <Filter>UI\StaticUI</Filter>
@@ -308,6 +314,9 @@
     </ClInclude>
     <ClInclude Include="$(MSBuildThisFileDirectory)SoundManager.h">
       <Filter>Managers\SoundManager</Filter>
+    </ClInclude>
+    <ClInclude Include="$(MSBuildThisFileDirectory)Churu.h">
+      <Filter>Objects\Item\Churu</Filter>
     </ClInclude>
     <ClInclude Include="$(MSBuildThisFileDirectory)EnemySight.h">
       <Filter>Objects\Enemy</Filter>
@@ -431,8 +440,8 @@
     <ClCompile Include="$(MSBuildThisFileDirectory)WayPoint.cpp">
       <Filter>Objects\WayPoint</Filter>
     </ClCompile>
-    <ClCompile Include="$(MSBuildThisFileDirectory)Sprite.cpp">
-      <Filter>UI\Sprite</Filter>
+    <ClCompile Include="$(MSBuildThisFileDirectory)UIController.cpp">
+      <Filter>UI\UIController</Filter>
     </ClCompile>
     <ClCompile Include="$(MSBuildThisFileDirectory)StaticUI.cpp">
       <Filter>UI\StaticUI</Filter>
@@ -454,6 +463,9 @@
     </ClCompile>
     <ClCompile Include="$(MSBuildThisFileDirectory)SoundManager.cpp">
       <Filter>Managers\SoundManager</Filter>
+    </ClCompile>
+    <ClCompile Include="$(MSBuildThisFileDirectory)Churu.cpp">
+      <Filter>Objects\Item\Churu</Filter>
     </ClCompile>
     <ClCompile Include="$(MSBuildThisFileDirectory)EnemySight.cpp">
       <Filter>Objects\Enemy</Filter>

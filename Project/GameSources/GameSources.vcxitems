@@ -23,6 +23,7 @@
     <ClInclude Include="$(MSBuildThisFileDirectory)CameraState.h" />
     <ClInclude Include="$(MSBuildThisFileDirectory)Character.h" />
     <ClInclude Include="$(MSBuildThisFileDirectory)CharacterController.h" />
+    <ClInclude Include="$(MSBuildThisFileDirectory)Churu.h" />
     <ClInclude Include="$(MSBuildThisFileDirectory)ClearObject.h" />
     <ClInclude Include="$(MSBuildThisFileDirectory)ClearStage.h" />
     <ClInclude Include="$(MSBuildThisFileDirectory)DXModel.h" />
@@ -55,7 +56,7 @@
     <ClInclude Include="$(MSBuildThisFileDirectory)Shouji.h" />
     <ClInclude Include="$(MSBuildThisFileDirectory)SkyBox.h" />
     <ClInclude Include="$(MSBuildThisFileDirectory)SoundManager.h" />
-    <ClInclude Include="$(MSBuildThisFileDirectory)Sprite.h" />
+    <ClInclude Include="$(MSBuildThisFileDirectory)UIController.h" />
     <ClInclude Include="$(MSBuildThisFileDirectory)StageLoader.h" />
     <ClInclude Include="$(MSBuildThisFileDirectory)StaticUI.h" />
     <ClInclude Include="$(MSBuildThisFileDirectory)TitleStage.h" />
@@ -74,6 +75,7 @@
     <ClCompile Include="$(MSBuildThisFileDirectory)CameraState.cpp" />
     <ClCompile Include="$(MSBuildThisFileDirectory)Character.cpp" />
     <ClCompile Include="$(MSBuildThisFileDirectory)CharacterController.cpp" />
+    <ClCompile Include="$(MSBuildThisFileDirectory)Churu.cpp" />
     <ClCompile Include="$(MSBuildThisFileDirectory)ClearObject.cpp" />
     <ClCompile Include="$(MSBuildThisFileDirectory)ClearStage.cpp" />
     <ClCompile Include="$(MSBuildThisFileDirectory)DXModel.cpp">
@@ -107,7 +109,7 @@
     <ClCompile Include="$(MSBuildThisFileDirectory)Shouji.cpp" />
     <ClCompile Include="$(MSBuildThisFileDirectory)SkyBox.cpp" />
     <ClCompile Include="$(MSBuildThisFileDirectory)SoundManager.cpp" />
-    <ClCompile Include="$(MSBuildThisFileDirectory)Sprite.cpp" />
+    <ClCompile Include="$(MSBuildThisFileDirectory)UIController.cpp" />
     <ClCompile Include="$(MSBuildThisFileDirectory)StageLoader.cpp" />
     <ClCompile Include="$(MSBuildThisFileDirectory)StaticUI.cpp" />
     <ClCompile Include="$(MSBuildThisFileDirectory)TitleStage.cpp" />

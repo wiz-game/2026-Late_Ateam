@@ -30,6 +30,7 @@
 #include "Shouji.h"
 #include "Andon.h"
 #include "Tourou.h"
+#include "Churu.h"
 
 // ï®óùÉGÉìÉWÉì
 #include "JoltStatic.h"
@@ -63,7 +64,7 @@
 #include "ActionCamPosData.h"
 
 // UI
-#include "Sprite.h"
+#include "UIController.h"
 #include "StaticUI.h"
 #include "AnimUI.h"
 
