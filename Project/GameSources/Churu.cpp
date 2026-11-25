@@ -1,4 +1,4 @@
-/*!
+﻿/*!
 @file Churu.cpp
 @brief チュールなど実体
 */
@@ -18,8 +18,8 @@ namespace basecross {
 		ptrTransform->SetRotation(m_Rotation);
 		ptrTransform->SetPosition(m_Position);
 
-		auto ptrDraw = AddComponent<PNTStaticDraw>();
-		ptrDraw->SetMeshResource(L"DEFAULT_CUBE");
+		auto ptrDraw = AddComponent<PNTStaticModelDraw>();
+		ptrDraw->SetMeshResource(L"Churu");
 		ptrDraw->SetEmissive(Col4(1.0f));
 		//ptrDraw->SetBlendState(BlendState::Additive);
 
